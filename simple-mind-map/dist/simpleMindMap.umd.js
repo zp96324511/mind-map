@@ -1792,6 +1792,32 @@ module.exports = function (target, source, exceptions) {
 
 /***/ }),
 
+/***/ "44c1":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var anObject = __webpack_require__("cf4b");
+
+// `RegExp.prototype.flags` getter implementation
+// https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.hasIndices) result += 'd';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.dotAll) result += 's';
+  if (that.unicode) result += 'u';
+  if (that.unicodeSets) result += 'v';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
 /***/ "44c7":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13502,6 +13528,85 @@ module.exports = DESCRIPTORS && fails(function () {
 
 /***/ }),
 
+/***/ "532c":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("3475");
+var call = __webpack_require__("6632");
+var uncurryThis = __webpack_require__("46ab");
+var requireObjectCoercible = __webpack_require__("601e");
+var isCallable = __webpack_require__("5e8c");
+var isNullOrUndefined = __webpack_require__("443d");
+var isRegExp = __webpack_require__("d12a");
+var toString = __webpack_require__("b2d1");
+var getMethod = __webpack_require__("4eb4");
+var getRegExpFlags = __webpack_require__("9e3a");
+var getSubstitution = __webpack_require__("e2d9");
+var wellKnownSymbol = __webpack_require__("6053");
+var IS_PURE = __webpack_require__("ec82");
+
+var REPLACE = wellKnownSymbol('replace');
+var $TypeError = TypeError;
+var indexOf = uncurryThis(''.indexOf);
+var replace = uncurryThis(''.replace);
+var stringSlice = uncurryThis(''.slice);
+var max = Math.max;
+
+var stringIndexOf = function (string, searchValue, fromIndex) {
+  if (fromIndex > string.length) return -1;
+  if (searchValue === '') return fromIndex;
+  return indexOf(string, searchValue, fromIndex);
+};
+
+// `String.prototype.replaceAll` method
+// https://tc39.es/ecma262/#sec-string.prototype.replaceall
+$({ target: 'String', proto: true }, {
+  replaceAll: function replaceAll(searchValue, replaceValue) {
+    var O = requireObjectCoercible(this);
+    var IS_REG_EXP, flags, replacer, string, searchString, functionalReplace, searchLength, advanceBy, replacement;
+    var position = 0;
+    var endOfLastMatch = 0;
+    var result = '';
+    if (!isNullOrUndefined(searchValue)) {
+      IS_REG_EXP = isRegExp(searchValue);
+      if (IS_REG_EXP) {
+        flags = toString(requireObjectCoercible(getRegExpFlags(searchValue)));
+        if (!~indexOf(flags, 'g')) throw $TypeError('`.replaceAll` does not allow non-global regexes');
+      }
+      replacer = getMethod(searchValue, REPLACE);
+      if (replacer) {
+        return call(replacer, searchValue, O, replaceValue);
+      } else if (IS_PURE && IS_REG_EXP) {
+        return replace(toString(O), searchValue, replaceValue);
+      }
+    }
+    string = toString(O);
+    searchString = toString(searchValue);
+    functionalReplace = isCallable(replaceValue);
+    if (!functionalReplace) replaceValue = toString(replaceValue);
+    searchLength = searchString.length;
+    advanceBy = max(1, searchLength);
+    position = stringIndexOf(string, searchString, 0);
+    while (position !== -1) {
+      replacement = functionalReplace
+        ? toString(replaceValue(searchString, position, string))
+        : getSubstitution(searchString, string, position, [], undefined, replaceValue);
+      result += stringSlice(string, endOfLastMatch, position) + replacement;
+      endOfLastMatch = position + searchLength;
+      position = stringIndexOf(string, searchString, position + advanceBy);
+    }
+    if (endOfLastMatch < string.length) {
+      result += stringSlice(string, endOfLastMatch);
+    }
+    return result;
+  }
+});
+
+
+/***/ }),
+
 /***/ "54be":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15856,6 +15961,25 @@ $({ target: 'Array', proto: true, arity: 1, forced: INCORRECT_TO_LENGTH || SILEN
     return len;
   }
 });
+
+
+/***/ }),
+
+/***/ "9e3a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var call = __webpack_require__("6632");
+var hasOwn = __webpack_require__("4d80");
+var isPrototypeOf = __webpack_require__("1a33");
+var regExpFlags = __webpack_require__("44c1");
+
+var RegExpPrototype = RegExp.prototype;
+
+module.exports = function (R) {
+  var flags = R.flags;
+  return flags === undefined && !('flags' in RegExpPrototype) && !hasOwn(R, 'flags') && isPrototypeOf(RegExpPrototype, R)
+    ? call(regExpFlags, R) : flags;
+};
 
 
 /***/ }),
@@ -28756,6 +28880,25 @@ module.exports = [
 
 /***/ }),
 
+/***/ "d12a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("feb8");
+var classof = __webpack_require__("424c");
+var wellKnownSymbol = __webpack_require__("6053");
+
+var MATCH = wellKnownSymbol('match');
+
+// `IsRegExp` abstract operation
+// https://tc39.es/ecma262/#sec-isregexp
+module.exports = function (it) {
+  var isRegExp;
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
+};
+
+
+/***/ }),
+
 /***/ "d17b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31872,6 +32015,57 @@ module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
 
 /***/ }),
 
+/***/ "e2d9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var uncurryThis = __webpack_require__("46ab");
+var toObject = __webpack_require__("8300");
+
+var floor = Math.floor;
+var charAt = uncurryThis(''.charAt);
+var replace = uncurryThis(''.replace);
+var stringSlice = uncurryThis(''.slice);
+var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
+var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
+
+// `GetSubstitution` abstract operation
+// https://tc39.es/ecma262/#sec-getsubstitution
+module.exports = function (matched, str, position, captures, namedCaptures, replacement) {
+  var tailPos = position + matched.length;
+  var m = captures.length;
+  var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+  if (namedCaptures !== undefined) {
+    namedCaptures = toObject(namedCaptures);
+    symbols = SUBSTITUTION_SYMBOLS;
+  }
+  return replace(replacement, symbols, function (match, ch) {
+    var capture;
+    switch (charAt(ch, 0)) {
+      case '$': return '$';
+      case '&': return matched;
+      case '`': return stringSlice(str, 0, position);
+      case "'": return stringSlice(str, tailPos);
+      case '<':
+        capture = namedCaptures[stringSlice(ch, 1, -1)];
+        break;
+      default: // \d\d?
+        var n = +ch;
+        if (n === 0) return match;
+        if (n > m) {
+          var f = floor(n / 10);
+          if (f === 0) return match;
+          if (f <= m) return captures[f - 1] === undefined ? charAt(ch, 1) : captures[f - 1] + charAt(ch, 1);
+          return match;
+        }
+        capture = captures[n - 1];
+    }
+    return capture === undefined ? '' : capture;
+  });
+};
+
+
+/***/ }),
+
 /***/ "e372":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32665,6 +32859,7 @@ __webpack_require__.d(constant_namespaceObject, "initRootNodePositionMap", funct
 __webpack_require__.d(constant_namespaceObject, "layoutList", function() { return layoutList; });
 __webpack_require__.d(constant_namespaceObject, "layoutValueList", function() { return layoutValueList; });
 __webpack_require__.d(constant_namespaceObject, "nodeDataNoStylePropList", function() { return nodeDataNoStylePropList; });
+__webpack_require__.d(constant_namespaceObject, "commonCaches", function() { return commonCaches; });
 
 // NAMESPACE OBJECT: ../simple-mind-map/src/themes/default.js
 var default_namespaceObject = {};
@@ -32731,100 +32926,132 @@ const tagColorList = [{
 //  主题列表
 const themeList = [{
   name: '默认',
-  value: 'default'
+  value: 'default',
+  dark: false
 }, {
   name: '暗色2',
-  value: 'dark2'
+  value: 'dark2',
+  dark: true
 }, {
   name: '天清绿',
-  value: 'skyGreen'
+  value: 'skyGreen',
+  dark: false
 }, {
   name: '脑图经典2',
-  value: 'classic2'
+  value: 'classic2',
+  dark: false
 }, {
   name: '脑图经典3',
-  value: 'classic3'
+  value: 'classic3',
+  dark: false
 }, {
   name: '经典绿',
-  value: 'classicGreen'
+  value: 'classicGreen',
+  dark: false
 }, {
   name: '经典蓝',
-  value: 'classicBlue'
+  value: 'classicBlue',
+  dark: false
 }, {
   name: '天空蓝',
-  value: 'blueSky'
+  value: 'blueSky',
+  dark: false
 }, {
   name: '脑残粉',
-  value: 'brainImpairedPink'
+  value: 'brainImpairedPink',
+  dark: false
 }, {
   name: '暗色',
-  value: 'dark'
+  value: 'dark',
+  dark: true
 }, {
   name: '泥土黄',
-  value: 'earthYellow'
+  value: 'earthYellow',
+  dark: false
 }, {
   name: '清新绿',
-  value: 'freshGreen'
+  value: 'freshGreen',
+  dark: false
 }, {
   name: '清新红',
-  value: 'freshRed'
+  value: 'freshRed',
+  dark: false
 }, {
   name: '浪漫紫',
-  value: 'romanticPurple'
+  value: 'romanticPurple',
+  dark: false
 }, {
   name: '粉红葡萄',
-  value: 'pinkGrape'
+  value: 'pinkGrape',
+  dark: false
 }, {
   name: '薄荷',
-  value: 'mint'
+  value: 'mint',
+  dark: false
 }, {
   name: '金色vip',
-  value: 'gold'
+  value: 'gold',
+  dark: false
 }, {
   name: '活力橙',
-  value: 'vitalityOrange'
+  value: 'vitalityOrange',
+  dark: false
 }, {
   name: '绿叶',
-  value: 'greenLeaf'
+  value: 'greenLeaf',
+  dark: false
 }, {
   name: '脑图经典',
-  value: 'classic'
+  value: 'classic',
+  dark: true
 }, {
   name: '脑图经典4',
-  value: 'classic4'
+  value: 'classic4',
+  dark: false
 }, {
   name: '小黄人',
-  value: 'minions'
+  value: 'minions',
+  dark: false
 }, {
   name: '简约黑',
-  value: 'simpleBlack'
+  value: 'simpleBlack',
+  dark: false
 }, {
   name: '课程绿',
-  value: 'courseGreen'
+  value: 'courseGreen',
+  dark: false
 }, {
   name: '咖啡',
-  value: 'coffee'
+  value: 'coffee',
+  dark: false
 }, {
   name: '红色精神',
-  value: 'redSpirit'
+  value: 'redSpirit',
+  dark: false
 }, {
   name: '黑色幽默',
-  value: 'blackHumour'
+  value: 'blackHumour',
+  dark: true
 }, {
   name: '深夜办公室',
-  value: 'lateNightOffice'
+  value: 'lateNightOffice',
+  dark: true
 }, {
   name: '黑金',
-  value: 'blackGold'
+  value: 'blackGold',
+  dark: true
 }, {
   name: '牛油果',
-  value: 'avocado'
+  value: 'avocado',
+  dark: false
 }, {
   name: '秋天',
-  value: 'autumn'
+  value: 'autumn',
+  dark: false
 }, {
   name: '橙汁',
-  value: 'orangeJuice'
+  value: 'orangeJuice',
+  dark: true
 }];
 
 // 常量
@@ -32886,6 +33113,10 @@ const CONSTANTS = {
     TOP: 'top',
     RIGHT: 'right',
     BOTTOM: 'bottom'
+  },
+  PASTE_TYPE: {
+    CLIP_BOARD: 'clipBoard',
+    CANVAS: 'canvas'
   }
 };
 const initRootNodePositionMap = {
@@ -32926,6 +33157,11 @@ const layoutValueList = [CONSTANTS.LAYOUT.LOGICAL_STRUCTURE, CONSTANTS.LAYOUT.MI
 
 // 节点数据中非样式的字段
 const nodeDataNoStylePropList = ['text', 'image', 'imageTitle', 'imageSize', 'icon', 'tag', 'hyperlink', 'hyperlinkTitle', 'note', 'expand', 'isActive', 'generalization', 'richText', 'resetRichText', 'uid', 'activeStyle'];
+
+// 数据缓存
+const commonCaches = {
+  measureCustomNodeContentSizeEl: null
+};
 // CONCATENATED MODULE: ../simple-mind-map/src/core/view/View.js
 
 
@@ -40938,7 +41174,111 @@ class Shape_Shape {
 
 // 形状列表
 const shapeList = [CONSTANTS.SHAPE.RECTANGLE, CONSTANTS.SHAPE.DIAMOND, CONSTANTS.SHAPE.PARALLELOGRAM, CONSTANTS.SHAPE.ROUNDED_RECTANGLE, CONSTANTS.SHAPE.OCTAGONAL_RECTANGLE, CONSTANTS.SHAPE.OUTER_TRIANGULAR_RECTANGLE, CONSTANTS.SHAPE.INNER_TRIANGULAR_RECTANGLE, CONSTANTS.SHAPE.ELLIPSE, CONSTANTS.SHAPE.CIRCLE];
+// EXTERNAL MODULE: ../simple-mind-map/node_modules/core-js/modules/es.string.replace-all.js
+var es_string_replace_all = __webpack_require__("532c");
+
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/native.js
+const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+/* harmony default export */ var esm_browser_native = ({
+  randomUUID
+});
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/rng.js
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+let getRandomValues;
+const rnds8 = new Uint8Array(16);
+function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
+  if (!getRandomValues) {
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
+  }
+
+  return getRandomValues(rnds8);
+}
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/regex.js
+/* harmony default export */ var esm_browser_regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/validate.js
+
+
+function validate(uuid) {
+  return typeof uuid === 'string' && esm_browser_regex.test(uuid);
+}
+
+/* harmony default export */ var esm_browser_validate = (validate);
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/stringify.js
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+
+const byteToHex = [];
+
+for (let i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).slice(1));
+}
+
+function unsafeStringify(arr, offset = 0) {
+  // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+}
+
+function stringify(arr, offset = 0) {
+  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
+
+  if (!esm_browser_validate(uuid)) {
+    throw TypeError('Stringified UUID is invalid');
+  }
+
+  return uuid;
+}
+
+/* harmony default export */ var esm_browser_stringify = (stringify);
+// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/v4.js
+
+
+
+
+function v4(options, buf, offset) {
+  if (esm_browser_native.randomUUID && !buf && !options) {
+    return esm_browser_native.randomUUID();
+  }
+
+  options = options || {};
+  const rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
+  return unsafeStringify(rnds);
+}
+
+/* harmony default export */ var esm_browser_v4 = (v4);
 // CONCATENATED MODULE: ../simple-mind-map/src/utils/index.js
+
+
+
 
 //  深度优先遍历树
 const utils_walk = (root, parent, beforeCallback, afterCallback, isRoot, layerIndex = 0, index = 0) => {
@@ -40957,9 +41297,11 @@ const utils_walk = (root, parent, beforeCallback, afterCallback, isRoot, layerIn
 
 //  广度优先遍历树
 const bfsWalk = (root, callback) => {
-  callback(root);
   let stack = [root];
   let isStop = false;
+  if (callback(root, null) === 'stop') {
+    isStop = true;
+  }
   while (stack.length) {
     if (isStop) {
       break;
@@ -40967,8 +41309,9 @@ const bfsWalk = (root, callback) => {
     let cur = stack.shift();
     if (cur.children && cur.children.length) {
       cur.children.forEach(item => {
+        if (isStop) return;
         stack.push(item);
-        if (callback(item) === 'stop') {
+        if (callback(item, cur) === 'stop') {
           isStop = true;
         }
       });
@@ -41356,7 +41699,109 @@ const getImageSize = src => {
     };
   });
 };
+
+// 创建节点唯一的id
+const createUid = () => {
+  return esm_browser_v4();
+};
+
+// 加载图片文件
+const loadImage = imgFile => {
+  return new Promise((resolve, reject) => {
+    let fr = new FileReader();
+    fr.readAsDataURL(imgFile);
+    fr.onload = async e => {
+      let url = e.target.result;
+      let size = await getImageSize(url);
+      resolve({
+        url,
+        size
+      });
+    };
+    fr.onerror = error => {
+      reject(error);
+    };
+  });
+};
+
+// 移除字符串中的html实体
+const removeHTMLEntities = str => {
+  [['&nbsp;', '&#160;']].forEach(item => {
+    str = str.replaceAll(item[0], item[1]);
+  });
+  return str;
+};
+
+// 获取一个数据的类型
+const getType = data => {
+  return Object.prototype.toString.call(data).slice(7, -1);
+};
+
+// 判断一个数据是否是null和undefined和空字符串
+const isUndef = data => {
+  return data === null || data === undefined || data === '';
+};
+
+// 移除html字符串中节点的内联样式
+const removeHtmlStyle = html => {
+  return html.replaceAll(/(<[^\s]+)\s+style=["'][^'"]+["']\s*(>)/g, '$1$2');
+};
+
+// 给html标签中指定的标签添加内联样式
+const addHtmlStyle = (html, tag, style) => {
+  const reg = new RegExp(`(<${tag}[^>]*)(>[^<>]*</${tag}>)`, 'g');
+  return html.replaceAll(reg, `$1 style="${style}"$2`);
+};
+
+// 检查一个字符串是否是富文本字符
+let checkIsRichTextEl = null;
+const checkIsRichText = str => {
+  if (!checkIsRichTextEl) {
+    checkIsRichTextEl = document.createElement('div');
+  }
+  checkIsRichTextEl.innerHTML = str;
+  for (let c = checkIsRichTextEl.childNodes, i = c.length; i--;) {
+    if (c[i].nodeType == 1) return true;
+  }
+  return false;
+};
+
+// 搜索和替换html字符串中指定的文本
+let replaceHtmlTextEl = null;
+const replaceHtmlText = (html, searchText, replaceText) => {
+  if (!replaceHtmlTextEl) {
+    replaceHtmlTextEl = document.createElement('div');
+  }
+  replaceHtmlTextEl.innerHTML = html;
+  let walk = root => {
+    let childNodes = root.childNodes;
+    childNodes.forEach(node => {
+      if (node.nodeType === 1) {
+        // 元素节点
+        walk(node);
+      } else if (node.nodeType === 3) {
+        // 文本节点
+        root.replaceChild(document.createTextNode(node.nodeValue.replaceAll(searchText, replaceText)), node);
+      }
+    });
+  };
+  walk(replaceHtmlTextEl);
+  return replaceHtmlTextEl.innerHTML;
+};
+
+// 判断一个颜色是否是白色
+const isWhite = color => {
+  color = String(color).replaceAll(/\s+/g, '');
+  return ['#fff', '#ffffff', '#FFF', '#FFFFFF', 'rgb(255,255,255)'].includes(color) || /rgba\(255,255,255,[^)]+\)/.test(color);
+};
+
+// 判断一个颜色是否是透明
+const isTransparent = color => {
+  color = String(color).replaceAll(/\s+/g, '');
+  return ['', 'transparent'].includes(color) || /rgba\(\d+,\d+,\d+,0\)/.test(color);
+};
 // CONCATENATED MODULE: ../simple-mind-map/src/core/render/node/nodeGeneralization.js
+
 
 
 //  检查是否存在概要
@@ -41377,7 +41822,7 @@ function createGeneralizationNode() {
       data: {
         data: this.nodeData.data.generalization
       },
-      uid: this.mindMap.uid++,
+      uid: createUid(),
       renderer: this.renderer,
       mindMap: this.mindMap,
       draw: this.draw,
@@ -41394,15 +41839,14 @@ function createGeneralizationNode() {
 
 //  更新概要节点
 function updateGeneralization() {
+  if (this.isGeneralization) return;
   this.removeGeneralization();
   this.createGeneralizationNode();
 }
 
 //  渲染概要节点
 function renderGeneralization() {
-  if (this.isGeneralization) {
-    return;
-  }
+  if (this.isGeneralization) return;
   if (!this.checkHasGeneralization()) {
     this.removeGeneralization();
     this._generalizationNodeWidth = 0;
@@ -41421,6 +41865,7 @@ function renderGeneralization() {
 
 //  删除概要节点
 function removeGeneralization() {
+  if (this.isGeneralization) return;
   if (this._generalizationLine) {
     this._generalizationLine.remove();
     this._generalizationLine = null;
@@ -41439,6 +41884,7 @@ function removeGeneralization() {
 
 //  隐藏概要节点
 function hideGeneralization() {
+  if (this.isGeneralization) return;
   if (this._generalizationLine) {
     this._generalizationLine.hide();
   }
@@ -41449,6 +41895,7 @@ function hideGeneralization() {
 
 //  显示概要节点
 function showGeneralization() {
+  if (this.isGeneralization) return;
   if (this._generalizationLine) {
     this._generalizationLine.show();
   }
@@ -41618,8 +42065,8 @@ function nodeCommandWraps_setData(data = {}) {
 }
 
 //  设置文本
-function setText(text, richText) {
-  this.mindMap.execCommand('SET_NODE_TEXT', this, text, richText);
+function setText(text, richText, resetRichText) {
+  this.mindMap.execCommand('SET_NODE_TEXT', this, text, richText, resetRichText);
 }
 
 //  设置图片
@@ -41959,6 +42406,9 @@ function createIconNode() {
       node = new svg_esm_Image().load(src);
     }
     node.size(iconSize, iconSize);
+    node.on('click', e => {
+      this.mindMap.emit('node_icon_click', this, item, e);
+    });
     return {
       node,
       width: iconSize,
@@ -41983,8 +42433,21 @@ function createRichTextNode() {
     }
   }
   if (recoverText) {
-    let text = getTextFromHtml(this.nodeData.data.text);
-    this.nodeData.data.text = `<p><span style="${this.style.createStyleText()}">${text}</span></p>`;
+    let text = this.nodeData.data.text;
+    // 判断节点内容是否是富文本
+    let isRichText = checkIsRichText(text);
+    // 样式字符串
+    let style = this.style.createStyleText();
+    if (isRichText) {
+      // 如果是富文本那么线移除内联样式
+      text = removeHtmlStyle(text);
+      // 再添加新的内联样式
+      text = addHtmlStyle(text, 'span', style);
+    } else {
+      // 非富文本
+      text = `<p><span style="${style}">${text}</span></p>`;
+    }
+    this.nodeData.data.text = text;
   }
   let html = `<div>${this.nodeData.data.text}</div>`;
   let div = document.createElement('div');
@@ -42198,20 +42661,19 @@ function createNoteNode() {
 }
 
 // 测量自定义节点内容元素的宽高
-let warpEl = null;
 function measureCustomNodeContentSize(content) {
-  if (!warpEl) {
-    warpEl = document.createElement('div');
-    warpEl.style.cssText = `
+  if (!commonCaches.measureCustomNodeContentSizeEl) {
+    commonCaches.measureCustomNodeContentSizeEl = document.createElement('div');
+    commonCaches.measureCustomNodeContentSizeEl.style.cssText = `
       position: fixed;
       left: -99999px;
       top: -99999px;
     `;
-    this.mindMap.el.appendChild(warpEl);
+    this.mindMap.el.appendChild(commonCaches.measureCustomNodeContentSizeEl);
   }
-  warpEl.innerHTML = '';
-  warpEl.appendChild(content);
-  let rect = warpEl.getBoundingClientRect();
+  commonCaches.measureCustomNodeContentSizeEl.innerHTML = '';
+  commonCaches.measureCustomNodeContentSizeEl.appendChild(content);
+  let rect = commonCaches.measureCustomNodeContentSizeEl.getBoundingClientRect();
   return {
     width: rect.width,
     height: rect.height
@@ -42512,6 +42974,7 @@ class Node_Node {
     paddingY += this.shapePadding.paddingY;
     // 节点形状
     this.shapeNode = this.shapeInstance.createShape();
+    this.shapeNode.addClass('smm-node-shape');
     this.group.add(this.shapeNode);
     this.updateNodeShape();
     // 渲染一个隐藏的矩形区域，用来触发展开收起按钮的显示
@@ -42599,8 +43062,8 @@ class Node_Node {
         this._unVisibleRectRegionNode.fill({
           color: 'transparent'
         });
-        this.group.add(this._unVisibleRectRegionNode);
       }
+      this.group.add(this._unVisibleRectRegionNode);
       this.renderer.layout.renderExpandBtnRect(this._unVisibleRectRegionNode, this.expandBtnSize, width, height, this);
     }
   }
@@ -42699,8 +43162,6 @@ class Node_Node {
       return;
     }
     let {
-      enableNodeTransitionMove,
-      nodeTransitionMoveDuration,
       alwaysShowExpandBtn
     } = this.mindMap.opt;
     if (alwaysShowExpandBtn) {
@@ -42729,11 +43190,7 @@ class Node_Node {
     let t = this.group.transform();
     // 如果节点位置没有变化，则返回
     if (this.left === t.translateX && this.top === t.translateY) return;
-    if (!isLayout && enableNodeTransitionMove) {
-      this.group.animate(nodeTransitionMoveDuration).translate(this.left - t.translateX, this.top - t.translateY);
-    } else {
-      this.group.translate(this.left - t.translateX, this.top - t.translateY);
-    }
+    this.group.translate(this.left - t.translateX, this.top - t.translateY);
   }
 
   // 重新渲染节点，即重新创建节点内容、计算节点大小、计算节点内容布局、更新展开收起按钮，概要及位置
@@ -42753,10 +43210,6 @@ class Node_Node {
 
   //  递归渲染
   render(callback = () => {}) {
-    let {
-      enableNodeTransitionMove,
-      nodeTransitionMoveDuration
-    } = this.mindMap.opt;
     // 节点
     // 重新渲染连线
     this.renderLine();
@@ -42765,6 +43218,7 @@ class Node_Node {
       isLayout = true;
       // 创建组
       this.group = new G();
+      this.group.addClass('smm-node');
       this.group.css({
         cursor: 'default'
       });
@@ -42798,13 +43252,7 @@ class Node_Node {
         };
       }));
     } else {
-      if (enableNodeTransitionMove && !isLayout) {
-        setTimeout(() => {
-          callback();
-        }, nodeTransitionMoveDuration);
-      } else {
-        callback();
-      }
+      callback();
     }
     // 手动插入的节点立即获得焦点并且开启编辑模式
     if (this.nodeData.inserting) {
@@ -43084,6 +43532,7 @@ class CRU {
 
 
 
+
 //  布局基类
 class Base_Base {
   //  构造函数
@@ -43183,7 +43632,7 @@ class Base_Base {
       }
     } else {
       // 创建新节点
-      let uid = this.mindMap.uid++;
+      let uid = data.data.uid || createUid();
       newNode = new node_Node({
         data,
         uid,
@@ -45873,11 +46322,14 @@ class TextEdit_TextEdit {
     this.currentNode = null;
     // 文本编辑框
     this.textEditNode = null;
+    // 隐藏的文本输入框
+    this.hiddenInputEl = null;
     // 文本编辑框是否显示
     this.showTextEdit = false;
     // 如果编辑过程中缩放画布了，那么缓存当前编辑的内容
     this.cacheEditingText = '';
     this.bindEvent();
+    this.createHiddenInput();
   }
 
   //  事件
@@ -45909,6 +46361,10 @@ class TextEdit_TextEdit {
     this.mindMap.on('before_node_active', () => {
       this.hideEditTextBox();
     });
+    // 节点激活事件
+    this.mindMap.on('node_active', () => {
+      this.focusHiddenInput();
+    });
     // 注册编辑快捷键
     this.mindMap.keyCommand.addShortcut('F2', () => {
       if (this.renderer.activeNodeList.length <= 0) {
@@ -45919,10 +46375,50 @@ class TextEdit_TextEdit {
     this.mindMap.on('scale', this.onScale);
   }
 
+  // 创建一个隐藏的文本输入框
+  createHiddenInput() {
+    if (this.hiddenInputEl) return;
+    this.hiddenInputEl = document.createElement('input');
+    this.hiddenInputEl.type = 'text';
+    this.hiddenInputEl.style.cssText = `
+      position: fixed;
+      left: -99999px;
+      top: -99999px;
+    `;
+    // 监听粘贴事件
+    this.hiddenInputEl.addEventListener('paste', async event => {
+      event.preventDefault();
+      const text = (event.clipboardData || window.clipboardData).getData('text');
+      const files = event.clipboardData.files;
+      let img = null;
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          if (/^image\//.test(files[i].type)) {
+            img = files[i];
+            break;
+          }
+        }
+      }
+      this.mindMap.emit('paste', {
+        text,
+        img
+      });
+    });
+    document.body.appendChild(this.hiddenInputEl);
+  }
+
+  // 让隐藏的文本输入框聚焦
+  focusHiddenInput() {
+    if (this.hiddenInputEl) this.hiddenInputEl.focus();
+  }
+
   //  注册临时快捷键
   registerTmpShortcut() {
     // 注册回车快捷键
     this.mindMap.keyCommand.addShortcut('Enter', () => {
+      this.hideEditTextBox();
+    });
+    this.mindMap.keyCommand.addShortcut('Tab', () => {
       this.hideEditTextBox();
     });
   }
@@ -46288,6 +46784,12 @@ class Render_Render {
     this.root = null;
     // 文本编辑框，需要再bindEvent之前实例化，否则单击事件只能触发隐藏文本编辑框，而无法保存文本修改
     this.textEdit = new TextEdit_TextEdit(this);
+    // 当前复制的数据
+    this.lastBeingCopyData = null;
+    this.beingCopyData = null;
+    this.beingPasteText = '';
+    this.beingPasteImgSize = 0;
+    this.currentBeingPasteType = '';
     // 布局
     this.setLayout();
     // 绑定事件
@@ -46319,6 +46821,10 @@ class Render_Render {
       if (isTrueClick && this.activeNodeList.length > 0) {
         this.mindMap.execCommand('CLEAR_ACTIVE_NODE');
       }
+    });
+    // 粘贴事件
+    this.mindMap.on('paste', data => {
+      this.onPaste(data);
     });
   }
 
@@ -46418,6 +46924,9 @@ class Render_Render {
     // 设置节点形状
     this.setNodeShape = this.setNodeShape.bind(this);
     this.mindMap.command.add('SET_NODE_SHAPE', this.setNodeShape);
+    // 定位节点
+    this.goTargetNode = this.goTargetNode.bind(this);
+    this.mindMap.command.add('GO_TARGET_NODE', this.goTargetNode);
   }
 
   //  注册快捷键
@@ -46435,7 +46944,7 @@ class Render_Render {
     };
     this.mindMap.keyCommand.addShortcut('Enter', this.insertNodeWrap);
     // 插入概要
-    this.mindMap.keyCommand.addShortcut('Control+s', this.addGeneralization);
+    this.mindMap.keyCommand.addShortcut('Control+g', this.addGeneralization);
     // 展开/收起节点
     this.toggleActiveExpand = this.toggleActiveExpand.bind(this);
     this.mindMap.keyCommand.addShortcut('/', this.toggleActiveExpand);
@@ -46462,6 +46971,14 @@ class Render_Render {
     // 下移节点
     this.mindMap.keyCommand.addShortcut('Control+Down', this.downNode);
     // 复制节点、剪切节点、粘贴节点的快捷键需开发者自行注册实现，可参考demo
+    this.copy = this.copy.bind(this);
+    this.mindMap.keyCommand.addShortcut('Control+c', this.copy);
+    this.mindMap.keyCommand.addShortcut('Control+v', () => {
+      // 隐藏输入框可能会失去焦点，所以要重新聚焦
+      this.textEdit.focusHiddenInput();
+    });
+    this.cut = this.cut.bind(this);
+    this.mindMap.keyCommand.addShortcut('Control+x', this.cut);
   }
 
   //  开启文字编辑，会禁用回车键和删除键相关快捷键防止冲突
@@ -46482,7 +46999,6 @@ class Render_Render {
 
   //   渲染
   render(callback = () => {}, source) {
-    let t = Date.now();
     // 如果当前还没有渲染完毕，不再触发渲染
     if (this.isRendering) {
       // 等待当前渲染完毕后再进行一次渲染
@@ -46513,7 +47029,7 @@ class Render_Render {
       // 更新根节点
       this.root = root;
       // 渲染节点
-      const onEnd = () => {
+      this.root.render(() => {
         this.isRendering = false;
         this.mindMap.emit('node_tree_render_end');
         callback && callback();
@@ -46525,20 +47041,6 @@ class Render_Render {
           if (this.mindMap.richText && [CONSTANTS.CHANGE_THEME, CONSTANTS.SET_DATA].includes(source)) {
             this.mindMap.command.addHistory();
           }
-        }
-      };
-      let {
-        enableNodeTransitionMove,
-        nodeTransitionMoveDuration
-      } = this.mindMap.opt;
-      this.root.render(() => {
-        let dur = Date.now() - t;
-        if (enableNodeTransitionMove && dur <= nodeTransitionMoveDuration) {
-          setTimeout(() => {
-            onEnd();
-          }, nodeTransitionMoveDuration - dur);
-        } else {
-          onEnd();
         }
       });
     });
@@ -46640,6 +47142,7 @@ class Render_Render {
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
     }
+    this.textEdit.hideEditTextBox();
     let {
       defaultInsertSecondLevelNodeText,
       defaultInsertBelowSecondLevelNodeText
@@ -46657,11 +47160,14 @@ class Render_Render {
         first.parent.destroy();
       }
       let index = this.getNodeIndex(first);
+      let isRichText = !!this.mindMap.richText;
       first.parent.nodeData.children.splice(index + 1, 0, {
         inserting: openEdit,
         data: {
           text: text,
           expand: true,
+          richText: isRichText,
+          resetRichText: isRichText,
           ...(appointData || {})
         },
         children: []
@@ -46676,6 +47182,7 @@ class Render_Render {
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
     }
+    this.textEdit.hideEditTextBox();
     let {
       defaultInsertSecondLevelNodeText,
       defaultInsertBelowSecondLevelNodeText
@@ -46689,11 +47196,14 @@ class Render_Render {
         node.nodeData.children = [];
       }
       let text = node.isRoot ? defaultInsertSecondLevelNodeText : defaultInsertBelowSecondLevelNodeText;
+      let isRichText = !!this.mindMap.richText;
       node.nodeData.children.push({
         inserting: openEdit,
         data: {
           text: text,
           expand: true,
+          richText: isRichText,
+          resetRichText: isRichText,
           ...(appointData || {})
         },
         children: []
@@ -46759,6 +47269,75 @@ class Render_Render {
     parent.nodeData.children.splice(index, 1);
     parent.nodeData.children.splice(insertIndex, 0, node.nodeData);
     this.mindMap.render();
+  }
+
+  // 复制节点
+  copy() {
+    this.beingCopyData = this.copyNode();
+  }
+
+  // 剪切节点
+  cut() {
+    this.mindMap.execCommand('CUT_NODE', copyData => {
+      this.beingCopyData = copyData;
+    });
+  }
+
+  // 粘贴节点
+  paste() {
+    if (this.beingCopyData) {
+      this.mindMap.execCommand('PASTE_NODE', this.beingCopyData);
+    }
+  }
+
+  // 粘贴事件
+  async onPaste({
+    text,
+    img
+  }) {
+    // 检查剪切板数据是否有变化
+    // 通过图片大小来判断图片是否发生变化，可能是不准确的，但是目前没有其他好方法
+    const imgSize = img ? img.size : 0;
+    if (this.beingPasteText !== text || this.beingPasteImgSize !== imgSize) {
+      this.currentBeingPasteType = CONSTANTS.PASTE_TYPE.CLIP_BOARD;
+      this.beingPasteText = text;
+      this.beingPasteImgSize = imgSize;
+    }
+    // 检查要粘贴的节点数据是否有变化，节点优先级高于剪切板
+    if (this.lastBeingCopyData !== this.beingCopyData) {
+      this.lastBeingCopyData = this.beingCopyData;
+      this.currentBeingPasteType = CONSTANTS.PASTE_TYPE.CANVAS;
+    }
+    // 粘贴剪切板的数据
+    if (this.currentBeingPasteType === CONSTANTS.PASTE_TYPE.CLIP_BOARD) {
+      // 存在文本，则创建子节点
+      if (text) {
+        this.mindMap.execCommand('INSERT_CHILD_NODE', false, [], {
+          text
+        });
+      }
+      // 存在图片，则添加到当前激活节点
+      if (img) {
+        try {
+          let imgData = await loadImage(img);
+          if (this.activeNodeList.length > 0) {
+            this.activeNodeList.forEach(node => {
+              this.mindMap.execCommand('SET_NODE_IMAGE', node, {
+                url: imgData.url,
+                title: '',
+                width: imgData.size.width,
+                height: imgData.size.height
+              });
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
+      // 粘贴节点数据
+      this.paste();
+    }
   }
 
   //  将节点移动到另一个节点的前面
@@ -46930,7 +47509,7 @@ class Render_Render {
 
   //   粘贴节点到节点
   pasteNode(data) {
-    if (this.activeNodeList.length <= 0) {
+    if (this.activeNodeList.length <= 0 || !data) {
       return;
     }
     this.activeNodeList.forEach(item => {
@@ -47059,10 +47638,11 @@ class Render_Render {
   }
 
   //  设置节点文本
-  setNodeText(node, text, richText) {
+  setNodeText(node, text, richText, resetRichText) {
     this.setNodeDataRender(node, {
       text,
-      richText
+      richText,
+      resetRichText
     });
   }
 
@@ -47185,6 +47765,20 @@ class Render_Render {
     });
   }
 
+  // 定位到指定节点
+  goTargetNode(node, callback = () => {}) {
+    let uid = typeof node === 'string' ? node : node.nodeData.data.uid;
+    if (!uid) return;
+    this.expandToNodeUid(uid, () => {
+      let targetNode = this.findNodeByUid(uid);
+      if (targetNode) {
+        targetNode.active();
+        this.moveNodeToCenter(targetNode);
+        callback();
+      }
+    });
+  }
+
   //  更新节点数据
   setNodeData(node, data) {
     Object.keys(data).forEach(key => {
@@ -47193,7 +47787,7 @@ class Render_Render {
   }
 
   //  设置节点数据，并判断是否渲染
-  setNodeDataRender(node, data) {
+  setNodeDataRender(node, data, notRender = false) {
     this.setNodeData(node, data);
     let changed = node.reRender();
     if (changed) {
@@ -47201,7 +47795,7 @@ class Render_Render {
         // 概要节点
         node.generalizationBelongNode.updateGeneralization();
       }
-      this.mindMap.render();
+      if (!notRender) this.mindMap.render();
     }
   }
 
@@ -47227,6 +47821,44 @@ class Render_Render {
     this.mindMap.view.translateX(offsetX);
     this.mindMap.view.translateY(offsetY);
     this.mindMap.view.setScale(1);
+  }
+
+  // 展开到指定uid的节点
+  expandToNodeUid(uid, callback = () => {}) {
+    let parentsList = [];
+    const cache = {};
+    bfsWalk(this.renderTree, (node, parent) => {
+      if (node.data.uid === uid) {
+        parentsList = parent ? [...cache[parent.data.uid], parent] : [];
+        return 'stop';
+      } else {
+        cache[node.data.uid] = parent ? [...cache[parent.data.uid], parent] : [];
+      }
+    });
+    let needRender = false;
+    parentsList.forEach(node => {
+      if (!node.data.expand) {
+        needRender = true;
+        node.data.expand = true;
+      }
+    });
+    if (needRender) {
+      this.mindMap.render(callback);
+    } else {
+      callback();
+    }
+  }
+
+  // 根据uid找到对应的节点实例
+  findNodeByUid(uid) {
+    let res = null;
+    utils_walk(this.root, null, node => {
+      if (node.nodeData.data.uid === uid) {
+        res = node;
+        return true;
+      }
+    });
+    return res;
   }
 }
 /* harmony default export */ var render_Render = (Render_Render);
@@ -49123,8 +49755,11 @@ class KeyCommand_KeyCommand {
       }
       Object.keys(this.shortcutMap).forEach(key => {
         if (this.checkKey(e, key)) {
-          e.stopPropagation();
-          e.preventDefault();
+          // 粘贴事件不组织，因为要监听paste事件
+          if (!this.checkKey(e, 'Control+v')) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
           this.shortcutMap[key].forEach(fn => {
             fn();
           });
@@ -49318,7 +49953,7 @@ class Command_Command {
       this.history.shift();
     }
     this.activeHistoryIndex = this.history.length - 1;
-    this.mindMap.emit('data_change', this.removeDataUid(data));
+    this.mindMap.emit('data_change', data);
     this.mindMap.emit('back_forward', this.activeHistoryIndex, this.history.length);
   }
 
@@ -49331,7 +49966,7 @@ class Command_Command {
       this.activeHistoryIndex -= step;
       this.mindMap.emit('back_forward', this.activeHistoryIndex, this.history.length);
       let data = simpleDeepClone(this.history[this.activeHistoryIndex]);
-      this.mindMap.emit('data_change', this.removeDataUid(data));
+      this.mindMap.emit('data_change', data);
       return data;
     }
   }
@@ -49346,7 +49981,7 @@ class Command_Command {
       this.activeHistoryIndex += step;
       this.mindMap.emit('back_forward', this.activeHistoryIndex, this.history.length);
       let data = simpleDeepClone(this.history[this.activeHistoryIndex]);
-      this.mindMap.emit('data_change', this.removeDataUid(data));
+      this.mindMap.emit('data_change', data);
       return data;
     }
   }
@@ -49497,10 +50132,6 @@ const defaultOpt = {
   },
   // 是否只有当鼠标在画布内才响应快捷键事件
   enableShortcutOnlyWhenMouseInSvg: true,
-  // 是否开启节点动画过渡
-  enableNodeTransitionMove: true,
-  // 如果开启节点动画过渡，可以通过该属性设置过渡的时间，单位ms
-  nodeTransitionMoveDuration: 300,
   // 初始根节点的位置
   initRootNodePosition: null,
   // 导出png、svg、pdf时的图形内边距
@@ -49583,11 +50214,11 @@ class simple_mind_map_MindMap {
     this.svg = SVG().addTo(this.el).size(this.width, this.height);
     this.draw = this.svg.group();
 
-    // 节点id
-    this.uid = 1;
-
     // 初始化主题
     this.initTheme();
+
+    // 初始化缓存数据
+    this.initCache();
 
     // 事件类
     this.event = new event_Event({
@@ -49632,6 +50263,8 @@ class simple_mind_map_MindMap {
 
   //  配置参数处理
   handleOpt(opt) {
+    // 深拷贝一份节点数据
+    opt.data = simpleDeepClone(opt.data || {});
     // 检查布局配置
     if (!layoutValueList.includes(opt.layout)) {
       opt.layout = CONSTANTS.LAYOUT.LOGICAL_STRUCTURE;
@@ -49681,6 +50314,23 @@ class simple_mind_map_MindMap {
   //  解绑事件
   off(event, fn) {
     this.event.off(event, fn);
+  }
+
+  // 初始化缓存数据
+  initCache() {
+    Object.keys(commonCaches).forEach(key => {
+      let type = getType(commonCaches[key]);
+      let value = '';
+      switch (type) {
+        case 'Boolean':
+          value = false;
+          break;
+        default:
+          value = null;
+          break;
+      }
+      commonCaches[key] = value;
+    });
   }
 
   //  设置主题
@@ -49789,7 +50439,7 @@ class simple_mind_map_MindMap {
 
   //  获取思维导图数据，节点树、主题、布局等
   getData(withConfig) {
-    let nodeData = this.command.removeDataUid(this.command.getCopyData());
+    let nodeData = this.command.getCopyData();
     let data = {};
     if (withConfig) {
       data = {
@@ -49963,8 +50613,10 @@ simple_mind_map_MindMap.defineTheme = (name, config = {}) => {
 };
 /* harmony default export */ var simple_mind_map = (simple_mind_map_MindMap);
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/MiniMap.js
-// 小地图类
-class MiniMap {
+
+
+// 小地图插件
+class MiniMap_MiniMap {
   //  构造函数
   constructor(opt) {
     this.mindMap = opt.mindMap;
@@ -49986,7 +50638,7 @@ class MiniMap {
    */
   calculationMiniMap(boxWidth, boxHeight) {
     let {
-      svgHTML,
+      svg,
       rect,
       origWidth,
       origHeight,
@@ -50027,8 +50679,9 @@ class MiniMap {
     viewBoxStyle.right = Math.max(0, (_rectX2 - origWidth) / _rectWidth * actWidth) + miniMapBoxLeft + 'px';
     viewBoxStyle.top = Math.max(0, -_rectY / _rectHeight * actHeight) + miniMapBoxTop + 'px';
     viewBoxStyle.bottom = Math.max(0, (_rectY2 - origHeight) / _rectHeight * actHeight) + miniMapBoxTop + 'px';
+    this.removeNodeContent(svg);
     return {
-      svgHTML,
+      svgHTML: svg.svg(),
       // 小地图html
       viewBoxStyle,
       // 视图框的位置信息
@@ -50038,6 +50691,43 @@ class MiniMap {
       // 视图框的left值
       miniMapBoxTop // 视图框的top值
     };
+  }
+
+  // 移除节点的内容
+  removeNodeContent(svg) {
+    if (svg.hasClass('smm-node')) {
+      let shape = svg.findOne('.smm-node-shape');
+      let fill = shape.attr('fill');
+      if (isWhite(fill) || isTransparent(fill)) {
+        shape.attr('fill', this.getDefaultFill());
+      }
+      svg.clear();
+      svg.add(shape);
+      return;
+    }
+    let children = svg.children();
+    if (children && children.length > 0) {
+      children.forEach(node => {
+        this.removeNodeContent(node);
+      });
+    }
+  }
+
+  // 计算默认的填充颜色
+  getDefaultFill() {
+    let {
+      lineColor,
+      root,
+      second,
+      node
+    } = this.mindMap.themeConfig;
+    let list = [lineColor, root.fillColor, root.color, second.fillColor, second.color, node.fillColor, node.color, root.borderColor, second.borderColor, node.borderColor];
+    for (let i = 0; i < list.length; i++) {
+      let color = list[i];
+      if (!isTransparent(color) && !isWhite(color)) {
+        return color;
+      }
+    }
   }
 
   //  小地图鼠标按下事件
@@ -50072,14 +50762,14 @@ class MiniMap {
     this.isMousedown = false;
   }
 }
-MiniMap.instanceName = 'miniMap';
-/* harmony default export */ var plugins_MiniMap = (MiniMap);
+MiniMap_MiniMap.instanceName = 'miniMap';
+/* harmony default export */ var plugins_MiniMap = (MiniMap_MiniMap);
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/Watermark.js
 
 
 
 
-// 水印类
+// 水印插件
 class Watermark_Watermark {
   constructor(opt = {}) {
     this.mindMap = opt.mindMap;
@@ -50194,7 +50884,7 @@ Watermark_Watermark.instanceName = 'watermark';
 
 
 
-//  键盘导航类
+//  键盘导航插件
 class KeyboardNavigation_KeyboardNavigation {
   //  构造函数
   constructor(opt) {
@@ -50221,8 +50911,7 @@ class KeyboardNavigation_KeyboardNavigation {
       this.focus(dir);
     } else {
       let root = this.mindMap.renderer.root;
-      this.mindMap.renderer.moveNodeToCenter(root);
-      root.active();
+      this.mindMap.execCommand('GO_TARGET_NODE', root);
     }
   }
 
@@ -50274,8 +50963,7 @@ class KeyboardNavigation_KeyboardNavigation {
 
     // 找到了则让目标节点聚焦
     if (targetNode) {
-      this.mindMap.renderer.moveNodeToCenter(targetNode);
-      targetNode.active();
+      this.mindMap.execCommand('GO_TARGET_NODE', targetNode);
     }
   }
 
@@ -50447,7 +51135,7 @@ var jspdf_es_min = __webpack_require__("77ee");
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/ExportPDF.js
 
 
-//  导出PDF类，需要通过Export插件使用
+//  导出PDF插件，需要通过Export插件使用
 class ExportPDF_ExportPDF {
   //  构造函数
   constructor(opt) {
@@ -50866,7 +51554,7 @@ const transformToMarkdown = root => {
 
 
 
-//  导出类
+//  导出插件
 class Export_Export {
   //  构造函数
   constructor(opt) {
@@ -51016,6 +51704,7 @@ class Export_Export {
       node,
       str
     } = await this.getSvgData();
+    str = removeHTMLEntities(str);
     // 如果开启了富文本，则使用htmltocanvas转换为图片
     if (this.mindMap.richText) {
       let res = await this.mindMap.richText.handleExportPng(node.node);
@@ -51071,6 +51760,7 @@ class Export_Export {
     node.first().before(SVG(`<title>${name}</title>`));
     await this.drawBackgroundToSvg(node);
     let str = node.svg();
+    str = removeHTMLEntities(str);
     // 转换成blob数据
     let blob = new Blob([str], {
       type: 'image/svg+xml'
@@ -51109,8 +51799,7 @@ Export_Export.instanceName = 'doExport';
 
 
 
-//  节点拖动类
-
+// 节点拖动插件
 class Drag_Drag extends layouts_Base {
   //  构造函数
   constructor({
@@ -51450,8 +52139,7 @@ Drag_Drag.instanceName = 'drag';
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/Select.js
 
 
-//  选择节点类
-
+// 节点选择插件
 class Select_Select {
   //  构造函数
   constructor({
@@ -51624,104 +52312,6 @@ class Select_Select {
 
 Select_Select.instanceName = 'select';
 /* harmony default export */ var plugins_Select = (Select_Select);
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/native.js
-const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-/* harmony default export */ var esm_browser_native = ({
-  randomUUID
-});
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/rng.js
-// Unique ID creation requires a high quality random # generator. In the browser we therefore
-// require the crypto API and do not support built-in fallback to lower quality random number
-// generators (like Math.random()).
-let getRandomValues;
-const rnds8 = new Uint8Array(16);
-function rng() {
-  // lazy load so that environments that need to polyfill have a chance to do so
-  if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-
-    if (!getRandomValues) {
-      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-    }
-  }
-
-  return getRandomValues(rnds8);
-}
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/regex.js
-/* harmony default export */ var esm_browser_regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/validate.js
-
-
-function validate(uuid) {
-  return typeof uuid === 'string' && esm_browser_regex.test(uuid);
-}
-
-/* harmony default export */ var esm_browser_validate = (validate);
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/stringify.js
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-
-const byteToHex = [];
-
-for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 0x100).toString(16).slice(1));
-}
-
-function unsafeStringify(arr, offset = 0) {
-  // Note: Be careful editing this code!  It's been tuned for performance
-  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-}
-
-function stringify(arr, offset = 0) {
-  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
-  // of the following:
-  // - One or more input array values don't map to a hex octet (leading to
-  // "undefined" in the uuid)
-  // - Invalid input values for the RFC `version` or `variant` fields
-
-  if (!esm_browser_validate(uuid)) {
-    throw TypeError('Stringified UUID is invalid');
-  }
-
-  return uuid;
-}
-
-/* harmony default export */ var esm_browser_stringify = (stringify);
-// CONCATENATED MODULE: ../simple-mind-map/node_modules/uuid/dist/esm-browser/v4.js
-
-
-
-
-function v4(options, buf, offset) {
-  if (esm_browser_native.randomUUID && !buf && !options) {
-    return esm_browser_native.randomUUID();
-  }
-
-  options = options || {};
-  const rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-
-  rnds[6] = rnds[6] & 0x0f | 0x40;
-  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
-
-  if (buf) {
-    offset = offset || 0;
-
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-
-    return buf;
-  }
-
-  return unsafeStringify(rnds);
-}
-
-/* harmony default export */ var esm_browser_v4 = (v4);
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/associativeLine/associativeLineUtils.js
 // 获取目标节点在起始节点的目标数组中的索引
 const getAssociativeLineTargetIndex = (node, toNode) => {
@@ -52282,7 +52872,7 @@ function updateTextPos(path, text) {
 
 
 
-// 关联线类
+// 关联线插件
 class AssociativeLine_AssociativeLine {
   constructor(opt = {}) {
     this.mindMap = opt.mindMap;
@@ -52768,7 +53358,7 @@ let fontSizeList = new Array(100).fill(0).map((_, index) => {
   return index + 'px';
 });
 
-// 节点支持富文本编辑功能
+// 富文本编辑插件
 class RichText_RichText {
   constructor({
     mindMap,
@@ -52998,6 +53588,12 @@ class RichText_RichText {
               key: 13,
               handler: function () {
                 // 覆盖默认的回车键换行
+              }
+            },
+            tab: {
+              key: 9,
+              handler: function () {
+                // 覆盖默认的tab键
               }
             }
           }
@@ -53307,7 +53903,7 @@ class NodeImgAdjust_NodeImgAdjust {
   // 节点图片鼠标移动事件
   onNodeImgMousemove(node, img) {
     // 如果当前正在拖动调整中那么直接返回
-    if (this.isMousedown || this.isAdjusted) return;
+    if (this.isMousedown || this.isAdjusted || this.mindMap.opt.readonly) return;
     // 如果在当前节点内移动，以及自定义元素已经是显示状态，那么直接返回
     if (this.node === node && this.isShowHandleEl) return;
     // 更新当前节点信息
@@ -53477,7 +54073,10 @@ class NodeImgAdjust_NodeImgAdjust {
 
   // 渲染完成事件
   onRenderEnd() {
-    if (!this.isAdjusted) return;
+    if (!this.isAdjusted) {
+      this.hideHandleEl();
+      return;
+    }
     this.isAdjusted = false;
   }
 
@@ -53489,8 +54088,7 @@ class NodeImgAdjust_NodeImgAdjust {
 NodeImgAdjust_NodeImgAdjust.instanceName = 'nodeImgAdjust';
 /* harmony default export */ var plugins_NodeImgAdjust = (NodeImgAdjust_NodeImgAdjust);
 // CONCATENATED MODULE: ../simple-mind-map/src/plugins/TouchEvent.js
-// 手势事件支持类
-
+// 手势事件支持插件
 class TouchEvent {
   //  构造函数
   constructor({
@@ -53622,6 +54220,161 @@ class TouchEvent {
 }
 TouchEvent.instanceName = 'touchEvent';
 /* harmony default export */ var plugins_TouchEvent = (TouchEvent);
+// CONCATENATED MODULE: ../simple-mind-map/src/plugins/Search.js
+
+
+
+
+// 搜索插件
+class Search_Search {
+  //  构造函数
+  constructor({
+    mindMap
+  }) {
+    this.mindMap = mindMap;
+    // 是否正在搜索
+    this.isSearching = false;
+    // 搜索文本
+    this.searchText = '';
+    // 匹配的节点列表
+    this.matchNodeList = [];
+    // 当前所在的节点列表索引
+    this.currentIndex = -1;
+    // 不要复位搜索文本
+    this.notResetSearchText = false;
+    this.onDataChange = this.onDataChange.bind(this);
+    this.mindMap.on('data_change', this.onDataChange);
+  }
+
+  // 节点数据改变了，需要重新搜索
+  onDataChange() {
+    if (this.notResetSearchText) {
+      this.notResetSearchText = false;
+      return;
+    }
+    this.searchText = '';
+  }
+
+  // 搜索
+  search(text, callback) {
+    if (isUndef(text)) return this.endSearch();
+    text = String(text);
+    this.isSearching = true;
+    if (this.searchText === text) {
+      // 和上一次搜索文本一样，那么搜索下一个
+      this.searchNext(callback);
+    } else {
+      // 和上次搜索文本不一样，那么重新开始
+      this.searchText = text;
+      this.doSearch();
+      this.searchNext(callback);
+    }
+    this.emitEvent();
+  }
+
+  // 结束搜索
+  endSearch() {
+    if (!this.isSearching) return;
+    this.searchText = '';
+    this.matchNodeList = [];
+    this.currentIndex = -1;
+    this.notResetSearchText = false;
+    this.isSearching = false;
+    this.emitEvent();
+  }
+
+  // 搜索匹配的节点
+  doSearch() {
+    this.matchNodeList = [];
+    this.currentIndex = -1;
+    bfsWalk(this.mindMap.renderer.root, node => {
+      let {
+        richText,
+        text
+      } = node.nodeData.data;
+      if (richText) {
+        text = getTextFromHtml(text);
+      }
+      if (text.includes(this.searchText)) {
+        this.matchNodeList.push(node);
+      }
+    });
+  }
+
+  // 搜索下一个，定位到下一个匹配节点
+  searchNext(callback) {
+    if (!this.isSearching || this.matchNodeList.length <= 0) return;
+    if (this.currentIndex < this.matchNodeList.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
+    let currentNode = this.matchNodeList[this.currentIndex];
+    this.notResetSearchText = true;
+    this.mindMap.execCommand('GO_TARGET_NODE', currentNode, () => {
+      this.notResetSearchText = false;
+      callback();
+    });
+  }
+
+  // 替换当前节点
+  replace(replaceText) {
+    if (isUndef(replaceText) || !this.isSearching || this.matchNodeList.length <= 0) return;
+    replaceText = String(replaceText);
+    let currentNode = this.matchNodeList[this.currentIndex];
+    if (!currentNode) return;
+    let text = this.getReplacedText(currentNode, this.searchText, replaceText);
+    this.notResetSearchText = true;
+    currentNode.setText(text, currentNode.nodeData.data.richText, true);
+    this.matchNodeList = this.matchNodeList.filter(node => {
+      return currentNode !== node;
+    });
+    if (this.currentIndex > this.matchNodeList.length - 1) {
+      this.currentIndex = -1;
+    } else {
+      this.currentIndex--;
+    }
+    this.emitEvent();
+  }
+
+  // 替换所有
+  replaceAll(replaceText) {
+    if (isUndef(replaceText) || !this.isSearching || this.matchNodeList.length <= 0) return;
+    replaceText = String(replaceText);
+    this.matchNodeList.forEach(node => {
+      let text = this.getReplacedText(node, this.searchText, replaceText);
+      this.mindMap.renderer.setNodeDataRender(node, {
+        text,
+        resetRichText: !!node.nodeData.data.richText
+      }, true);
+    });
+    this.mindMap.render();
+    this.mindMap.command.addHistory();
+    this.endSearch();
+  }
+
+  // 获取某个节点替换后的文本
+  getReplacedText(node, searchText, replaceText) {
+    let {
+      richText,
+      text
+    } = node.nodeData.data;
+    if (richText) {
+      text = getTextFromHtml(text);
+    }
+    return text.replaceAll(searchText, replaceText);
+  }
+
+  // 发送事件
+  emitEvent() {
+    this.mindMap.emit('search_info_change', {
+      currentIndex: this.currentIndex,
+      total: this.matchNodeList.length
+    });
+  }
+}
+Search_Search.instanceName = 'search';
+/* harmony default export */ var plugins_Search = (Search_Search);
 // EXTERNAL MODULE: ../simple-mind-map/node_modules/jszip/dist/jszip.min.js
 var jszip_min = __webpack_require__("5e89");
 var jszip_min_default = /*#__PURE__*/__webpack_require__.n(jszip_min);
@@ -64340,13 +65093,14 @@ const transformMarkdownTo = async md => {
 
 
 
+
 simple_mind_map.xmind = xmind;
 simple_mind_map.markdown = markdown;
 simple_mind_map.iconList = icons.nodeIconList;
 simple_mind_map.constants = constant_namespaceObject;
 simple_mind_map.themes = themes;
 simple_mind_map.defaultTheme = default_namespaceObject;
-simple_mind_map.usePlugin(plugins_MiniMap).usePlugin(plugins_Watermark).usePlugin(plugins_Drag).usePlugin(plugins_KeyboardNavigation).usePlugin(plugins_ExportPDF).usePlugin(plugins_Export).usePlugin(plugins_Select).usePlugin(plugins_AssociativeLine).usePlugin(plugins_RichText).usePlugin(plugins_TouchEvent).usePlugin(plugins_NodeImgAdjust);
+simple_mind_map.usePlugin(plugins_MiniMap).usePlugin(plugins_Watermark).usePlugin(plugins_Drag).usePlugin(plugins_KeyboardNavigation).usePlugin(plugins_ExportPDF).usePlugin(plugins_Export).usePlugin(plugins_Select).usePlugin(plugins_AssociativeLine).usePlugin(plugins_RichText).usePlugin(plugins_TouchEvent).usePlugin(plugins_NodeImgAdjust).usePlugin(plugins_Search);
 /* harmony default export */ var full = (simple_mind_map);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

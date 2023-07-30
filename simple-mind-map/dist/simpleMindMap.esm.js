@@ -2042,7 +2042,7 @@ var require_html2canvas = __commonJS({
           return COLORS.TRANSPARENT;
         }
       };
-      var isTransparent = function(color2) {
+      var isTransparent2 = function(color2) {
         return (255 & color2) === 0;
       };
       var asString = function(color2) {
@@ -3950,7 +3950,7 @@ var require_html2canvas = __commonJS({
             return this.display > 0 && this.opacity > 0 && this.visibility === 0;
           };
           CSSParsedDeclaration2.prototype.isTransparent = function() {
-            return isTransparent(this.backgroundColor);
+            return isTransparent2(this.backgroundColor);
           };
           CSSParsedDeclaration2.prototype.isTransformed = function() {
             return this.transform !== null;
@@ -4898,7 +4898,7 @@ var require_html2canvas = __commonJS({
                 _this.tree = parseTree(context, iframe.contentWindow.document.documentElement);
                 var documentBackgroundColor = iframe.contentWindow.document.documentElement ? parseColor(context, getComputedStyle(iframe.contentWindow.document.documentElement).backgroundColor) : COLORS.TRANSPARENT;
                 var bodyBackgroundColor = iframe.contentWindow.document.body ? parseColor(context, getComputedStyle(iframe.contentWindow.document.body).backgroundColor) : COLORS.TRANSPARENT;
-                _this.backgroundColor = isTransparent(documentBackgroundColor) ? isTransparent(bodyBackgroundColor) ? _this.styles.backgroundColor : bodyBackgroundColor : documentBackgroundColor;
+                _this.backgroundColor = isTransparent2(documentBackgroundColor) ? isTransparent2(bodyBackgroundColor) ? _this.styles.backgroundColor : bodyBackgroundColor : documentBackgroundColor;
               }
             } catch (e3) {
             }
@@ -7633,7 +7633,7 @@ var require_html2canvas = __commonJS({
                       /* BACKGROUND_BORDERS */
                     ));
                     styles = paint.container.styles;
-                    hasBackground = !isTransparent(styles.backgroundColor) || styles.backgroundImage.length;
+                    hasBackground = !isTransparent2(styles.backgroundColor) || styles.backgroundImage.length;
                     borders = [
                       { style: styles.borderTopStyle, color: styles.borderTopColor, width: styles.borderTopWidth },
                       { style: styles.borderRightStyle, color: styles.borderRightColor, width: styles.borderRightWidth },
@@ -7646,7 +7646,7 @@ var require_html2canvas = __commonJS({
                     this.ctx.save();
                     this.path(backgroundPaintingArea);
                     this.ctx.clip();
-                    if (!isTransparent(styles.backgroundColor)) {
+                    if (!isTransparent2(styles.backgroundColor)) {
                       this.ctx.fillStyle = asString(styles.backgroundColor);
                       this.ctx.fill();
                     }
@@ -7685,7 +7685,7 @@ var require_html2canvas = __commonJS({
                     if (!(_i < borders_1.length))
                       return [3, 13];
                     border = borders_1[_i];
-                    if (!(border.style !== 0 && !isTransparent(border.color) && border.width > 0))
+                    if (!(border.style !== 0 && !isTransparent2(border.color) && border.width > 0))
                       return [3, 11];
                     if (!(border.style === 2))
                       return [3, 5];
@@ -8136,7 +8136,7 @@ var require_html2canvas = __commonJS({
         var documentBackgroundColor = ownerDocument.documentElement ? parseColor(context, getComputedStyle(ownerDocument.documentElement).backgroundColor) : COLORS.TRANSPARENT;
         var bodyBackgroundColor = ownerDocument.body ? parseColor(context, getComputedStyle(ownerDocument.body).backgroundColor) : COLORS.TRANSPARENT;
         var defaultBackgroundColor = typeof backgroundColorOverride === "string" ? parseColor(context, backgroundColorOverride) : backgroundColorOverride === null ? COLORS.TRANSPARENT : 4294967295;
-        return element2 === ownerDocument.documentElement ? isTransparent(documentBackgroundColor) ? isTransparent(bodyBackgroundColor) ? defaultBackgroundColor : bodyBackgroundColor : documentBackgroundColor : defaultBackgroundColor;
+        return element2 === ownerDocument.documentElement ? isTransparent2(documentBackgroundColor) ? isTransparent2(bodyBackgroundColor) ? defaultBackgroundColor : bodyBackgroundColor : documentBackgroundColor : defaultBackgroundColor;
       };
       return html2canvas2;
     });
@@ -36626,6 +36626,7 @@ var require_lib = __commonJS({
 var constant_exports = {};
 __export(constant_exports, {
   CONSTANTS: () => CONSTANTS,
+  commonCaches: () => commonCaches,
   initRootNodePositionMap: () => initRootNodePositionMap,
   layoutList: () => layoutList,
   layoutValueList: () => layoutValueList,
@@ -36658,131 +36659,163 @@ var tagColorList = [
 var themeList = [
   {
     name: "\u9ED8\u8BA4",
-    value: "default"
+    value: "default",
+    dark: false
   },
   {
     name: "\u6697\u82722",
-    value: "dark2"
+    value: "dark2",
+    dark: true
   },
   {
     name: "\u5929\u6E05\u7EFF",
-    value: "skyGreen"
+    value: "skyGreen",
+    dark: false
   },
   {
     name: "\u8111\u56FE\u7ECF\u51782",
-    value: "classic2"
+    value: "classic2",
+    dark: false
   },
   {
     name: "\u8111\u56FE\u7ECF\u51783",
-    value: "classic3"
+    value: "classic3",
+    dark: false
   },
   {
     name: "\u7ECF\u5178\u7EFF",
-    value: "classicGreen"
+    value: "classicGreen",
+    dark: false
   },
   {
     name: "\u7ECF\u5178\u84DD",
-    value: "classicBlue"
+    value: "classicBlue",
+    dark: false
   },
   {
     name: "\u5929\u7A7A\u84DD",
-    value: "blueSky"
+    value: "blueSky",
+    dark: false
   },
   {
     name: "\u8111\u6B8B\u7C89",
-    value: "brainImpairedPink"
+    value: "brainImpairedPink",
+    dark: false
   },
   {
     name: "\u6697\u8272",
-    value: "dark"
+    value: "dark",
+    dark: true
   },
   {
     name: "\u6CE5\u571F\u9EC4",
-    value: "earthYellow"
+    value: "earthYellow",
+    dark: false
   },
   {
     name: "\u6E05\u65B0\u7EFF",
-    value: "freshGreen"
+    value: "freshGreen",
+    dark: false
   },
   {
     name: "\u6E05\u65B0\u7EA2",
-    value: "freshRed"
+    value: "freshRed",
+    dark: false
   },
   {
     name: "\u6D6A\u6F2B\u7D2B",
-    value: "romanticPurple"
+    value: "romanticPurple",
+    dark: false
   },
   {
     name: "\u7C89\u7EA2\u8461\u8404",
-    value: "pinkGrape"
+    value: "pinkGrape",
+    dark: false
   },
   {
     name: "\u8584\u8377",
-    value: "mint"
+    value: "mint",
+    dark: false
   },
   {
     name: "\u91D1\u8272vip",
-    value: "gold"
+    value: "gold",
+    dark: false
   },
   {
     name: "\u6D3B\u529B\u6A59",
-    value: "vitalityOrange"
+    value: "vitalityOrange",
+    dark: false
   },
   {
     name: "\u7EFF\u53F6",
-    value: "greenLeaf"
+    value: "greenLeaf",
+    dark: false
   },
   {
     name: "\u8111\u56FE\u7ECF\u5178",
-    value: "classic"
+    value: "classic",
+    dark: true
   },
   {
     name: "\u8111\u56FE\u7ECF\u51784",
-    value: "classic4"
+    value: "classic4",
+    dark: false
   },
   {
     name: "\u5C0F\u9EC4\u4EBA",
-    value: "minions"
+    value: "minions",
+    dark: false
   },
   {
     name: "\u7B80\u7EA6\u9ED1",
-    value: "simpleBlack"
+    value: "simpleBlack",
+    dark: false
   },
   {
     name: "\u8BFE\u7A0B\u7EFF",
-    value: "courseGreen"
+    value: "courseGreen",
+    dark: false
   },
   {
     name: "\u5496\u5561",
-    value: "coffee"
+    value: "coffee",
+    dark: false
   },
   {
     name: "\u7EA2\u8272\u7CBE\u795E",
-    value: "redSpirit"
+    value: "redSpirit",
+    dark: false
   },
   {
     name: "\u9ED1\u8272\u5E7D\u9ED8",
-    value: "blackHumour"
+    value: "blackHumour",
+    dark: true
   },
   {
     name: "\u6DF1\u591C\u529E\u516C\u5BA4",
-    value: "lateNightOffice"
+    value: "lateNightOffice",
+    dark: true
   },
   {
     name: "\u9ED1\u91D1",
-    value: "blackGold"
+    value: "blackGold",
+    dark: true
   },
   {
     name: "\u725B\u6CB9\u679C",
-    value: "avocado"
+    value: "avocado",
+    dark: false
   },
   {
     name: "\u79CB\u5929",
-    value: "autumn"
+    value: "autumn",
+    dark: false
   },
   {
     name: "\u6A59\u6C41",
-    value: "orangeJuice"
+    value: "orangeJuice",
+    dark: true
   }
 ];
 var CONSTANTS = {
@@ -36843,6 +36876,10 @@ var CONSTANTS = {
     TOP: "top",
     RIGHT: "right",
     BOTTOM: "bottom"
+  },
+  PASTE_TYPE: {
+    CLIP_BOARD: "clipBoard",
+    CANVAS: "canvas"
   }
 };
 var initRootNodePositionMap = {
@@ -36914,6 +36951,9 @@ var nodeDataNoStylePropList = [
   "uid",
   "activeStyle"
 ];
+var commonCaches = {
+  measureCustomNodeContentSizeEl: null
+};
 
 // ../simple-mind-map/src/core/view/View.js
 var View = class {
@@ -43304,6 +43344,54 @@ var shapeList = [
   CONSTANTS.SHAPE.CIRCLE
 ];
 
+// ../simple-mind-map/node_modules/uuid/dist/esm-browser/rng.js
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+  if (!getRandomValues) {
+    getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+    if (!getRandomValues) {
+      throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+    }
+  }
+  return getRandomValues(rnds8);
+}
+
+// ../simple-mind-map/node_modules/uuid/dist/esm-browser/stringify.js
+var byteToHex = [];
+for (let i3 = 0; i3 < 256; ++i3) {
+  byteToHex.push((i3 + 256).toString(16).slice(1));
+}
+function unsafeStringify(arr, offset = 0) {
+  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+}
+
+// ../simple-mind-map/node_modules/uuid/dist/esm-browser/native.js
+var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+var native_default = {
+  randomUUID
+};
+
+// ../simple-mind-map/node_modules/uuid/dist/esm-browser/v4.js
+function v4(options, buf, offset) {
+  if (native_default.randomUUID && !buf && !options) {
+    return native_default.randomUUID();
+  }
+  options = options || {};
+  const rnds = options.random || (options.rng || rng)();
+  rnds[6] = rnds[6] & 15 | 64;
+  rnds[8] = rnds[8] & 63 | 128;
+  if (buf) {
+    offset = offset || 0;
+    for (let i3 = 0; i3 < 16; ++i3) {
+      buf[offset + i3] = rnds[i3];
+    }
+    return buf;
+  }
+  return unsafeStringify(rnds);
+}
+var v4_default = v4;
+
 // ../simple-mind-map/src/utils/index.js
 var walk = (root2, parent, beforeCallback, afterCallback, isRoot, layerIndex = 0, index3 = 0) => {
   let stop = false;
@@ -43327,9 +43415,11 @@ var walk = (root2, parent, beforeCallback, afterCallback, isRoot, layerIndex = 0
   afterCallback && afterCallback(root2, parent, isRoot, layerIndex, index3);
 };
 var bfsWalk = (root2, callback) => {
-  callback(root2);
   let stack = [root2];
   let isStop = false;
+  if (callback(root2, null) === "stop") {
+    isStop = true;
+  }
   while (stack.length) {
     if (isStop) {
       break;
@@ -43337,8 +43427,10 @@ var bfsWalk = (root2, callback) => {
     let cur = stack.shift();
     if (cur.children && cur.children.length) {
       cur.children.forEach((item) => {
+        if (isStop)
+          return;
         stack.push(item);
-        if (callback(item) === "stop") {
+        if (callback(item, cur) === "stop") {
           isStop = true;
         }
       });
@@ -43629,6 +43721,65 @@ var getImageSize = (src) => {
     };
   });
 };
+var createUid = () => {
+  return v4_default();
+};
+var loadImage = (imgFile) => {
+  return new Promise((resolve2, reject) => {
+    let fr = new FileReader();
+    fr.readAsDataURL(imgFile);
+    fr.onload = async (e2) => {
+      let url = e2.target.result;
+      let size2 = await getImageSize(url);
+      resolve2({
+        url,
+        size: size2
+      });
+    };
+    fr.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+var removeHTMLEntities = (str) => {
+  [["&nbsp;", "&#160;"]].forEach((item) => {
+    str = str.replaceAll(item[0], item[1]);
+  });
+  return str;
+};
+var getType = (data2) => {
+  return Object.prototype.toString.call(data2).slice(7, -1);
+};
+var isUndef = (data2) => {
+  return data2 === null || data2 === void 0 || data2 === "";
+};
+var removeHtmlStyle = (html2) => {
+  return html2.replaceAll(/(<[^\s]+)\s+style=["'][^'"]+["']\s*(>)/g, "$1$2");
+};
+var addHtmlStyle = (html2, tag, style) => {
+  const reg = new RegExp(`(<${tag}[^>]*)(>[^<>]*</${tag}>)`, "g");
+  return html2.replaceAll(reg, `$1 style="${style}"$2`);
+};
+var checkIsRichTextEl = null;
+var checkIsRichText = (str) => {
+  if (!checkIsRichTextEl) {
+    checkIsRichTextEl = document.createElement("div");
+  }
+  checkIsRichTextEl.innerHTML = str;
+  for (let c4 = checkIsRichTextEl.childNodes, i3 = c4.length; i3--; ) {
+    if (c4[i3].nodeType == 1)
+      return true;
+  }
+  return false;
+};
+var isWhite = (color) => {
+  color = String(color).replaceAll(/\s+/g, "");
+  return ["#fff", "#ffffff", "#FFF", "#FFFFFF", "rgb(255,255,255)"].includes(color) || /rgba\(255,255,255,[^)]+\)/.test(color);
+};
+var isTransparent = (color) => {
+  color = String(color).replaceAll(/\s+/g, "");
+  return ["", "transparent"].includes(color) || /rgba\(\d+,\d+,\d+,0\)/.test(color);
+};
 
 // ../simple-mind-map/src/core/render/node/nodeGeneralization.js
 function checkHasGeneralization() {
@@ -43646,7 +43797,7 @@ function createGeneralizationNode() {
       data: {
         data: this.nodeData.data.generalization
       },
-      uid: this.mindMap.uid++,
+      uid: createUid(),
       renderer: this.renderer,
       mindMap: this.mindMap,
       draw: this.draw,
@@ -43661,13 +43812,14 @@ function createGeneralizationNode() {
   }
 }
 function updateGeneralization() {
+  if (this.isGeneralization)
+    return;
   this.removeGeneralization();
   this.createGeneralizationNode();
 }
 function renderGeneralization() {
-  if (this.isGeneralization) {
+  if (this.isGeneralization)
     return;
-  }
   if (!this.checkHasGeneralization()) {
     this.removeGeneralization();
     this._generalizationNodeWidth = 0;
@@ -43688,6 +43840,8 @@ function renderGeneralization() {
   this._generalizationNode.render();
 }
 function removeGeneralization() {
+  if (this.isGeneralization)
+    return;
   if (this._generalizationLine) {
     this._generalizationLine.remove();
     this._generalizationLine = null;
@@ -43702,6 +43856,8 @@ function removeGeneralization() {
   }
 }
 function hideGeneralization() {
+  if (this.isGeneralization)
+    return;
   if (this._generalizationLine) {
     this._generalizationLine.hide();
   }
@@ -43710,6 +43866,8 @@ function hideGeneralization() {
   }
 }
 function showGeneralization() {
+  if (this.isGeneralization)
+    return;
   if (this._generalizationLine) {
     this._generalizationLine.show();
   }
@@ -43861,8 +44019,8 @@ var nodeExpandBtn_default = {
 function setData(data2 = {}) {
   this.mindMap.execCommand("SET_NODE_DATA", this, data2);
 }
-function setText(text3, richText) {
-  this.mindMap.execCommand("SET_NODE_TEXT", this, text3, richText);
+function setText(text3, richText, resetRichText) {
+  this.mindMap.execCommand("SET_NODE_TEXT", this, text3, richText, resetRichText);
 }
 function setImage(imgData) {
   this.mindMap.execCommand("SET_NODE_IMAGE", this, imgData);
@@ -44241,6 +44399,9 @@ function createIconNode() {
       node3 = new Image2().load(src);
     }
     node3.size(iconSize, iconSize);
+    node3.on("click", (e2) => {
+      this.mindMap.emit("node_icon_click", this, item, e2);
+    });
     return {
       node: node3,
       width: iconSize,
@@ -44261,8 +44422,16 @@ function createRichTextNode() {
     }
   }
   if (recoverText) {
-    let text3 = getTextFromHtml(this.nodeData.data.text);
-    this.nodeData.data.text = `<p><span style="${this.style.createStyleText()}">${text3}</span></p>`;
+    let text3 = this.nodeData.data.text;
+    let isRichText = checkIsRichText(text3);
+    let style = this.style.createStyleText();
+    if (isRichText) {
+      text3 = removeHtmlStyle(text3);
+      text3 = addHtmlStyle(text3, "span", style);
+    } else {
+      text3 = `<p><span style="${style}">${text3}</span></p>`;
+    }
+    this.nodeData.data.text = text3;
   }
   let html2 = `<div>${this.nodeData.data.text}</div>`;
   let div = document.createElement("div");
@@ -44447,20 +44616,19 @@ function createNoteNode() {
     height: iconSize
   };
 }
-var warpEl = null;
 function measureCustomNodeContentSize(content3) {
-  if (!warpEl) {
-    warpEl = document.createElement("div");
-    warpEl.style.cssText = `
+  if (!commonCaches.measureCustomNodeContentSizeEl) {
+    commonCaches.measureCustomNodeContentSizeEl = document.createElement("div");
+    commonCaches.measureCustomNodeContentSizeEl.style.cssText = `
       position: fixed;
       left: -99999px;
       top: -99999px;
     `;
-    this.mindMap.el.appendChild(warpEl);
+    this.mindMap.el.appendChild(commonCaches.measureCustomNodeContentSizeEl);
   }
-  warpEl.innerHTML = "";
-  warpEl.appendChild(content3);
-  let rect = warpEl.getBoundingClientRect();
+  commonCaches.measureCustomNodeContentSizeEl.innerHTML = "";
+  commonCaches.measureCustomNodeContentSizeEl.appendChild(content3);
+  let rect = commonCaches.measureCustomNodeContentSizeEl.getBoundingClientRect();
   return {
     width: rect.width,
     height: rect.height
@@ -44677,6 +44845,7 @@ var Node2 = class {
     let { paddingY } = this.getPaddingVale();
     paddingY += this.shapePadding.paddingY;
     this.shapeNode = this.shapeInstance.createShape();
+    this.shapeNode.addClass("smm-node-shape");
     this.group.add(this.shapeNode);
     this.updateNodeShape();
     this.renderExpandBtnPlaceholderRect();
@@ -44752,8 +44921,8 @@ var Node2 = class {
         this._unVisibleRectRegionNode.fill({
           color: "transparent"
         });
-        this.group.add(this._unVisibleRectRegionNode);
       }
+      this.group.add(this._unVisibleRectRegionNode);
       this.renderer.layout.renderExpandBtnRect(this._unVisibleRectRegionNode, this.expandBtnSize, width2, height2, this);
     }
   }
@@ -44853,8 +45022,6 @@ var Node2 = class {
       return;
     }
     let {
-      enableNodeTransitionMove,
-      nodeTransitionMoveDuration,
       alwaysShowExpandBtn
     } = this.mindMap.opt;
     if (alwaysShowExpandBtn) {
@@ -44875,11 +45042,7 @@ var Node2 = class {
     let t3 = this.group.transform();
     if (this.left === t3.translateX && this.top === t3.translateY)
       return;
-    if (!isLayout && enableNodeTransitionMove) {
-      this.group.animate(nodeTransitionMoveDuration).translate(this.left - t3.translateX, this.top - t3.translateY);
-    } else {
-      this.group.translate(this.left - t3.translateX, this.top - t3.translateY);
-    }
+    this.group.translate(this.left - t3.translateX, this.top - t3.translateY);
   }
   // 重新渲染节点，即重新创建节点内容、计算节点大小、计算节点内容布局、更新展开收起按钮，概要及位置
   reRender() {
@@ -44900,12 +45063,12 @@ var Node2 = class {
   //  递归渲染
   render(callback = () => {
   }) {
-    let { enableNodeTransitionMove, nodeTransitionMoveDuration } = this.mindMap.opt;
     this.renderLine();
     let isLayout = false;
     if (!this.group) {
       isLayout = true;
       this.group = new G();
+      this.group.addClass("smm-node");
       this.group.css({
         cursor: "default"
       });
@@ -44940,13 +45103,7 @@ var Node2 = class {
         })
       );
     } else {
-      if (enableNodeTransitionMove && !isLayout) {
-        setTimeout(() => {
-          callback();
-        }, nodeTransitionMoveDuration);
-      } else {
-        callback();
-      }
+      callback();
     }
     if (this.nodeData.inserting) {
       delete this.nodeData.inserting;
@@ -45277,7 +45434,7 @@ var Base2 = class {
         newNode.needLayout = true;
       }
     } else {
-      let uid = this.mindMap.uid++;
+      let uid = data2.data.uid || createUid();
       newNode = new Node_default({
         data: data2,
         uid,
@@ -47672,9 +47829,11 @@ var TextEdit = class {
     this.mindMap = renderer.mindMap;
     this.currentNode = null;
     this.textEditNode = null;
+    this.hiddenInputEl = null;
     this.showTextEdit = false;
     this.cacheEditingText = "";
     this.bindEvent();
+    this.createHiddenInput();
   }
   //  事件
   bindEvent() {
@@ -47698,6 +47857,9 @@ var TextEdit = class {
     this.mindMap.on("before_node_active", () => {
       this.hideEditTextBox();
     });
+    this.mindMap.on("node_active", () => {
+      this.focusHiddenInput();
+    });
     this.mindMap.keyCommand.addShortcut("F2", () => {
       if (this.renderer.activeNodeList.length <= 0) {
         return;
@@ -47706,9 +47868,48 @@ var TextEdit = class {
     });
     this.mindMap.on("scale", this.onScale);
   }
+  // 创建一个隐藏的文本输入框
+  createHiddenInput() {
+    if (this.hiddenInputEl)
+      return;
+    this.hiddenInputEl = document.createElement("input");
+    this.hiddenInputEl.type = "text";
+    this.hiddenInputEl.style.cssText = `
+      position: fixed;
+      left: -99999px;
+      top: -99999px;
+    `;
+    this.hiddenInputEl.addEventListener("paste", async (event) => {
+      event.preventDefault();
+      const text3 = (event.clipboardData || window.clipboardData).getData("text");
+      const files = event.clipboardData.files;
+      let img = null;
+      if (files.length > 0) {
+        for (let i3 = 0; i3 < files.length; i3++) {
+          if (/^image\//.test(files[i3].type)) {
+            img = files[i3];
+            break;
+          }
+        }
+      }
+      this.mindMap.emit("paste", {
+        text: text3,
+        img
+      });
+    });
+    document.body.appendChild(this.hiddenInputEl);
+  }
+  // 让隐藏的文本输入框聚焦
+  focusHiddenInput() {
+    if (this.hiddenInputEl)
+      this.hiddenInputEl.focus();
+  }
   //  注册临时快捷键
   registerTmpShortcut() {
     this.mindMap.keyCommand.addShortcut("Enter", () => {
+      this.hideEditTextBox();
+    });
+    this.mindMap.keyCommand.addShortcut("Tab", () => {
       this.hideEditTextBox();
     });
   }
@@ -47771,7 +47972,9 @@ var TextEdit = class {
     let scale = this.mindMap.view.scale;
     let lineHeight = node3.style.merge("lineHeight");
     let fontSize = node3.style.merge("fontSize");
-    let textLines = (this.cacheEditingText || node3.nodeData.data.text).split(/\n/gim);
+    let textLines = (this.cacheEditingText || node3.nodeData.data.text).split(
+      /\n/gim
+    );
     let isMultiLine = node3._textData.node.attr("data-ismultiLine") === "true";
     node3.style.domText(this.textEditNode, scale, isMultiLine);
     this.textEditNode.style.zIndex = this.mindMap.opt.nodeTextEditZIndex;
@@ -48066,6 +48269,11 @@ var Render = class {
     this.activeNodeList = [];
     this.root = null;
     this.textEdit = new TextEdit(this);
+    this.lastBeingCopyData = null;
+    this.beingCopyData = null;
+    this.beingPasteText = "";
+    this.beingPasteImgSize = 0;
+    this.currentBeingPasteType = "";
     this.setLayout();
     this.bindEvent();
     this.registerCommands();
@@ -48087,6 +48295,9 @@ var Render = class {
       if (isTrueClick && this.activeNodeList.length > 0) {
         this.mindMap.execCommand("CLEAR_ACTIVE_NODE");
       }
+    });
+    this.mindMap.on("paste", (data2) => {
+      this.onPaste(data2);
     });
   }
   //  注册命令
@@ -48158,6 +48369,8 @@ var Render = class {
     this.mindMap.command.add("RESET_LAYOUT", this.resetLayout);
     this.setNodeShape = this.setNodeShape.bind(this);
     this.mindMap.command.add("SET_NODE_SHAPE", this.setNodeShape);
+    this.goTargetNode = this.goTargetNode.bind(this);
+    this.mindMap.command.add("GO_TARGET_NODE", this.goTargetNode);
   }
   //  注册快捷键
   registerShortcutKeys() {
@@ -48171,7 +48384,7 @@ var Render = class {
       this.mindMap.execCommand("INSERT_NODE");
     };
     this.mindMap.keyCommand.addShortcut("Enter", this.insertNodeWrap);
-    this.mindMap.keyCommand.addShortcut("Control+s", this.addGeneralization);
+    this.mindMap.keyCommand.addShortcut("Control+g", this.addGeneralization);
     this.toggleActiveExpand = this.toggleActiveExpand.bind(this);
     this.mindMap.keyCommand.addShortcut("/", this.toggleActiveExpand);
     this.removeNodeWrap = () => {
@@ -48190,6 +48403,13 @@ var Render = class {
     this.mindMap.keyCommand.addShortcut("Control+l", this.resetLayout);
     this.mindMap.keyCommand.addShortcut("Control+Up", this.upNode);
     this.mindMap.keyCommand.addShortcut("Control+Down", this.downNode);
+    this.copy = this.copy.bind(this);
+    this.mindMap.keyCommand.addShortcut("Control+c", this.copy);
+    this.mindMap.keyCommand.addShortcut("Control+v", () => {
+      this.textEdit.focusHiddenInput();
+    });
+    this.cut = this.cut.bind(this);
+    this.mindMap.keyCommand.addShortcut("Control+x", this.cut);
   }
   //  开启文字编辑，会禁用回车键和删除键相关快捷键防止冲突
   startTextEdit() {
@@ -48202,7 +48422,6 @@ var Render = class {
   //   渲染
   render(callback = () => {
   }, source) {
-    let t3 = Date.now();
     if (this.isRendering) {
       this.hasWaitRendering = true;
       return;
@@ -48224,7 +48443,7 @@ var Render = class {
         }
       });
       this.root = root2;
-      const onEnd = () => {
+      this.root.render(() => {
         this.isRendering = false;
         this.mindMap.emit("node_tree_render_end");
         callback && callback();
@@ -48235,17 +48454,6 @@ var Render = class {
           if (this.mindMap.richText && [CONSTANTS.CHANGE_THEME, CONSTANTS.SET_DATA].includes(source)) {
             this.mindMap.command.addHistory();
           }
-        }
-      };
-      let { enableNodeTransitionMove, nodeTransitionMoveDuration } = this.mindMap.opt;
-      this.root.render(() => {
-        let dur = Date.now() - t3;
-        if (enableNodeTransitionMove && dur <= nodeTransitionMoveDuration) {
-          setTimeout(() => {
-            onEnd();
-          }, nodeTransitionMoveDuration - dur);
-        } else {
-          onEnd();
         }
       });
     });
@@ -48344,7 +48552,11 @@ var Render = class {
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
     }
-    let { defaultInsertSecondLevelNodeText, defaultInsertBelowSecondLevelNodeText } = this.mindMap.opt;
+    this.textEdit.hideEditTextBox();
+    let {
+      defaultInsertSecondLevelNodeText,
+      defaultInsertBelowSecondLevelNodeText
+    } = this.mindMap.opt;
     let list2 = appointNodes.length > 0 ? appointNodes : this.activeNodeList;
     let first = list2[0];
     if (first.isGeneralization) {
@@ -48358,11 +48570,14 @@ var Render = class {
         first.parent.destroy();
       }
       let index3 = this.getNodeIndex(first);
+      let isRichText = !!this.mindMap.richText;
       first.parent.nodeData.children.splice(index3 + 1, 0, {
         inserting: openEdit,
         data: {
           text: text3,
           expand: true,
+          richText: isRichText,
+          resetRichText: isRichText,
           ...appointData || {}
         },
         children: []
@@ -48376,7 +48591,11 @@ var Render = class {
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
     }
-    let { defaultInsertSecondLevelNodeText, defaultInsertBelowSecondLevelNodeText } = this.mindMap.opt;
+    this.textEdit.hideEditTextBox();
+    let {
+      defaultInsertSecondLevelNodeText,
+      defaultInsertBelowSecondLevelNodeText
+    } = this.mindMap.opt;
     let list2 = appointNodes.length > 0 ? appointNodes : this.activeNodeList;
     list2.forEach((node3) => {
       if (node3.isGeneralization) {
@@ -48386,11 +48605,14 @@ var Render = class {
         node3.nodeData.children = [];
       }
       let text3 = node3.isRoot ? defaultInsertSecondLevelNodeText : defaultInsertBelowSecondLevelNodeText;
+      let isRichText = !!this.mindMap.richText;
       node3.nodeData.children.push({
         inserting: openEdit,
         data: {
           text: text3,
           expand: true,
+          richText: isRichText,
+          resetRichText: isRichText,
           ...appointData || {}
         },
         children: []
@@ -48449,6 +48671,61 @@ var Render = class {
     parent.nodeData.children.splice(index3, 1);
     parent.nodeData.children.splice(insertIndex, 0, node3.nodeData);
     this.mindMap.render();
+  }
+  // 复制节点
+  copy() {
+    this.beingCopyData = this.copyNode();
+  }
+  // 剪切节点
+  cut() {
+    this.mindMap.execCommand("CUT_NODE", (copyData) => {
+      this.beingCopyData = copyData;
+    });
+  }
+  // 粘贴节点
+  paste() {
+    if (this.beingCopyData) {
+      this.mindMap.execCommand("PASTE_NODE", this.beingCopyData);
+    }
+  }
+  // 粘贴事件
+  async onPaste({ text: text3, img }) {
+    const imgSize = img ? img.size : 0;
+    if (this.beingPasteText !== text3 || this.beingPasteImgSize !== imgSize) {
+      this.currentBeingPasteType = CONSTANTS.PASTE_TYPE.CLIP_BOARD;
+      this.beingPasteText = text3;
+      this.beingPasteImgSize = imgSize;
+    }
+    if (this.lastBeingCopyData !== this.beingCopyData) {
+      this.lastBeingCopyData = this.beingCopyData;
+      this.currentBeingPasteType = CONSTANTS.PASTE_TYPE.CANVAS;
+    }
+    if (this.currentBeingPasteType === CONSTANTS.PASTE_TYPE.CLIP_BOARD) {
+      if (text3) {
+        this.mindMap.execCommand("INSERT_CHILD_NODE", false, [], {
+          text: text3
+        });
+      }
+      if (img) {
+        try {
+          let imgData = await loadImage(img);
+          if (this.activeNodeList.length > 0) {
+            this.activeNodeList.forEach((node3) => {
+              this.mindMap.execCommand("SET_NODE_IMAGE", node3, {
+                url: imgData.url,
+                title: "",
+                width: imgData.size.width,
+                height: imgData.size.height
+              });
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
+      this.paste();
+    }
   }
   //  将节点移动到另一个节点的前面
   insertBefore(node3, exist) {
@@ -48603,7 +48880,7 @@ var Render = class {
   }
   //   粘贴节点到节点
   pasteNode(data2) {
-    if (this.activeNodeList.length <= 0) {
+    if (this.activeNodeList.length <= 0 || !data2) {
       return;
     }
     this.activeNodeList.forEach((item) => {
@@ -48743,10 +49020,11 @@ var Render = class {
     );
   }
   //  设置节点文本
-  setNodeText(node3, text3, richText) {
+  setNodeText(node3, text3, richText, resetRichText) {
     this.setNodeDataRender(node3, {
       text: text3,
-      richText
+      richText,
+      resetRichText
     });
   }
   //  设置节点图片
@@ -48860,6 +49138,21 @@ var Render = class {
       this.setNodeStyle(item, "shape", shape);
     });
   }
+  // 定位到指定节点
+  goTargetNode(node3, callback = () => {
+  }) {
+    let uid = typeof node3 === "string" ? node3 : node3.nodeData.data.uid;
+    if (!uid)
+      return;
+    this.expandToNodeUid(uid, () => {
+      let targetNode = this.findNodeByUid(uid);
+      if (targetNode) {
+        targetNode.active();
+        this.moveNodeToCenter(targetNode);
+        callback();
+      }
+    });
+  }
   //  更新节点数据
   setNodeData(node3, data2) {
     Object.keys(data2).forEach((key) => {
@@ -48867,14 +49160,15 @@ var Render = class {
     });
   }
   //  设置节点数据，并判断是否渲染
-  setNodeDataRender(node3, data2) {
+  setNodeDataRender(node3, data2, notRender = false) {
     this.setNodeData(node3, data2);
     let changed = node3.reRender();
     if (changed) {
       if (node3.isGeneralization) {
         node3.generalizationBelongNode.updateGeneralization();
       }
-      this.mindMap.render();
+      if (!notRender)
+        this.mindMap.render();
     }
   }
   //  移动节点到画布中心
@@ -48892,6 +49186,43 @@ var Render = class {
     this.mindMap.view.translateX(offsetX);
     this.mindMap.view.translateY(offsetY);
     this.mindMap.view.setScale(1);
+  }
+  // 展开到指定uid的节点
+  expandToNodeUid(uid, callback = () => {
+  }) {
+    let parentsList = [];
+    const cache = {};
+    bfsWalk(this.renderTree, (node3, parent) => {
+      if (node3.data.uid === uid) {
+        parentsList = parent ? [...cache[parent.data.uid], parent] : [];
+        return "stop";
+      } else {
+        cache[node3.data.uid] = parent ? [...cache[parent.data.uid], parent] : [];
+      }
+    });
+    let needRender = false;
+    parentsList.forEach((node3) => {
+      if (!node3.data.expand) {
+        needRender = true;
+        node3.data.expand = true;
+      }
+    });
+    if (needRender) {
+      this.mindMap.render(callback);
+    } else {
+      callback();
+    }
+  }
+  // 根据uid找到对应的节点实例
+  findNodeByUid(uid) {
+    let res = null;
+    walk(this.root, null, (node3) => {
+      if (node3.nodeData.data.uid === uid) {
+        res = node3;
+        return true;
+      }
+    });
+    return res;
   }
 };
 var Render_default = Render;
@@ -50683,8 +51014,10 @@ var KeyCommand = class {
       }
       Object.keys(this.shortcutMap).forEach((key) => {
         if (this.checkKey(e2, key)) {
-          e2.stopPropagation();
-          e2.preventDefault();
+          if (!this.checkKey(e2, "Control+v")) {
+            e2.stopPropagation();
+            e2.preventDefault();
+          }
           this.shortcutMap[key].forEach((fn) => {
             fn();
           });
@@ -50859,7 +51192,7 @@ var Command = class {
       this.history.shift();
     }
     this.activeHistoryIndex = this.history.length - 1;
-    this.mindMap.emit("data_change", this.removeDataUid(data2));
+    this.mindMap.emit("data_change", data2);
     this.mindMap.emit(
       "back_forward",
       this.activeHistoryIndex,
@@ -50879,7 +51212,7 @@ var Command = class {
         this.history.length
       );
       let data2 = simpleDeepClone(this.history[this.activeHistoryIndex]);
-      this.mindMap.emit("data_change", this.removeDataUid(data2));
+      this.mindMap.emit("data_change", data2);
       return data2;
     }
   }
@@ -50893,7 +51226,7 @@ var Command = class {
       this.activeHistoryIndex += step;
       this.mindMap.emit("back_forward", this.activeHistoryIndex, this.history.length);
       let data2 = simpleDeepClone(this.history[this.activeHistoryIndex]);
-      this.mindMap.emit("data_change", this.removeDataUid(data2));
+      this.mindMap.emit("data_change", data2);
       return data2;
     }
   }
@@ -51032,10 +51365,6 @@ var defaultOpt = {
   },
   // 是否只有当鼠标在画布内才响应快捷键事件
   enableShortcutOnlyWhenMouseInSvg: true,
-  // 是否开启节点动画过渡
-  enableNodeTransitionMove: true,
-  // 如果开启节点动画过渡，可以通过该属性设置过渡的时间，单位ms
-  nodeTransitionMoveDuration: 300,
   // 初始根节点的位置
   initRootNodePosition: null,
   // 导出png、svg、pdf时的图形内边距
@@ -51093,8 +51422,8 @@ var MindMap2 = class {
     this.height = this.elRect.height;
     this.svg = SVG().addTo(this.el).size(this.width, this.height);
     this.draw = this.svg.group();
-    this.uid = 1;
     this.initTheme();
+    this.initCache();
     this.event = new Event_default({
       mindMap: this
     });
@@ -51122,6 +51451,7 @@ var MindMap2 = class {
   }
   //  配置参数处理
   handleOpt(opt) {
+    opt.data = simpleDeepClone(opt.data || {});
     if (!layoutValueList.includes(opt.layout)) {
       opt.layout = CONSTANTS.LAYOUT.LOGICAL_STRUCTURE;
     }
@@ -51163,6 +51493,22 @@ var MindMap2 = class {
   //  解绑事件
   off(event, fn) {
     this.event.off(event, fn);
+  }
+  // 初始化缓存数据
+  initCache() {
+    Object.keys(commonCaches).forEach((key) => {
+      let type = getType(commonCaches[key]);
+      let value = "";
+      switch (type) {
+        case "Boolean":
+          value = false;
+          break;
+        default:
+          value = null;
+          break;
+      }
+      commonCaches[key] = value;
+    });
   }
   //  设置主题
   initTheme() {
@@ -51254,7 +51600,7 @@ var MindMap2 = class {
   }
   //  获取思维导图数据，节点树、主题、布局等
   getData(withConfig) {
-    let nodeData = this.command.removeDataUid(this.command.getCopyData());
+    let nodeData = this.command.getCopyData();
     let data2 = {};
     if (withConfig) {
       data2 = {
@@ -51421,7 +51767,7 @@ var MiniMap = class {
    * boxHeight：小地图容器的高度
    */
   calculationMiniMap(boxWidth, boxHeight) {
-    let { svgHTML, rect, origWidth, origHeight, scaleX, scaleY } = this.mindMap.getSvgData();
+    let { svg: svg2, rect, origWidth, origHeight, scaleX, scaleY } = this.mindMap.getSvgData();
     let boxRatio = boxWidth / boxHeight;
     let actWidth = 0;
     let actHeight = 0;
@@ -51451,8 +51797,9 @@ var MiniMap = class {
     viewBoxStyle.right = Math.max(0, (_rectX2 - origWidth) / _rectWidth * actWidth) + miniMapBoxLeft + "px";
     viewBoxStyle.top = Math.max(0, -_rectY / _rectHeight * actHeight) + miniMapBoxTop + "px";
     viewBoxStyle.bottom = Math.max(0, (_rectY2 - origHeight) / _rectHeight * actHeight) + miniMapBoxTop + "px";
+    this.removeNodeContent(svg2);
     return {
-      svgHTML,
+      svgHTML: svg2.svg(),
       // 小地图html
       viewBoxStyle,
       // 视图框的位置信息
@@ -51463,6 +51810,36 @@ var MiniMap = class {
       miniMapBoxTop
       // 视图框的top值
     };
+  }
+  // 移除节点的内容
+  removeNodeContent(svg2) {
+    if (svg2.hasClass("smm-node")) {
+      let shape = svg2.findOne(".smm-node-shape");
+      let fill = shape.attr("fill");
+      if (isWhite(fill) || isTransparent(fill)) {
+        shape.attr("fill", this.getDefaultFill());
+      }
+      svg2.clear();
+      svg2.add(shape);
+      return;
+    }
+    let children = svg2.children();
+    if (children && children.length > 0) {
+      children.forEach((node3) => {
+        this.removeNodeContent(node3);
+      });
+    }
+  }
+  // 计算默认的填充颜色
+  getDefaultFill() {
+    let { lineColor, root: root2, second, node: node3 } = this.mindMap.themeConfig;
+    let list2 = [lineColor, root2.fillColor, root2.color, second.fillColor, second.color, node3.fillColor, node3.color, root2.borderColor, second.borderColor, node3.borderColor];
+    for (let i3 = 0; i3 < list2.length; i3++) {
+      let color = list2[i3];
+      if (!isTransparent(color) && !isWhite(color)) {
+        return color;
+      }
+    }
   }
   //  小地图鼠标按下事件
   onMousedown(e2) {
@@ -51624,8 +52001,7 @@ var KeyboardNavigation = class {
       this.focus(dir);
     } else {
       let root2 = this.mindMap.renderer.root;
-      this.mindMap.renderer.moveNodeToCenter(root2);
-      root2.active();
+      this.mindMap.execCommand("GO_TARGET_NODE", root2);
     }
   }
   //  聚焦到下一个节点
@@ -51664,8 +52040,7 @@ var KeyboardNavigation = class {
       });
     }
     if (targetNode) {
-      this.mindMap.renderer.moveNodeToCenter(targetNode);
-      targetNode.active();
+      this.mindMap.execCommand("GO_TARGET_NODE", targetNode);
     }
   }
   //  1.简单算法
@@ -61195,6 +61570,7 @@ var Export = class {
    */
   async png(name, transparent = false) {
     let { node: node3, str } = await this.getSvgData();
+    str = removeHTMLEntities(str);
     if (this.mindMap.richText) {
       let res2 = await this.mindMap.richText.handleExportPng(node3.node);
       let imgDataUrl = await this.svgToPng(res2, transparent);
@@ -61240,6 +61616,7 @@ var Export = class {
     node3.first().before(SVG(`<title>${name}</title>`));
     await this.drawBackgroundToSvg(node3);
     let str = node3.svg();
+    str = removeHTMLEntities(str);
     let blob = new Blob([str], {
       type: "image/svg+xml"
     });
@@ -61697,54 +62074,6 @@ var Select = class {
 };
 Select.instanceName = "select";
 var Select_default = Select;
-
-// ../simple-mind-map/node_modules/uuid/dist/esm-browser/rng.js
-var getRandomValues;
-var rnds8 = new Uint8Array(16);
-function rng() {
-  if (!getRandomValues) {
-    getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-    if (!getRandomValues) {
-      throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-    }
-  }
-  return getRandomValues(rnds8);
-}
-
-// ../simple-mind-map/node_modules/uuid/dist/esm-browser/stringify.js
-var byteToHex = [];
-for (let i3 = 0; i3 < 256; ++i3) {
-  byteToHex.push((i3 + 256).toString(16).slice(1));
-}
-function unsafeStringify(arr, offset = 0) {
-  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-}
-
-// ../simple-mind-map/node_modules/uuid/dist/esm-browser/native.js
-var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-var native_default = {
-  randomUUID
-};
-
-// ../simple-mind-map/node_modules/uuid/dist/esm-browser/v4.js
-function v4(options, buf, offset) {
-  if (native_default.randomUUID && !buf && !options) {
-    return native_default.randomUUID();
-  }
-  options = options || {};
-  const rnds = options.random || (options.rng || rng)();
-  rnds[6] = rnds[6] & 15 | 64;
-  rnds[8] = rnds[8] & 63 | 128;
-  if (buf) {
-    offset = offset || 0;
-    for (let i3 = 0; i3 < 16; ++i3) {
-      buf[offset + i3] = rnds[i3];
-    }
-    return buf;
-  }
-  return unsafeStringify(rnds);
-}
-var v4_default = v4;
 
 // ../simple-mind-map/src/plugins/associativeLine/associativeLineUtils.js
 var getAssociativeLineTargetIndex = (node3, toNode) => {
@@ -62827,6 +63156,11 @@ var RichText = class {
               key: 13,
               handler: function() {
               }
+            },
+            tab: {
+              key: 9,
+              handler: function() {
+              }
             }
           }
         }
@@ -63127,7 +63461,7 @@ var NodeImgAdjust = class {
   }
   // 节点图片鼠标移动事件
   onNodeImgMousemove(node3, img) {
-    if (this.isMousedown || this.isAdjusted)
+    if (this.isMousedown || this.isAdjusted || this.mindMap.opt.readonly)
       return;
     if (this.node === node3 && this.isShowHandleEl)
       return;
@@ -63272,8 +63606,10 @@ var NodeImgAdjust = class {
   }
   // 渲染完成事件
   onRenderEnd() {
-    if (!this.isAdjusted)
+    if (!this.isAdjusted) {
+      this.hideHandleEl();
       return;
+    }
     this.isAdjusted = false;
   }
   // 插件被移除前做的事情
@@ -63395,6 +63731,143 @@ var TouchEvent = class {
 };
 TouchEvent.instanceName = "touchEvent";
 var TouchEvent_default = TouchEvent;
+
+// ../simple-mind-map/src/plugins/Search.js
+var Search = class {
+  //  构造函数
+  constructor({ mindMap }) {
+    this.mindMap = mindMap;
+    this.isSearching = false;
+    this.searchText = "";
+    this.matchNodeList = [];
+    this.currentIndex = -1;
+    this.notResetSearchText = false;
+    this.onDataChange = this.onDataChange.bind(this);
+    this.mindMap.on("data_change", this.onDataChange);
+  }
+  // 节点数据改变了，需要重新搜索
+  onDataChange() {
+    if (this.notResetSearchText) {
+      this.notResetSearchText = false;
+      return;
+    }
+    this.searchText = "";
+  }
+  // 搜索
+  search(text3, callback) {
+    if (isUndef(text3))
+      return this.endSearch();
+    text3 = String(text3);
+    this.isSearching = true;
+    if (this.searchText === text3) {
+      this.searchNext(callback);
+    } else {
+      this.searchText = text3;
+      this.doSearch();
+      this.searchNext(callback);
+    }
+    this.emitEvent();
+  }
+  // 结束搜索
+  endSearch() {
+    if (!this.isSearching)
+      return;
+    this.searchText = "";
+    this.matchNodeList = [];
+    this.currentIndex = -1;
+    this.notResetSearchText = false;
+    this.isSearching = false;
+    this.emitEvent();
+  }
+  // 搜索匹配的节点
+  doSearch() {
+    this.matchNodeList = [];
+    this.currentIndex = -1;
+    bfsWalk(this.mindMap.renderer.root, (node3) => {
+      let { richText, text: text3 } = node3.nodeData.data;
+      if (richText) {
+        text3 = getTextFromHtml(text3);
+      }
+      if (text3.includes(this.searchText)) {
+        this.matchNodeList.push(node3);
+      }
+    });
+  }
+  // 搜索下一个，定位到下一个匹配节点
+  searchNext(callback) {
+    if (!this.isSearching || this.matchNodeList.length <= 0)
+      return;
+    if (this.currentIndex < this.matchNodeList.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
+    let currentNode = this.matchNodeList[this.currentIndex];
+    this.notResetSearchText = true;
+    this.mindMap.execCommand("GO_TARGET_NODE", currentNode, () => {
+      this.notResetSearchText = false;
+      callback();
+    });
+  }
+  // 替换当前节点
+  replace(replaceText) {
+    if (isUndef(replaceText) || !this.isSearching || this.matchNodeList.length <= 0)
+      return;
+    replaceText = String(replaceText);
+    let currentNode = this.matchNodeList[this.currentIndex];
+    if (!currentNode)
+      return;
+    let text3 = this.getReplacedText(currentNode, this.searchText, replaceText);
+    this.notResetSearchText = true;
+    currentNode.setText(text3, currentNode.nodeData.data.richText, true);
+    this.matchNodeList = this.matchNodeList.filter((node3) => {
+      return currentNode !== node3;
+    });
+    if (this.currentIndex > this.matchNodeList.length - 1) {
+      this.currentIndex = -1;
+    } else {
+      this.currentIndex--;
+    }
+    this.emitEvent();
+  }
+  // 替换所有
+  replaceAll(replaceText) {
+    if (isUndef(replaceText) || !this.isSearching || this.matchNodeList.length <= 0)
+      return;
+    replaceText = String(replaceText);
+    this.matchNodeList.forEach((node3) => {
+      let text3 = this.getReplacedText(node3, this.searchText, replaceText);
+      this.mindMap.renderer.setNodeDataRender(
+        node3,
+        {
+          text: text3,
+          resetRichText: !!node3.nodeData.data.richText
+        },
+        true
+      );
+    });
+    this.mindMap.render();
+    this.mindMap.command.addHistory();
+    this.endSearch();
+  }
+  // 获取某个节点替换后的文本
+  getReplacedText(node3, searchText, replaceText) {
+    let { richText, text: text3 } = node3.nodeData.data;
+    if (richText) {
+      text3 = getTextFromHtml(text3);
+    }
+    return text3.replaceAll(searchText, replaceText);
+  }
+  // 发送事件
+  emitEvent() {
+    this.mindMap.emit("search_info_change", {
+      currentIndex: this.currentIndex,
+      total: this.matchNodeList.length
+    });
+  }
+};
+Search.instanceName = "search";
+var Search_default = Search;
 
 // ../simple-mind-map/src/parse/xmind.js
 var import_jszip = __toESM(require_jszip_min());
@@ -68448,7 +68921,7 @@ simple_mind_map_default.iconList = icons_default.nodeIconList;
 simple_mind_map_default.constants = constant_exports;
 simple_mind_map_default.themes = themes_default;
 simple_mind_map_default.defaultTheme = default_exports;
-simple_mind_map_default.usePlugin(MiniMap_default).usePlugin(Watermark_default).usePlugin(Drag_default).usePlugin(KeyboardNavigation_default).usePlugin(ExportPDF_default).usePlugin(Export_default).usePlugin(Select_default).usePlugin(AssociativeLine_default).usePlugin(RichText_default).usePlugin(TouchEvent_default).usePlugin(NodeImgAdjust_default);
+simple_mind_map_default.usePlugin(MiniMap_default).usePlugin(Watermark_default).usePlugin(Drag_default).usePlugin(KeyboardNavigation_default).usePlugin(ExportPDF_default).usePlugin(Export_default).usePlugin(Select_default).usePlugin(AssociativeLine_default).usePlugin(RichText_default).usePlugin(TouchEvent_default).usePlugin(NodeImgAdjust_default).usePlugin(Search_default);
 var full_default = simple_mind_map_default;
 export {
   full_default as default
