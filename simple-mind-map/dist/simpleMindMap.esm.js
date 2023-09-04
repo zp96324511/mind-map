@@ -13277,7 +13277,7 @@ var require_html2canvas = __commonJS({
           return Context2;
         }()
       );
-      var html2canvas2 = function(element2, options) {
+      var html2canvas = function(element2, options) {
         if (options === void 0) {
           options = {};
         }
@@ -13387,7 +13387,7 @@ var require_html2canvas = __commonJS({
         var defaultBackgroundColor = typeof backgroundColorOverride === "string" ? parseColor(context, backgroundColorOverride) : backgroundColorOverride === null ? COLORS.TRANSPARENT : 4294967295;
         return element2 === ownerDocument.documentElement ? isTransparent2(documentBackgroundColor) ? isTransparent2(bodyBackgroundColor) ? defaultBackgroundColor : bodyBackgroundColor : documentBackgroundColor : defaultBackgroundColor;
       };
-      return html2canvas2;
+      return html2canvas;
     });
   }
 });
@@ -15073,8 +15073,8 @@ var require_weak_map_basic_detection = __commonJS({
   "../simple-mind-map/node_modules/core-js/internals/weak-map-basic-detection.js"(exports, module) {
     var global3 = require_global();
     var isCallable2 = require_is_callable();
-    var WeakMap = global3.WeakMap;
-    module.exports = isCallable2(WeakMap) && /native code/.test(String(WeakMap));
+    var WeakMap2 = global3.WeakMap;
+    module.exports = isCallable2(WeakMap2) && /native code/.test(String(WeakMap2));
   }
 });
 
@@ -15110,7 +15110,7 @@ var require_internal_state = __commonJS({
     var hiddenKeys = require_hidden_keys();
     var OBJECT_ALREADY_INITIALIZED = "Object already initialized";
     var TypeError2 = global3.TypeError;
-    var WeakMap = global3.WeakMap;
+    var WeakMap2 = global3.WeakMap;
     var set;
     var get;
     var has;
@@ -15127,7 +15127,7 @@ var require_internal_state = __commonJS({
       };
     };
     if (NATIVE_WEAK_MAP || shared.state) {
-      store = shared.state || (shared.state = new WeakMap());
+      store = shared.state || (shared.state = new WeakMap2());
       store.get = store.get;
       store.has = store.has;
       store.set = store.set;
@@ -25239,7 +25239,7 @@ var require_quill = __commonJS({
             var extend2 = __webpack_require__(3);
             var op = __webpack_require__(20);
             var NULL_CHARACTER = String.fromCharCode(0);
-            var Delta = function(ops) {
+            var Delta2 = function(ops) {
               if (Array.isArray(ops)) {
                 this.ops = ops;
               } else if (ops != null && Array.isArray(ops.ops)) {
@@ -25248,7 +25248,7 @@ var require_quill = __commonJS({
                 this.ops = [];
               }
             };
-            Delta.prototype.insert = function(text3, attributes) {
+            Delta2.prototype.insert = function(text3, attributes) {
               var newOp = {};
               if (text3.length === 0)
                 return this;
@@ -25258,12 +25258,12 @@ var require_quill = __commonJS({
               }
               return this.push(newOp);
             };
-            Delta.prototype["delete"] = function(length2) {
+            Delta2.prototype["delete"] = function(length2) {
               if (length2 <= 0)
                 return this;
               return this.push({ "delete": length2 });
             };
-            Delta.prototype.retain = function(length2, attributes) {
+            Delta2.prototype.retain = function(length2, attributes) {
               if (length2 <= 0)
                 return this;
               var newOp = { retain: length2 };
@@ -25272,7 +25272,7 @@ var require_quill = __commonJS({
               }
               return this.push(newOp);
             };
-            Delta.prototype.push = function(newOp) {
+            Delta2.prototype.push = function(newOp) {
               var index3 = this.ops.length;
               var lastOp = this.ops[index3 - 1];
               newOp = extend2(true, {}, newOp);
@@ -25310,23 +25310,23 @@ var require_quill = __commonJS({
               }
               return this;
             };
-            Delta.prototype.chop = function() {
+            Delta2.prototype.chop = function() {
               var lastOp = this.ops[this.ops.length - 1];
               if (lastOp && lastOp.retain && !lastOp.attributes) {
                 this.ops.pop();
               }
               return this;
             };
-            Delta.prototype.filter = function(predicate) {
+            Delta2.prototype.filter = function(predicate) {
               return this.ops.filter(predicate);
             };
-            Delta.prototype.forEach = function(predicate) {
+            Delta2.prototype.forEach = function(predicate) {
               this.ops.forEach(predicate);
             };
-            Delta.prototype.map = function(predicate) {
+            Delta2.prototype.map = function(predicate) {
               return this.ops.map(predicate);
             };
-            Delta.prototype.partition = function(predicate) {
+            Delta2.prototype.partition = function(predicate) {
               var passed = [], failed = [];
               this.forEach(function(op2) {
                 var target = predicate(op2) ? passed : failed;
@@ -25334,10 +25334,10 @@ var require_quill = __commonJS({
               });
               return [passed, failed];
             };
-            Delta.prototype.reduce = function(predicate, initial) {
+            Delta2.prototype.reduce = function(predicate, initial) {
               return this.ops.reduce(predicate, initial);
             };
-            Delta.prototype.changeLength = function() {
+            Delta2.prototype.changeLength = function() {
               return this.reduce(function(length2, elem) {
                 if (elem.insert) {
                   return length2 + op.length(elem);
@@ -25347,12 +25347,12 @@ var require_quill = __commonJS({
                 return length2;
               }, 0);
             };
-            Delta.prototype.length = function() {
+            Delta2.prototype.length = function() {
               return this.reduce(function(length2, elem) {
                 return length2 + op.length(elem);
               }, 0);
             };
-            Delta.prototype.slice = function(start, end) {
+            Delta2.prototype.slice = function(start, end) {
               start = start || 0;
               if (typeof end !== "number")
                 end = Infinity;
@@ -25369,12 +25369,12 @@ var require_quill = __commonJS({
                 }
                 index3 += op.length(nextOp);
               }
-              return new Delta(ops);
+              return new Delta2(ops);
             };
-            Delta.prototype.compose = function(other) {
+            Delta2.prototype.compose = function(other) {
               var thisIter = op.iterator(this.ops);
               var otherIter = op.iterator(other.ops);
-              var delta = new Delta();
+              var delta = new Delta2();
               while (thisIter.hasNext() || otherIter.hasNext()) {
                 if (otherIter.peekType() === "insert") {
                   delta.push(otherIter.next());
@@ -25402,17 +25402,17 @@ var require_quill = __commonJS({
               }
               return delta.chop();
             };
-            Delta.prototype.concat = function(other) {
-              var delta = new Delta(this.ops.slice());
+            Delta2.prototype.concat = function(other) {
+              var delta = new Delta2(this.ops.slice());
               if (other.ops.length > 0) {
                 delta.push(other.ops[0]);
                 delta.ops = delta.ops.concat(other.ops.slice(1));
               }
               return delta;
             };
-            Delta.prototype.diff = function(other, index3) {
+            Delta2.prototype.diff = function(other, index3) {
               if (this.ops === other.ops) {
-                return new Delta();
+                return new Delta2();
               }
               var strings = [this, other].map(function(delta2) {
                 return delta2.map(function(op2) {
@@ -25423,7 +25423,7 @@ var require_quill = __commonJS({
                   throw new Error("diff() called " + prep + " non-document");
                 }).join("");
               });
-              var delta = new Delta();
+              var delta = new Delta2();
               var diffResult = diff(strings[0], strings[1], index3);
               var thisIter = op.iterator(this.ops);
               var otherIter = op.iterator(other.ops);
@@ -25457,10 +25457,10 @@ var require_quill = __commonJS({
               });
               return delta.chop();
             };
-            Delta.prototype.eachLine = function(predicate, newline) {
+            Delta2.prototype.eachLine = function(predicate, newline) {
               newline = newline || "\n";
               var iter = op.iterator(this.ops);
-              var line = new Delta();
+              var line = new Delta2();
               var i3 = 0;
               while (iter.hasNext()) {
                 if (iter.peekType() !== "insert")
@@ -25477,21 +25477,21 @@ var require_quill = __commonJS({
                     return;
                   }
                   i3 += 1;
-                  line = new Delta();
+                  line = new Delta2();
                 }
               }
               if (line.length() > 0) {
                 predicate(line, {}, i3);
               }
             };
-            Delta.prototype.transform = function(other, priority) {
+            Delta2.prototype.transform = function(other, priority) {
               priority = !!priority;
               if (typeof other === "number") {
                 return this.transformPosition(other, priority);
               }
               var thisIter = op.iterator(this.ops);
               var otherIter = op.iterator(other.ops);
-              var delta = new Delta();
+              var delta = new Delta2();
               while (thisIter.hasNext() || otherIter.hasNext()) {
                 if (thisIter.peekType() === "insert" && (priority || otherIter.peekType() !== "insert")) {
                   delta.retain(op.length(thisIter.next()));
@@ -25512,7 +25512,7 @@ var require_quill = __commonJS({
               }
               return delta.chop();
             };
-            Delta.prototype.transformPosition = function(index3, priority) {
+            Delta2.prototype.transformPosition = function(index3, priority) {
               priority = !!priority;
               var thisIter = op.iterator(this.ops);
               var offset = 0;
@@ -25530,7 +25530,7 @@ var require_quill = __commonJS({
               }
               return index3;
             };
-            module2.exports = Delta;
+            module2.exports = Delta2;
           },
           /* 3 */
           /***/
@@ -36622,11 +36622,2276 @@ var require_quill = __commonJS({
   }
 });
 
+// ../simple-mind-map/node_modules/fast-diff/diff.js
+var require_diff = __commonJS({
+  "../simple-mind-map/node_modules/fast-diff/diff.js"(exports, module) {
+    var DIFF_DELETE = -1;
+    var DIFF_INSERT = 1;
+    var DIFF_EQUAL = 0;
+    function diff_main(text1, text22, cursor_pos) {
+      if (text1 == text22) {
+        if (text1) {
+          return [[DIFF_EQUAL, text1]];
+        }
+        return [];
+      }
+      if (cursor_pos < 0 || text1.length < cursor_pos) {
+        cursor_pos = null;
+      }
+      var commonlength = diff_commonPrefix(text1, text22);
+      var commonprefix = text1.substring(0, commonlength);
+      text1 = text1.substring(commonlength);
+      text22 = text22.substring(commonlength);
+      commonlength = diff_commonSuffix(text1, text22);
+      var commonsuffix = text1.substring(text1.length - commonlength);
+      text1 = text1.substring(0, text1.length - commonlength);
+      text22 = text22.substring(0, text22.length - commonlength);
+      var diffs = diff_compute_(text1, text22);
+      if (commonprefix) {
+        diffs.unshift([DIFF_EQUAL, commonprefix]);
+      }
+      if (commonsuffix) {
+        diffs.push([DIFF_EQUAL, commonsuffix]);
+      }
+      diff_cleanupMerge(diffs);
+      if (cursor_pos != null) {
+        diffs = fix_cursor(diffs, cursor_pos);
+      }
+      diffs = fix_emoji(diffs);
+      return diffs;
+    }
+    function diff_compute_(text1, text22) {
+      var diffs;
+      if (!text1) {
+        return [[DIFF_INSERT, text22]];
+      }
+      if (!text22) {
+        return [[DIFF_DELETE, text1]];
+      }
+      var longtext = text1.length > text22.length ? text1 : text22;
+      var shorttext = text1.length > text22.length ? text22 : text1;
+      var i3 = longtext.indexOf(shorttext);
+      if (i3 != -1) {
+        diffs = [
+          [DIFF_INSERT, longtext.substring(0, i3)],
+          [DIFF_EQUAL, shorttext],
+          [DIFF_INSERT, longtext.substring(i3 + shorttext.length)]
+        ];
+        if (text1.length > text22.length) {
+          diffs[0][0] = diffs[2][0] = DIFF_DELETE;
+        }
+        return diffs;
+      }
+      if (shorttext.length == 1) {
+        return [[DIFF_DELETE, text1], [DIFF_INSERT, text22]];
+      }
+      var hm = diff_halfMatch_(text1, text22);
+      if (hm) {
+        var text1_a = hm[0];
+        var text1_b = hm[1];
+        var text2_a = hm[2];
+        var text2_b = hm[3];
+        var mid_common = hm[4];
+        var diffs_a = diff_main(text1_a, text2_a);
+        var diffs_b = diff_main(text1_b, text2_b);
+        return diffs_a.concat([[DIFF_EQUAL, mid_common]], diffs_b);
+      }
+      return diff_bisect_(text1, text22);
+    }
+    function diff_bisect_(text1, text22) {
+      var text1_length = text1.length;
+      var text2_length = text22.length;
+      var max_d = Math.ceil((text1_length + text2_length) / 2);
+      var v_offset = max_d;
+      var v_length = 2 * max_d;
+      var v1 = new Array(v_length);
+      var v22 = new Array(v_length);
+      for (var x3 = 0; x3 < v_length; x3++) {
+        v1[x3] = -1;
+        v22[x3] = -1;
+      }
+      v1[v_offset + 1] = 0;
+      v22[v_offset + 1] = 0;
+      var delta = text1_length - text2_length;
+      var front2 = delta % 2 != 0;
+      var k1start = 0;
+      var k1end = 0;
+      var k2start = 0;
+      var k2end = 0;
+      for (var d2 = 0; d2 < max_d; d2++) {
+        for (var k1 = -d2 + k1start; k1 <= d2 - k1end; k1 += 2) {
+          var k1_offset = v_offset + k1;
+          var x1;
+          if (k1 == -d2 || k1 != d2 && v1[k1_offset - 1] < v1[k1_offset + 1]) {
+            x1 = v1[k1_offset + 1];
+          } else {
+            x1 = v1[k1_offset - 1] + 1;
+          }
+          var y1 = x1 - k1;
+          while (x1 < text1_length && y1 < text2_length && text1.charAt(x1) == text22.charAt(y1)) {
+            x1++;
+            y1++;
+          }
+          v1[k1_offset] = x1;
+          if (x1 > text1_length) {
+            k1end += 2;
+          } else if (y1 > text2_length) {
+            k1start += 2;
+          } else if (front2) {
+            var k2_offset = v_offset + delta - k1;
+            if (k2_offset >= 0 && k2_offset < v_length && v22[k2_offset] != -1) {
+              var x22 = text1_length - v22[k2_offset];
+              if (x1 >= x22) {
+                return diff_bisectSplit_(text1, text22, x1, y1);
+              }
+            }
+          }
+        }
+        for (var k2 = -d2 + k2start; k2 <= d2 - k2end; k2 += 2) {
+          var k2_offset = v_offset + k2;
+          var x22;
+          if (k2 == -d2 || k2 != d2 && v22[k2_offset - 1] < v22[k2_offset + 1]) {
+            x22 = v22[k2_offset + 1];
+          } else {
+            x22 = v22[k2_offset - 1] + 1;
+          }
+          var y22 = x22 - k2;
+          while (x22 < text1_length && y22 < text2_length && text1.charAt(text1_length - x22 - 1) == text22.charAt(text2_length - y22 - 1)) {
+            x22++;
+            y22++;
+          }
+          v22[k2_offset] = x22;
+          if (x22 > text1_length) {
+            k2end += 2;
+          } else if (y22 > text2_length) {
+            k2start += 2;
+          } else if (!front2) {
+            var k1_offset = v_offset + delta - k2;
+            if (k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] != -1) {
+              var x1 = v1[k1_offset];
+              var y1 = v_offset + x1 - k1_offset;
+              x22 = text1_length - x22;
+              if (x1 >= x22) {
+                return diff_bisectSplit_(text1, text22, x1, y1);
+              }
+            }
+          }
+        }
+      }
+      return [[DIFF_DELETE, text1], [DIFF_INSERT, text22]];
+    }
+    function diff_bisectSplit_(text1, text22, x3, y4) {
+      var text1a = text1.substring(0, x3);
+      var text2a = text22.substring(0, y4);
+      var text1b = text1.substring(x3);
+      var text2b = text22.substring(y4);
+      var diffs = diff_main(text1a, text2a);
+      var diffsb = diff_main(text1b, text2b);
+      return diffs.concat(diffsb);
+    }
+    function diff_commonPrefix(text1, text22) {
+      if (!text1 || !text22 || text1.charAt(0) != text22.charAt(0)) {
+        return 0;
+      }
+      var pointermin = 0;
+      var pointermax = Math.min(text1.length, text22.length);
+      var pointermid = pointermax;
+      var pointerstart = 0;
+      while (pointermin < pointermid) {
+        if (text1.substring(pointerstart, pointermid) == text22.substring(pointerstart, pointermid)) {
+          pointermin = pointermid;
+          pointerstart = pointermin;
+        } else {
+          pointermax = pointermid;
+        }
+        pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
+      }
+      return pointermid;
+    }
+    function diff_commonSuffix(text1, text22) {
+      if (!text1 || !text22 || text1.charAt(text1.length - 1) != text22.charAt(text22.length - 1)) {
+        return 0;
+      }
+      var pointermin = 0;
+      var pointermax = Math.min(text1.length, text22.length);
+      var pointermid = pointermax;
+      var pointerend = 0;
+      while (pointermin < pointermid) {
+        if (text1.substring(text1.length - pointermid, text1.length - pointerend) == text22.substring(text22.length - pointermid, text22.length - pointerend)) {
+          pointermin = pointermid;
+          pointerend = pointermin;
+        } else {
+          pointermax = pointermid;
+        }
+        pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
+      }
+      return pointermid;
+    }
+    function diff_halfMatch_(text1, text22) {
+      var longtext = text1.length > text22.length ? text1 : text22;
+      var shorttext = text1.length > text22.length ? text22 : text1;
+      if (longtext.length < 4 || shorttext.length * 2 < longtext.length) {
+        return null;
+      }
+      function diff_halfMatchI_(longtext2, shorttext2, i3) {
+        var seed = longtext2.substring(i3, i3 + Math.floor(longtext2.length / 4));
+        var j2 = -1;
+        var best_common = "";
+        var best_longtext_a, best_longtext_b, best_shorttext_a, best_shorttext_b;
+        while ((j2 = shorttext2.indexOf(seed, j2 + 1)) != -1) {
+          var prefixLength = diff_commonPrefix(
+            longtext2.substring(i3),
+            shorttext2.substring(j2)
+          );
+          var suffixLength = diff_commonSuffix(
+            longtext2.substring(0, i3),
+            shorttext2.substring(0, j2)
+          );
+          if (best_common.length < suffixLength + prefixLength) {
+            best_common = shorttext2.substring(j2 - suffixLength, j2) + shorttext2.substring(j2, j2 + prefixLength);
+            best_longtext_a = longtext2.substring(0, i3 - suffixLength);
+            best_longtext_b = longtext2.substring(i3 + prefixLength);
+            best_shorttext_a = shorttext2.substring(0, j2 - suffixLength);
+            best_shorttext_b = shorttext2.substring(j2 + prefixLength);
+          }
+        }
+        if (best_common.length * 2 >= longtext2.length) {
+          return [
+            best_longtext_a,
+            best_longtext_b,
+            best_shorttext_a,
+            best_shorttext_b,
+            best_common
+          ];
+        } else {
+          return null;
+        }
+      }
+      var hm1 = diff_halfMatchI_(
+        longtext,
+        shorttext,
+        Math.ceil(longtext.length / 4)
+      );
+      var hm2 = diff_halfMatchI_(
+        longtext,
+        shorttext,
+        Math.ceil(longtext.length / 2)
+      );
+      var hm;
+      if (!hm1 && !hm2) {
+        return null;
+      } else if (!hm2) {
+        hm = hm1;
+      } else if (!hm1) {
+        hm = hm2;
+      } else {
+        hm = hm1[4].length > hm2[4].length ? hm1 : hm2;
+      }
+      var text1_a, text1_b, text2_a, text2_b;
+      if (text1.length > text22.length) {
+        text1_a = hm[0];
+        text1_b = hm[1];
+        text2_a = hm[2];
+        text2_b = hm[3];
+      } else {
+        text2_a = hm[0];
+        text2_b = hm[1];
+        text1_a = hm[2];
+        text1_b = hm[3];
+      }
+      var mid_common = hm[4];
+      return [text1_a, text1_b, text2_a, text2_b, mid_common];
+    }
+    function diff_cleanupMerge(diffs) {
+      diffs.push([DIFF_EQUAL, ""]);
+      var pointer = 0;
+      var count_delete = 0;
+      var count_insert = 0;
+      var text_delete = "";
+      var text_insert = "";
+      var commonlength;
+      while (pointer < diffs.length) {
+        switch (diffs[pointer][0]) {
+          case DIFF_INSERT:
+            count_insert++;
+            text_insert += diffs[pointer][1];
+            pointer++;
+            break;
+          case DIFF_DELETE:
+            count_delete++;
+            text_delete += diffs[pointer][1];
+            pointer++;
+            break;
+          case DIFF_EQUAL:
+            if (count_delete + count_insert > 1) {
+              if (count_delete !== 0 && count_insert !== 0) {
+                commonlength = diff_commonPrefix(text_insert, text_delete);
+                if (commonlength !== 0) {
+                  if (pointer - count_delete - count_insert > 0 && diffs[pointer - count_delete - count_insert - 1][0] == DIFF_EQUAL) {
+                    diffs[pointer - count_delete - count_insert - 1][1] += text_insert.substring(0, commonlength);
+                  } else {
+                    diffs.splice(0, 0, [
+                      DIFF_EQUAL,
+                      text_insert.substring(0, commonlength)
+                    ]);
+                    pointer++;
+                  }
+                  text_insert = text_insert.substring(commonlength);
+                  text_delete = text_delete.substring(commonlength);
+                }
+                commonlength = diff_commonSuffix(text_insert, text_delete);
+                if (commonlength !== 0) {
+                  diffs[pointer][1] = text_insert.substring(text_insert.length - commonlength) + diffs[pointer][1];
+                  text_insert = text_insert.substring(0, text_insert.length - commonlength);
+                  text_delete = text_delete.substring(0, text_delete.length - commonlength);
+                }
+              }
+              if (count_delete === 0) {
+                diffs.splice(
+                  pointer - count_insert,
+                  count_delete + count_insert,
+                  [DIFF_INSERT, text_insert]
+                );
+              } else if (count_insert === 0) {
+                diffs.splice(
+                  pointer - count_delete,
+                  count_delete + count_insert,
+                  [DIFF_DELETE, text_delete]
+                );
+              } else {
+                diffs.splice(
+                  pointer - count_delete - count_insert,
+                  count_delete + count_insert,
+                  [DIFF_DELETE, text_delete],
+                  [DIFF_INSERT, text_insert]
+                );
+              }
+              pointer = pointer - count_delete - count_insert + (count_delete ? 1 : 0) + (count_insert ? 1 : 0) + 1;
+            } else if (pointer !== 0 && diffs[pointer - 1][0] == DIFF_EQUAL) {
+              diffs[pointer - 1][1] += diffs[pointer][1];
+              diffs.splice(pointer, 1);
+            } else {
+              pointer++;
+            }
+            count_insert = 0;
+            count_delete = 0;
+            text_delete = "";
+            text_insert = "";
+            break;
+        }
+      }
+      if (diffs[diffs.length - 1][1] === "") {
+        diffs.pop();
+      }
+      var changes = false;
+      pointer = 1;
+      while (pointer < diffs.length - 1) {
+        if (diffs[pointer - 1][0] == DIFF_EQUAL && diffs[pointer + 1][0] == DIFF_EQUAL) {
+          if (diffs[pointer][1].substring(diffs[pointer][1].length - diffs[pointer - 1][1].length) == diffs[pointer - 1][1]) {
+            diffs[pointer][1] = diffs[pointer - 1][1] + diffs[pointer][1].substring(0, diffs[pointer][1].length - diffs[pointer - 1][1].length);
+            diffs[pointer + 1][1] = diffs[pointer - 1][1] + diffs[pointer + 1][1];
+            diffs.splice(pointer - 1, 1);
+            changes = true;
+          } else if (diffs[pointer][1].substring(0, diffs[pointer + 1][1].length) == diffs[pointer + 1][1]) {
+            diffs[pointer - 1][1] += diffs[pointer + 1][1];
+            diffs[pointer][1] = diffs[pointer][1].substring(diffs[pointer + 1][1].length) + diffs[pointer + 1][1];
+            diffs.splice(pointer + 1, 1);
+            changes = true;
+          }
+        }
+        pointer++;
+      }
+      if (changes) {
+        diff_cleanupMerge(diffs);
+      }
+    }
+    var diff = diff_main;
+    diff.INSERT = DIFF_INSERT;
+    diff.DELETE = DIFF_DELETE;
+    diff.EQUAL = DIFF_EQUAL;
+    module.exports = diff;
+    function cursor_normalize_diff(diffs, cursor_pos) {
+      if (cursor_pos === 0) {
+        return [DIFF_EQUAL, diffs];
+      }
+      for (var current_pos = 0, i3 = 0; i3 < diffs.length; i3++) {
+        var d2 = diffs[i3];
+        if (d2[0] === DIFF_DELETE || d2[0] === DIFF_EQUAL) {
+          var next_pos = current_pos + d2[1].length;
+          if (cursor_pos === next_pos) {
+            return [i3 + 1, diffs];
+          } else if (cursor_pos < next_pos) {
+            diffs = diffs.slice();
+            var split_pos = cursor_pos - current_pos;
+            var d_left = [d2[0], d2[1].slice(0, split_pos)];
+            var d_right = [d2[0], d2[1].slice(split_pos)];
+            diffs.splice(i3, 1, d_left, d_right);
+            return [i3 + 1, diffs];
+          } else {
+            current_pos = next_pos;
+          }
+        }
+      }
+      throw new Error("cursor_pos is out of bounds!");
+    }
+    function fix_cursor(diffs, cursor_pos) {
+      var norm = cursor_normalize_diff(diffs, cursor_pos);
+      var ndiffs = norm[1];
+      var cursor_pointer = norm[0];
+      var d2 = ndiffs[cursor_pointer];
+      var d_next = ndiffs[cursor_pointer + 1];
+      if (d2 == null) {
+        return diffs;
+      } else if (d2[0] !== DIFF_EQUAL) {
+        return diffs;
+      } else {
+        if (d_next != null && d2[1] + d_next[1] === d_next[1] + d2[1]) {
+          ndiffs.splice(cursor_pointer, 2, d_next, d2);
+          return merge_tuples(ndiffs, cursor_pointer, 2);
+        } else if (d_next != null && d_next[1].indexOf(d2[1]) === 0) {
+          ndiffs.splice(cursor_pointer, 2, [d_next[0], d2[1]], [0, d2[1]]);
+          var suffix = d_next[1].slice(d2[1].length);
+          if (suffix.length > 0) {
+            ndiffs.splice(cursor_pointer + 2, 0, [d_next[0], suffix]);
+          }
+          return merge_tuples(ndiffs, cursor_pointer, 3);
+        } else {
+          return diffs;
+        }
+      }
+    }
+    function fix_emoji(diffs) {
+      var compact = false;
+      var starts_with_pair_end = function(str) {
+        return str.charCodeAt(0) >= 56320 && str.charCodeAt(0) <= 57343;
+      };
+      var ends_with_pair_start = function(str) {
+        return str.charCodeAt(str.length - 1) >= 55296 && str.charCodeAt(str.length - 1) <= 56319;
+      };
+      for (var i3 = 2; i3 < diffs.length; i3 += 1) {
+        if (diffs[i3 - 2][0] === DIFF_EQUAL && ends_with_pair_start(diffs[i3 - 2][1]) && diffs[i3 - 1][0] === DIFF_DELETE && starts_with_pair_end(diffs[i3 - 1][1]) && diffs[i3][0] === DIFF_INSERT && starts_with_pair_end(diffs[i3][1])) {
+          compact = true;
+          diffs[i3 - 1][1] = diffs[i3 - 2][1].slice(-1) + diffs[i3 - 1][1];
+          diffs[i3][1] = diffs[i3 - 2][1].slice(-1) + diffs[i3][1];
+          diffs[i3 - 2][1] = diffs[i3 - 2][1].slice(0, -1);
+        }
+      }
+      if (!compact) {
+        return diffs;
+      }
+      var fixed_diffs = [];
+      for (var i3 = 0; i3 < diffs.length; i3 += 1) {
+        if (diffs[i3][1].length > 0) {
+          fixed_diffs.push(diffs[i3]);
+        }
+      }
+      return fixed_diffs;
+    }
+    function merge_tuples(diffs, start, length2) {
+      for (var i3 = start + length2 - 1; i3 >= 0 && i3 >= start - 1; i3--) {
+        if (i3 + 1 < diffs.length) {
+          var left_d = diffs[i3];
+          var right_d = diffs[i3 + 1];
+          if (left_d[0] === right_d[1]) {
+            diffs.splice(i3, 2, [left_d[0], left_d[1] + right_d[1]]);
+          }
+        }
+      }
+      return diffs;
+    }
+  }
+});
+
+// ../simple-mind-map/node_modules/object-keys/isArguments.js
+var require_isArguments = __commonJS({
+  "../simple-mind-map/node_modules/object-keys/isArguments.js"(exports, module) {
+    "use strict";
+    var toStr = Object.prototype.toString;
+    module.exports = function isArguments(value) {
+      var str = toStr.call(value);
+      var isArgs = str === "[object Arguments]";
+      if (!isArgs) {
+        isArgs = str !== "[object Array]" && value !== null && typeof value === "object" && typeof value.length === "number" && value.length >= 0 && toStr.call(value.callee) === "[object Function]";
+      }
+      return isArgs;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/object-keys/implementation.js
+var require_implementation = __commonJS({
+  "../simple-mind-map/node_modules/object-keys/implementation.js"(exports, module) {
+    "use strict";
+    var keysShim;
+    if (!Object.keys) {
+      has = Object.prototype.hasOwnProperty;
+      toStr = Object.prototype.toString;
+      isArgs = require_isArguments();
+      isEnumerable = Object.prototype.propertyIsEnumerable;
+      hasDontEnumBug = !isEnumerable.call({ toString: null }, "toString");
+      hasProtoEnumBug = isEnumerable.call(function() {
+      }, "prototype");
+      dontEnums = [
+        "toString",
+        "toLocaleString",
+        "valueOf",
+        "hasOwnProperty",
+        "isPrototypeOf",
+        "propertyIsEnumerable",
+        "constructor"
+      ];
+      equalsConstructorPrototype = function(o3) {
+        var ctor = o3.constructor;
+        return ctor && ctor.prototype === o3;
+      };
+      excludedKeys = {
+        $applicationCache: true,
+        $console: true,
+        $external: true,
+        $frame: true,
+        $frameElement: true,
+        $frames: true,
+        $innerHeight: true,
+        $innerWidth: true,
+        $onmozfullscreenchange: true,
+        $onmozfullscreenerror: true,
+        $outerHeight: true,
+        $outerWidth: true,
+        $pageXOffset: true,
+        $pageYOffset: true,
+        $parent: true,
+        $scrollLeft: true,
+        $scrollTop: true,
+        $scrollX: true,
+        $scrollY: true,
+        $self: true,
+        $webkitIndexedDB: true,
+        $webkitStorageInfo: true,
+        $window: true
+      };
+      hasAutomationEqualityBug = function() {
+        if (typeof window === "undefined") {
+          return false;
+        }
+        for (var k2 in window) {
+          try {
+            if (!excludedKeys["$" + k2] && has.call(window, k2) && window[k2] !== null && typeof window[k2] === "object") {
+              try {
+                equalsConstructorPrototype(window[k2]);
+              } catch (e2) {
+                return true;
+              }
+            }
+          } catch (e2) {
+            return true;
+          }
+        }
+        return false;
+      }();
+      equalsConstructorPrototypeIfNotBuggy = function(o3) {
+        if (typeof window === "undefined" || !hasAutomationEqualityBug) {
+          return equalsConstructorPrototype(o3);
+        }
+        try {
+          return equalsConstructorPrototype(o3);
+        } catch (e2) {
+          return false;
+        }
+      };
+      keysShim = function keys(object) {
+        var isObject = object !== null && typeof object === "object";
+        var isFunction = toStr.call(object) === "[object Function]";
+        var isArguments = isArgs(object);
+        var isString = isObject && toStr.call(object) === "[object String]";
+        var theKeys = [];
+        if (!isObject && !isFunction && !isArguments) {
+          throw new TypeError("Object.keys called on a non-object");
+        }
+        var skipProto = hasProtoEnumBug && isFunction;
+        if (isString && object.length > 0 && !has.call(object, 0)) {
+          for (var i3 = 0; i3 < object.length; ++i3) {
+            theKeys.push(String(i3));
+          }
+        }
+        if (isArguments && object.length > 0) {
+          for (var j2 = 0; j2 < object.length; ++j2) {
+            theKeys.push(String(j2));
+          }
+        } else {
+          for (var name in object) {
+            if (!(skipProto && name === "prototype") && has.call(object, name)) {
+              theKeys.push(String(name));
+            }
+          }
+        }
+        if (hasDontEnumBug) {
+          var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+          for (var k2 = 0; k2 < dontEnums.length; ++k2) {
+            if (!(skipConstructor && dontEnums[k2] === "constructor") && has.call(object, dontEnums[k2])) {
+              theKeys.push(dontEnums[k2]);
+            }
+          }
+        }
+        return theKeys;
+      };
+    }
+    var has;
+    var toStr;
+    var isArgs;
+    var isEnumerable;
+    var hasDontEnumBug;
+    var hasProtoEnumBug;
+    var dontEnums;
+    var equalsConstructorPrototype;
+    var excludedKeys;
+    var hasAutomationEqualityBug;
+    var equalsConstructorPrototypeIfNotBuggy;
+    module.exports = keysShim;
+  }
+});
+
+// ../simple-mind-map/node_modules/object-keys/index.js
+var require_object_keys2 = __commonJS({
+  "../simple-mind-map/node_modules/object-keys/index.js"(exports, module) {
+    "use strict";
+    var slice2 = Array.prototype.slice;
+    var isArgs = require_isArguments();
+    var origKeys = Object.keys;
+    var keysShim = origKeys ? function keys(o3) {
+      return origKeys(o3);
+    } : require_implementation();
+    var originalKeys = Object.keys;
+    keysShim.shim = function shimObjectKeys() {
+      if (Object.keys) {
+        var keysWorksWithArguments = function() {
+          var args = Object.keys(arguments);
+          return args && args.length === arguments.length;
+        }(1, 2);
+        if (!keysWorksWithArguments) {
+          Object.keys = function keys(object) {
+            if (isArgs(object)) {
+              return originalKeys(slice2.call(object));
+            }
+            return originalKeys(object);
+          };
+        }
+      } else {
+        Object.keys = keysShim;
+      }
+      return Object.keys || keysShim;
+    };
+    module.exports = keysShim;
+  }
+});
+
+// ../simple-mind-map/node_modules/has-symbols/shams.js
+var require_shams = __commonJS({
+  "../simple-mind-map/node_modules/has-symbols/shams.js"(exports, module) {
+    "use strict";
+    module.exports = function hasSymbols() {
+      if (typeof Symbol !== "function" || typeof Object.getOwnPropertySymbols !== "function") {
+        return false;
+      }
+      if (typeof Symbol.iterator === "symbol") {
+        return true;
+      }
+      var obj = {};
+      var sym = Symbol("test");
+      var symObj = Object(sym);
+      if (typeof sym === "string") {
+        return false;
+      }
+      if (Object.prototype.toString.call(sym) !== "[object Symbol]") {
+        return false;
+      }
+      if (Object.prototype.toString.call(symObj) !== "[object Symbol]") {
+        return false;
+      }
+      var symVal = 42;
+      obj[sym] = symVal;
+      for (sym in obj) {
+        return false;
+      }
+      if (typeof Object.keys === "function" && Object.keys(obj).length !== 0) {
+        return false;
+      }
+      if (typeof Object.getOwnPropertyNames === "function" && Object.getOwnPropertyNames(obj).length !== 0) {
+        return false;
+      }
+      var syms = Object.getOwnPropertySymbols(obj);
+      if (syms.length !== 1 || syms[0] !== sym) {
+        return false;
+      }
+      if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) {
+        return false;
+      }
+      if (typeof Object.getOwnPropertyDescriptor === "function") {
+        var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+        if (descriptor.value !== symVal || descriptor.enumerable !== true) {
+          return false;
+        }
+      }
+      return true;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/has-tostringtag/shams.js
+var require_shams2 = __commonJS({
+  "../simple-mind-map/node_modules/has-tostringtag/shams.js"(exports, module) {
+    "use strict";
+    var hasSymbols = require_shams();
+    module.exports = function hasToStringTagShams() {
+      return hasSymbols() && !!Symbol.toStringTag;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/has-symbols/index.js
+var require_has_symbols = __commonJS({
+  "../simple-mind-map/node_modules/has-symbols/index.js"(exports, module) {
+    "use strict";
+    var origSymbol = typeof Symbol !== "undefined" && Symbol;
+    var hasSymbolSham = require_shams();
+    module.exports = function hasNativeSymbols() {
+      if (typeof origSymbol !== "function") {
+        return false;
+      }
+      if (typeof Symbol !== "function") {
+        return false;
+      }
+      if (typeof origSymbol("foo") !== "symbol") {
+        return false;
+      }
+      if (typeof Symbol("bar") !== "symbol") {
+        return false;
+      }
+      return hasSymbolSham();
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/function-bind/implementation.js
+var require_implementation2 = __commonJS({
+  "../simple-mind-map/node_modules/function-bind/implementation.js"(exports, module) {
+    "use strict";
+    var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
+    var slice2 = Array.prototype.slice;
+    var toStr = Object.prototype.toString;
+    var funcType = "[object Function]";
+    module.exports = function bind(that) {
+      var target = this;
+      if (typeof target !== "function" || toStr.call(target) !== funcType) {
+        throw new TypeError(ERROR_MESSAGE + target);
+      }
+      var args = slice2.call(arguments, 1);
+      var bound;
+      var binder = function() {
+        if (this instanceof bound) {
+          var result = target.apply(
+            this,
+            args.concat(slice2.call(arguments))
+          );
+          if (Object(result) === result) {
+            return result;
+          }
+          return this;
+        } else {
+          return target.apply(
+            that,
+            args.concat(slice2.call(arguments))
+          );
+        }
+      };
+      var boundLength = Math.max(0, target.length - args.length);
+      var boundArgs = [];
+      for (var i3 = 0; i3 < boundLength; i3++) {
+        boundArgs.push("$" + i3);
+      }
+      bound = Function("binder", "return function (" + boundArgs.join(",") + "){ return binder.apply(this,arguments); }")(binder);
+      if (target.prototype) {
+        var Empty = function Empty2() {
+        };
+        Empty.prototype = target.prototype;
+        bound.prototype = new Empty();
+        Empty.prototype = null;
+      }
+      return bound;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/function-bind/index.js
+var require_function_bind = __commonJS({
+  "../simple-mind-map/node_modules/function-bind/index.js"(exports, module) {
+    "use strict";
+    var implementation = require_implementation2();
+    module.exports = Function.prototype.bind || implementation;
+  }
+});
+
+// ../simple-mind-map/node_modules/has/src/index.js
+var require_src = __commonJS({
+  "../simple-mind-map/node_modules/has/src/index.js"(exports, module) {
+    "use strict";
+    var bind = require_function_bind();
+    module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
+  }
+});
+
+// ../simple-mind-map/node_modules/get-intrinsic/index.js
+var require_get_intrinsic = __commonJS({
+  "../simple-mind-map/node_modules/get-intrinsic/index.js"(exports, module) {
+    "use strict";
+    var undefined2;
+    var $SyntaxError = SyntaxError;
+    var $Function = Function;
+    var $TypeError = TypeError;
+    var getEvalledConstructor = function(expressionSyntax) {
+      try {
+        return $Function('"use strict"; return (' + expressionSyntax + ").constructor;")();
+      } catch (e2) {
+      }
+    };
+    var $gOPD = Object.getOwnPropertyDescriptor;
+    if ($gOPD) {
+      try {
+        $gOPD({}, "");
+      } catch (e2) {
+        $gOPD = null;
+      }
+    }
+    var throwTypeError = function() {
+      throw new $TypeError();
+    };
+    var ThrowTypeError = $gOPD ? function() {
+      try {
+        arguments.callee;
+        return throwTypeError;
+      } catch (calleeThrows) {
+        try {
+          return $gOPD(arguments, "callee").get;
+        } catch (gOPDthrows) {
+          return throwTypeError;
+        }
+      }
+    }() : throwTypeError;
+    var hasSymbols = require_has_symbols()();
+    var getProto = Object.getPrototypeOf || function(x3) {
+      return x3.__proto__;
+    };
+    var needsEval = {};
+    var TypedArray = typeof Uint8Array === "undefined" ? undefined2 : getProto(Uint8Array);
+    var INTRINSICS = {
+      "%AggregateError%": typeof AggregateError === "undefined" ? undefined2 : AggregateError,
+      "%Array%": Array,
+      "%ArrayBuffer%": typeof ArrayBuffer === "undefined" ? undefined2 : ArrayBuffer,
+      "%ArrayIteratorPrototype%": hasSymbols ? getProto([][Symbol.iterator]()) : undefined2,
+      "%AsyncFromSyncIteratorPrototype%": undefined2,
+      "%AsyncFunction%": needsEval,
+      "%AsyncGenerator%": needsEval,
+      "%AsyncGeneratorFunction%": needsEval,
+      "%AsyncIteratorPrototype%": needsEval,
+      "%Atomics%": typeof Atomics === "undefined" ? undefined2 : Atomics,
+      "%BigInt%": typeof BigInt === "undefined" ? undefined2 : BigInt,
+      "%BigInt64Array%": typeof BigInt64Array === "undefined" ? undefined2 : BigInt64Array,
+      "%BigUint64Array%": typeof BigUint64Array === "undefined" ? undefined2 : BigUint64Array,
+      "%Boolean%": Boolean,
+      "%DataView%": typeof DataView === "undefined" ? undefined2 : DataView,
+      "%Date%": Date,
+      "%decodeURI%": decodeURI,
+      "%decodeURIComponent%": decodeURIComponent,
+      "%encodeURI%": encodeURI,
+      "%encodeURIComponent%": encodeURIComponent,
+      "%Error%": Error,
+      "%eval%": eval,
+      // eslint-disable-line no-eval
+      "%EvalError%": EvalError,
+      "%Float32Array%": typeof Float32Array === "undefined" ? undefined2 : Float32Array,
+      "%Float64Array%": typeof Float64Array === "undefined" ? undefined2 : Float64Array,
+      "%FinalizationRegistry%": typeof FinalizationRegistry === "undefined" ? undefined2 : FinalizationRegistry,
+      "%Function%": $Function,
+      "%GeneratorFunction%": needsEval,
+      "%Int8Array%": typeof Int8Array === "undefined" ? undefined2 : Int8Array,
+      "%Int16Array%": typeof Int16Array === "undefined" ? undefined2 : Int16Array,
+      "%Int32Array%": typeof Int32Array === "undefined" ? undefined2 : Int32Array,
+      "%isFinite%": isFinite,
+      "%isNaN%": isNaN,
+      "%IteratorPrototype%": hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined2,
+      "%JSON%": typeof JSON === "object" ? JSON : undefined2,
+      "%Map%": typeof Map === "undefined" ? undefined2 : Map,
+      "%MapIteratorPrototype%": typeof Map === "undefined" || !hasSymbols ? undefined2 : getProto((/* @__PURE__ */ new Map())[Symbol.iterator]()),
+      "%Math%": Math,
+      "%Number%": Number,
+      "%Object%": Object,
+      "%parseFloat%": parseFloat,
+      "%parseInt%": parseInt,
+      "%Promise%": typeof Promise === "undefined" ? undefined2 : Promise,
+      "%Proxy%": typeof Proxy === "undefined" ? undefined2 : Proxy,
+      "%RangeError%": RangeError,
+      "%ReferenceError%": ReferenceError,
+      "%Reflect%": typeof Reflect === "undefined" ? undefined2 : Reflect,
+      "%RegExp%": RegExp,
+      "%Set%": typeof Set === "undefined" ? undefined2 : Set,
+      "%SetIteratorPrototype%": typeof Set === "undefined" || !hasSymbols ? undefined2 : getProto((/* @__PURE__ */ new Set())[Symbol.iterator]()),
+      "%SharedArrayBuffer%": typeof SharedArrayBuffer === "undefined" ? undefined2 : SharedArrayBuffer,
+      "%String%": String,
+      "%StringIteratorPrototype%": hasSymbols ? getProto(""[Symbol.iterator]()) : undefined2,
+      "%Symbol%": hasSymbols ? Symbol : undefined2,
+      "%SyntaxError%": $SyntaxError,
+      "%ThrowTypeError%": ThrowTypeError,
+      "%TypedArray%": TypedArray,
+      "%TypeError%": $TypeError,
+      "%Uint8Array%": typeof Uint8Array === "undefined" ? undefined2 : Uint8Array,
+      "%Uint8ClampedArray%": typeof Uint8ClampedArray === "undefined" ? undefined2 : Uint8ClampedArray,
+      "%Uint16Array%": typeof Uint16Array === "undefined" ? undefined2 : Uint16Array,
+      "%Uint32Array%": typeof Uint32Array === "undefined" ? undefined2 : Uint32Array,
+      "%URIError%": URIError,
+      "%WeakMap%": typeof WeakMap === "undefined" ? undefined2 : WeakMap,
+      "%WeakRef%": typeof WeakRef === "undefined" ? undefined2 : WeakRef,
+      "%WeakSet%": typeof WeakSet === "undefined" ? undefined2 : WeakSet
+    };
+    try {
+      null.error;
+    } catch (e2) {
+      errorProto = getProto(getProto(e2));
+      INTRINSICS["%Error.prototype%"] = errorProto;
+    }
+    var errorProto;
+    var doEval = function doEval2(name) {
+      var value;
+      if (name === "%AsyncFunction%") {
+        value = getEvalledConstructor("async function () {}");
+      } else if (name === "%GeneratorFunction%") {
+        value = getEvalledConstructor("function* () {}");
+      } else if (name === "%AsyncGeneratorFunction%") {
+        value = getEvalledConstructor("async function* () {}");
+      } else if (name === "%AsyncGenerator%") {
+        var fn = doEval2("%AsyncGeneratorFunction%");
+        if (fn) {
+          value = fn.prototype;
+        }
+      } else if (name === "%AsyncIteratorPrototype%") {
+        var gen = doEval2("%AsyncGenerator%");
+        if (gen) {
+          value = getProto(gen.prototype);
+        }
+      }
+      INTRINSICS[name] = value;
+      return value;
+    };
+    var LEGACY_ALIASES = {
+      "%ArrayBufferPrototype%": ["ArrayBuffer", "prototype"],
+      "%ArrayPrototype%": ["Array", "prototype"],
+      "%ArrayProto_entries%": ["Array", "prototype", "entries"],
+      "%ArrayProto_forEach%": ["Array", "prototype", "forEach"],
+      "%ArrayProto_keys%": ["Array", "prototype", "keys"],
+      "%ArrayProto_values%": ["Array", "prototype", "values"],
+      "%AsyncFunctionPrototype%": ["AsyncFunction", "prototype"],
+      "%AsyncGenerator%": ["AsyncGeneratorFunction", "prototype"],
+      "%AsyncGeneratorPrototype%": ["AsyncGeneratorFunction", "prototype", "prototype"],
+      "%BooleanPrototype%": ["Boolean", "prototype"],
+      "%DataViewPrototype%": ["DataView", "prototype"],
+      "%DatePrototype%": ["Date", "prototype"],
+      "%ErrorPrototype%": ["Error", "prototype"],
+      "%EvalErrorPrototype%": ["EvalError", "prototype"],
+      "%Float32ArrayPrototype%": ["Float32Array", "prototype"],
+      "%Float64ArrayPrototype%": ["Float64Array", "prototype"],
+      "%FunctionPrototype%": ["Function", "prototype"],
+      "%Generator%": ["GeneratorFunction", "prototype"],
+      "%GeneratorPrototype%": ["GeneratorFunction", "prototype", "prototype"],
+      "%Int8ArrayPrototype%": ["Int8Array", "prototype"],
+      "%Int16ArrayPrototype%": ["Int16Array", "prototype"],
+      "%Int32ArrayPrototype%": ["Int32Array", "prototype"],
+      "%JSONParse%": ["JSON", "parse"],
+      "%JSONStringify%": ["JSON", "stringify"],
+      "%MapPrototype%": ["Map", "prototype"],
+      "%NumberPrototype%": ["Number", "prototype"],
+      "%ObjectPrototype%": ["Object", "prototype"],
+      "%ObjProto_toString%": ["Object", "prototype", "toString"],
+      "%ObjProto_valueOf%": ["Object", "prototype", "valueOf"],
+      "%PromisePrototype%": ["Promise", "prototype"],
+      "%PromiseProto_then%": ["Promise", "prototype", "then"],
+      "%Promise_all%": ["Promise", "all"],
+      "%Promise_reject%": ["Promise", "reject"],
+      "%Promise_resolve%": ["Promise", "resolve"],
+      "%RangeErrorPrototype%": ["RangeError", "prototype"],
+      "%ReferenceErrorPrototype%": ["ReferenceError", "prototype"],
+      "%RegExpPrototype%": ["RegExp", "prototype"],
+      "%SetPrototype%": ["Set", "prototype"],
+      "%SharedArrayBufferPrototype%": ["SharedArrayBuffer", "prototype"],
+      "%StringPrototype%": ["String", "prototype"],
+      "%SymbolPrototype%": ["Symbol", "prototype"],
+      "%SyntaxErrorPrototype%": ["SyntaxError", "prototype"],
+      "%TypedArrayPrototype%": ["TypedArray", "prototype"],
+      "%TypeErrorPrototype%": ["TypeError", "prototype"],
+      "%Uint8ArrayPrototype%": ["Uint8Array", "prototype"],
+      "%Uint8ClampedArrayPrototype%": ["Uint8ClampedArray", "prototype"],
+      "%Uint16ArrayPrototype%": ["Uint16Array", "prototype"],
+      "%Uint32ArrayPrototype%": ["Uint32Array", "prototype"],
+      "%URIErrorPrototype%": ["URIError", "prototype"],
+      "%WeakMapPrototype%": ["WeakMap", "prototype"],
+      "%WeakSetPrototype%": ["WeakSet", "prototype"]
+    };
+    var bind = require_function_bind();
+    var hasOwn = require_src();
+    var $concat = bind.call(Function.call, Array.prototype.concat);
+    var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
+    var $replace = bind.call(Function.call, String.prototype.replace);
+    var $strSlice = bind.call(Function.call, String.prototype.slice);
+    var $exec = bind.call(Function.call, RegExp.prototype.exec);
+    var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+    var reEscapeChar = /\\(\\)?/g;
+    var stringToPath = function stringToPath2(string3) {
+      var first = $strSlice(string3, 0, 1);
+      var last = $strSlice(string3, -1);
+      if (first === "%" && last !== "%") {
+        throw new $SyntaxError("invalid intrinsic syntax, expected closing `%`");
+      } else if (last === "%" && first !== "%") {
+        throw new $SyntaxError("invalid intrinsic syntax, expected opening `%`");
+      }
+      var result = [];
+      $replace(string3, rePropName, function(match, number, quote, subString) {
+        result[result.length] = quote ? $replace(subString, reEscapeChar, "$1") : number || match;
+      });
+      return result;
+    };
+    var getBaseIntrinsic = function getBaseIntrinsic2(name, allowMissing) {
+      var intrinsicName = name;
+      var alias;
+      if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
+        alias = LEGACY_ALIASES[intrinsicName];
+        intrinsicName = "%" + alias[0] + "%";
+      }
+      if (hasOwn(INTRINSICS, intrinsicName)) {
+        var value = INTRINSICS[intrinsicName];
+        if (value === needsEval) {
+          value = doEval(intrinsicName);
+        }
+        if (typeof value === "undefined" && !allowMissing) {
+          throw new $TypeError("intrinsic " + name + " exists, but is not available. Please file an issue!");
+        }
+        return {
+          alias,
+          name: intrinsicName,
+          value
+        };
+      }
+      throw new $SyntaxError("intrinsic " + name + " does not exist!");
+    };
+    module.exports = function GetIntrinsic(name, allowMissing) {
+      if (typeof name !== "string" || name.length === 0) {
+        throw new $TypeError("intrinsic name must be a non-empty string");
+      }
+      if (arguments.length > 1 && typeof allowMissing !== "boolean") {
+        throw new $TypeError('"allowMissing" argument must be a boolean');
+      }
+      if ($exec(/^%?[^%]*%?$/, name) === null) {
+        throw new $SyntaxError("`%` may not be present anywhere but at the beginning and end of the intrinsic name");
+      }
+      var parts = stringToPath(name);
+      var intrinsicBaseName = parts.length > 0 ? parts[0] : "";
+      var intrinsic = getBaseIntrinsic("%" + intrinsicBaseName + "%", allowMissing);
+      var intrinsicRealName = intrinsic.name;
+      var value = intrinsic.value;
+      var skipFurtherCaching = false;
+      var alias = intrinsic.alias;
+      if (alias) {
+        intrinsicBaseName = alias[0];
+        $spliceApply(parts, $concat([0, 1], alias));
+      }
+      for (var i3 = 1, isOwn = true; i3 < parts.length; i3 += 1) {
+        var part = parts[i3];
+        var first = $strSlice(part, 0, 1);
+        var last = $strSlice(part, -1);
+        if ((first === '"' || first === "'" || first === "`" || (last === '"' || last === "'" || last === "`")) && first !== last) {
+          throw new $SyntaxError("property names with quotes must have matching quotes");
+        }
+        if (part === "constructor" || !isOwn) {
+          skipFurtherCaching = true;
+        }
+        intrinsicBaseName += "." + part;
+        intrinsicRealName = "%" + intrinsicBaseName + "%";
+        if (hasOwn(INTRINSICS, intrinsicRealName)) {
+          value = INTRINSICS[intrinsicRealName];
+        } else if (value != null) {
+          if (!(part in value)) {
+            if (!allowMissing) {
+              throw new $TypeError("base intrinsic for " + name + " exists, but the property is not available.");
+            }
+            return void 0;
+          }
+          if ($gOPD && i3 + 1 >= parts.length) {
+            var desc = $gOPD(value, part);
+            isOwn = !!desc;
+            if (isOwn && "get" in desc && !("originalValue" in desc.get)) {
+              value = desc.get;
+            } else {
+              value = value[part];
+            }
+          } else {
+            isOwn = hasOwn(value, part);
+            value = value[part];
+          }
+          if (isOwn && !skipFurtherCaching) {
+            INTRINSICS[intrinsicRealName] = value;
+          }
+        }
+      }
+      return value;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/call-bind/index.js
+var require_call_bind = __commonJS({
+  "../simple-mind-map/node_modules/call-bind/index.js"(exports, module) {
+    "use strict";
+    var bind = require_function_bind();
+    var GetIntrinsic = require_get_intrinsic();
+    var $apply = GetIntrinsic("%Function.prototype.apply%");
+    var $call = GetIntrinsic("%Function.prototype.call%");
+    var $reflectApply = GetIntrinsic("%Reflect.apply%", true) || bind.call($call, $apply);
+    var $gOPD = GetIntrinsic("%Object.getOwnPropertyDescriptor%", true);
+    var $defineProperty = GetIntrinsic("%Object.defineProperty%", true);
+    var $max = GetIntrinsic("%Math.max%");
+    if ($defineProperty) {
+      try {
+        $defineProperty({}, "a", { value: 1 });
+      } catch (e2) {
+        $defineProperty = null;
+      }
+    }
+    module.exports = function callBind(originalFunction) {
+      var func = $reflectApply(bind, $call, arguments);
+      if ($gOPD && $defineProperty) {
+        var desc = $gOPD(func, "length");
+        if (desc.configurable) {
+          $defineProperty(
+            func,
+            "length",
+            { value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) }
+          );
+        }
+      }
+      return func;
+    };
+    var applyBind = function applyBind2() {
+      return $reflectApply(bind, $apply, arguments);
+    };
+    if ($defineProperty) {
+      $defineProperty(module.exports, "apply", { value: applyBind });
+    } else {
+      module.exports.apply = applyBind;
+    }
+  }
+});
+
+// ../simple-mind-map/node_modules/call-bind/callBound.js
+var require_callBound = __commonJS({
+  "../simple-mind-map/node_modules/call-bind/callBound.js"(exports, module) {
+    "use strict";
+    var GetIntrinsic = require_get_intrinsic();
+    var callBind = require_call_bind();
+    var $indexOf2 = callBind(GetIntrinsic("String.prototype.indexOf"));
+    module.exports = function callBoundIntrinsic(name, allowMissing) {
+      var intrinsic = GetIntrinsic(name, !!allowMissing);
+      if (typeof intrinsic === "function" && $indexOf2(name, ".prototype.") > -1) {
+        return callBind(intrinsic);
+      }
+      return intrinsic;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/is-arguments/index.js
+var require_is_arguments = __commonJS({
+  "../simple-mind-map/node_modules/is-arguments/index.js"(exports, module) {
+    "use strict";
+    var hasToStringTag = require_shams2()();
+    var callBound = require_callBound();
+    var $toString2 = callBound("Object.prototype.toString");
+    var isStandardArguments = function isArguments(value) {
+      if (hasToStringTag && value && typeof value === "object" && Symbol.toStringTag in value) {
+        return false;
+      }
+      return $toString2(value) === "[object Arguments]";
+    };
+    var isLegacyArguments = function isArguments(value) {
+      if (isStandardArguments(value)) {
+        return true;
+      }
+      return value !== null && typeof value === "object" && typeof value.length === "number" && value.length >= 0 && $toString2(value) !== "[object Array]" && $toString2(value.callee) === "[object Function]";
+    };
+    var supportsStandardArguments = function() {
+      return isStandardArguments(arguments);
+    }();
+    isStandardArguments.isLegacyArguments = isLegacyArguments;
+    module.exports = supportsStandardArguments ? isStandardArguments : isLegacyArguments;
+  }
+});
+
+// ../simple-mind-map/node_modules/has-property-descriptors/index.js
+var require_has_property_descriptors = __commonJS({
+  "../simple-mind-map/node_modules/has-property-descriptors/index.js"(exports, module) {
+    "use strict";
+    var GetIntrinsic = require_get_intrinsic();
+    var $defineProperty = GetIntrinsic("%Object.defineProperty%", true);
+    var hasPropertyDescriptors = function hasPropertyDescriptors2() {
+      if ($defineProperty) {
+        try {
+          $defineProperty({}, "a", { value: 1 });
+          return true;
+        } catch (e2) {
+          return false;
+        }
+      }
+      return false;
+    };
+    hasPropertyDescriptors.hasArrayLengthDefineBug = function hasArrayLengthDefineBug() {
+      if (!hasPropertyDescriptors()) {
+        return null;
+      }
+      try {
+        return $defineProperty([], "length", { value: 1 }).length !== 1;
+      } catch (e2) {
+        return true;
+      }
+    };
+    module.exports = hasPropertyDescriptors;
+  }
+});
+
+// ../simple-mind-map/node_modules/define-properties/index.js
+var require_define_properties = __commonJS({
+  "../simple-mind-map/node_modules/define-properties/index.js"(exports, module) {
+    "use strict";
+    var keys = require_object_keys2();
+    var hasSymbols = typeof Symbol === "function" && typeof Symbol("foo") === "symbol";
+    var toStr = Object.prototype.toString;
+    var concat2 = Array.prototype.concat;
+    var origDefineProperty = Object.defineProperty;
+    var isFunction = function(fn) {
+      return typeof fn === "function" && toStr.call(fn) === "[object Function]";
+    };
+    var hasPropertyDescriptors = require_has_property_descriptors()();
+    var supportsDescriptors = origDefineProperty && hasPropertyDescriptors;
+    var defineProperty = function(object, name, value, predicate) {
+      if (name in object) {
+        if (predicate === true) {
+          if (object[name] === value) {
+            return;
+          }
+        } else if (!isFunction(predicate) || !predicate()) {
+          return;
+        }
+      }
+      if (supportsDescriptors) {
+        origDefineProperty(object, name, {
+          configurable: true,
+          enumerable: false,
+          value,
+          writable: true
+        });
+      } else {
+        object[name] = value;
+      }
+    };
+    var defineProperties = function(object, map3) {
+      var predicates = arguments.length > 2 ? arguments[2] : {};
+      var props = keys(map3);
+      if (hasSymbols) {
+        props = concat2.call(props, Object.getOwnPropertySymbols(map3));
+      }
+      for (var i3 = 0; i3 < props.length; i3 += 1) {
+        defineProperty(object, props[i3], map3[props[i3]], predicates[props[i3]]);
+      }
+    };
+    defineProperties.supportsDescriptors = !!supportsDescriptors;
+    module.exports = defineProperties;
+  }
+});
+
+// ../simple-mind-map/node_modules/object-is/implementation.js
+var require_implementation3 = __commonJS({
+  "../simple-mind-map/node_modules/object-is/implementation.js"(exports, module) {
+    "use strict";
+    var numberIsNaN = function(value) {
+      return value !== value;
+    };
+    module.exports = function is2(a3, b2) {
+      if (a3 === 0 && b2 === 0) {
+        return 1 / a3 === 1 / b2;
+      }
+      if (a3 === b2) {
+        return true;
+      }
+      if (numberIsNaN(a3) && numberIsNaN(b2)) {
+        return true;
+      }
+      return false;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/object-is/polyfill.js
+var require_polyfill = __commonJS({
+  "../simple-mind-map/node_modules/object-is/polyfill.js"(exports, module) {
+    "use strict";
+    var implementation = require_implementation3();
+    module.exports = function getPolyfill() {
+      return typeof Object.is === "function" ? Object.is : implementation;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/object-is/shim.js
+var require_shim = __commonJS({
+  "../simple-mind-map/node_modules/object-is/shim.js"(exports, module) {
+    "use strict";
+    var getPolyfill = require_polyfill();
+    var define2 = require_define_properties();
+    module.exports = function shimObjectIs() {
+      var polyfill = getPolyfill();
+      define2(Object, { is: polyfill }, {
+        is: function testObjectIs() {
+          return Object.is !== polyfill;
+        }
+      });
+      return polyfill;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/object-is/index.js
+var require_object_is = __commonJS({
+  "../simple-mind-map/node_modules/object-is/index.js"(exports, module) {
+    "use strict";
+    var define2 = require_define_properties();
+    var callBind = require_call_bind();
+    var implementation = require_implementation3();
+    var getPolyfill = require_polyfill();
+    var shim = require_shim();
+    var polyfill = callBind(getPolyfill(), Object);
+    define2(polyfill, {
+      getPolyfill,
+      implementation,
+      shim
+    });
+    module.exports = polyfill;
+  }
+});
+
+// ../simple-mind-map/node_modules/is-regex/index.js
+var require_is_regex = __commonJS({
+  "../simple-mind-map/node_modules/is-regex/index.js"(exports, module) {
+    "use strict";
+    var callBound = require_callBound();
+    var hasToStringTag = require_shams2()();
+    var has;
+    var $exec;
+    var isRegexMarker;
+    var badStringifier;
+    if (hasToStringTag) {
+      has = callBound("Object.prototype.hasOwnProperty");
+      $exec = callBound("RegExp.prototype.exec");
+      isRegexMarker = {};
+      throwRegexMarker = function() {
+        throw isRegexMarker;
+      };
+      badStringifier = {
+        toString: throwRegexMarker,
+        valueOf: throwRegexMarker
+      };
+      if (typeof Symbol.toPrimitive === "symbol") {
+        badStringifier[Symbol.toPrimitive] = throwRegexMarker;
+      }
+    }
+    var throwRegexMarker;
+    var $toString2 = callBound("Object.prototype.toString");
+    var gOPD = Object.getOwnPropertyDescriptor;
+    var regexClass = "[object RegExp]";
+    module.exports = hasToStringTag ? function isRegex(value) {
+      if (!value || typeof value !== "object") {
+        return false;
+      }
+      var descriptor = gOPD(value, "lastIndex");
+      var hasLastIndexDataProperty = descriptor && has(descriptor, "value");
+      if (!hasLastIndexDataProperty) {
+        return false;
+      }
+      try {
+        $exec(value, badStringifier);
+      } catch (e2) {
+        return e2 === isRegexMarker;
+      }
+    } : function isRegex(value) {
+      if (!value || typeof value !== "object" && typeof value !== "function") {
+        return false;
+      }
+      return $toString2(value) === regexClass;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/functions-have-names/index.js
+var require_functions_have_names = __commonJS({
+  "../simple-mind-map/node_modules/functions-have-names/index.js"(exports, module) {
+    "use strict";
+    var functionsHaveNames = function functionsHaveNames2() {
+      return typeof function f3() {
+      }.name === "string";
+    };
+    var gOPD = Object.getOwnPropertyDescriptor;
+    if (gOPD) {
+      try {
+        gOPD([], "length");
+      } catch (e2) {
+        gOPD = null;
+      }
+    }
+    functionsHaveNames.functionsHaveConfigurableNames = function functionsHaveConfigurableNames() {
+      if (!functionsHaveNames() || !gOPD) {
+        return false;
+      }
+      var desc = gOPD(function() {
+      }, "name");
+      return !!desc && !!desc.configurable;
+    };
+    var $bind = Function.prototype.bind;
+    functionsHaveNames.boundFunctionsHaveNames = function boundFunctionsHaveNames() {
+      return functionsHaveNames() && typeof $bind === "function" && function f3() {
+      }.bind().name !== "";
+    };
+    module.exports = functionsHaveNames;
+  }
+});
+
+// ../simple-mind-map/node_modules/regexp.prototype.flags/implementation.js
+var require_implementation4 = __commonJS({
+  "../simple-mind-map/node_modules/regexp.prototype.flags/implementation.js"(exports, module) {
+    "use strict";
+    var functionsHaveConfigurableNames = require_functions_have_names().functionsHaveConfigurableNames();
+    var $Object = Object;
+    var $TypeError = TypeError;
+    module.exports = function flags() {
+      if (this != null && this !== $Object(this)) {
+        throw new $TypeError("RegExp.prototype.flags getter called on non-object");
+      }
+      var result = "";
+      if (this.hasIndices) {
+        result += "d";
+      }
+      if (this.global) {
+        result += "g";
+      }
+      if (this.ignoreCase) {
+        result += "i";
+      }
+      if (this.multiline) {
+        result += "m";
+      }
+      if (this.dotAll) {
+        result += "s";
+      }
+      if (this.unicode) {
+        result += "u";
+      }
+      if (this.sticky) {
+        result += "y";
+      }
+      return result;
+    };
+    if (functionsHaveConfigurableNames && Object.defineProperty) {
+      Object.defineProperty(module.exports, "name", { value: "get flags" });
+    }
+  }
+});
+
+// ../simple-mind-map/node_modules/regexp.prototype.flags/polyfill.js
+var require_polyfill2 = __commonJS({
+  "../simple-mind-map/node_modules/regexp.prototype.flags/polyfill.js"(exports, module) {
+    "use strict";
+    var implementation = require_implementation4();
+    var supportsDescriptors = require_define_properties().supportsDescriptors;
+    var $gOPD = Object.getOwnPropertyDescriptor;
+    module.exports = function getPolyfill() {
+      if (supportsDescriptors && /a/mig.flags === "gim") {
+        var descriptor = $gOPD(RegExp.prototype, "flags");
+        if (descriptor && typeof descriptor.get === "function" && typeof RegExp.prototype.dotAll === "boolean" && typeof RegExp.prototype.hasIndices === "boolean") {
+          var calls = "";
+          var o3 = {};
+          Object.defineProperty(o3, "hasIndices", {
+            get: function() {
+              calls += "d";
+            }
+          });
+          Object.defineProperty(o3, "sticky", {
+            get: function() {
+              calls += "y";
+            }
+          });
+          if (calls === "dy") {
+            return descriptor.get;
+          }
+        }
+      }
+      return implementation;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/regexp.prototype.flags/shim.js
+var require_shim2 = __commonJS({
+  "../simple-mind-map/node_modules/regexp.prototype.flags/shim.js"(exports, module) {
+    "use strict";
+    var supportsDescriptors = require_define_properties().supportsDescriptors;
+    var getPolyfill = require_polyfill2();
+    var gOPD = Object.getOwnPropertyDescriptor;
+    var defineProperty = Object.defineProperty;
+    var TypeErr = TypeError;
+    var getProto = Object.getPrototypeOf;
+    var regex = /a/;
+    module.exports = function shimFlags() {
+      if (!supportsDescriptors || !getProto) {
+        throw new TypeErr("RegExp.prototype.flags requires a true ES5 environment that supports property descriptors");
+      }
+      var polyfill = getPolyfill();
+      var proto = getProto(regex);
+      var descriptor = gOPD(proto, "flags");
+      if (!descriptor || descriptor.get !== polyfill) {
+        defineProperty(proto, "flags", {
+          configurable: true,
+          enumerable: false,
+          get: polyfill
+        });
+      }
+      return polyfill;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/regexp.prototype.flags/index.js
+var require_regexp_prototype = __commonJS({
+  "../simple-mind-map/node_modules/regexp.prototype.flags/index.js"(exports, module) {
+    "use strict";
+    var define2 = require_define_properties();
+    var callBind = require_call_bind();
+    var implementation = require_implementation4();
+    var getPolyfill = require_polyfill2();
+    var shim = require_shim2();
+    var flagsBound = callBind(getPolyfill());
+    define2(flagsBound, {
+      getPolyfill,
+      implementation,
+      shim
+    });
+    module.exports = flagsBound;
+  }
+});
+
+// ../simple-mind-map/node_modules/is-date-object/index.js
+var require_is_date_object = __commonJS({
+  "../simple-mind-map/node_modules/is-date-object/index.js"(exports, module) {
+    "use strict";
+    var getDay = Date.prototype.getDay;
+    var tryDateObject = function tryDateGetDayCall(value) {
+      try {
+        getDay.call(value);
+        return true;
+      } catch (e2) {
+        return false;
+      }
+    };
+    var toStr = Object.prototype.toString;
+    var dateClass = "[object Date]";
+    var hasToStringTag = require_shams2()();
+    module.exports = function isDateObject(value) {
+      if (typeof value !== "object" || value === null) {
+        return false;
+      }
+      return hasToStringTag ? tryDateObject(value) : toStr.call(value) === dateClass;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/deep-equal/index.js
+var require_deep_equal = __commonJS({
+  "../simple-mind-map/node_modules/deep-equal/index.js"(exports, module) {
+    var objectKeys = require_object_keys2();
+    var isArguments = require_is_arguments();
+    var is2 = require_object_is();
+    var isRegex = require_is_regex();
+    var flags = require_regexp_prototype();
+    var isDate = require_is_date_object();
+    var getTime = Date.prototype.getTime;
+    function deepEqual(actual, expected, options) {
+      var opts = options || {};
+      if (opts.strict ? is2(actual, expected) : actual === expected) {
+        return true;
+      }
+      if (!actual || !expected || typeof actual !== "object" && typeof expected !== "object") {
+        return opts.strict ? is2(actual, expected) : actual == expected;
+      }
+      return objEquiv(actual, expected, opts);
+    }
+    function isUndefinedOrNull(value) {
+      return value === null || value === void 0;
+    }
+    function isBuffer(x3) {
+      if (!x3 || typeof x3 !== "object" || typeof x3.length !== "number") {
+        return false;
+      }
+      if (typeof x3.copy !== "function" || typeof x3.slice !== "function") {
+        return false;
+      }
+      if (x3.length > 0 && typeof x3[0] !== "number") {
+        return false;
+      }
+      return true;
+    }
+    function objEquiv(a3, b2, opts) {
+      var i3, key;
+      if (typeof a3 !== typeof b2) {
+        return false;
+      }
+      if (isUndefinedOrNull(a3) || isUndefinedOrNull(b2)) {
+        return false;
+      }
+      if (a3.prototype !== b2.prototype) {
+        return false;
+      }
+      if (isArguments(a3) !== isArguments(b2)) {
+        return false;
+      }
+      var aIsRegex = isRegex(a3);
+      var bIsRegex = isRegex(b2);
+      if (aIsRegex !== bIsRegex) {
+        return false;
+      }
+      if (aIsRegex || bIsRegex) {
+        return a3.source === b2.source && flags(a3) === flags(b2);
+      }
+      if (isDate(a3) && isDate(b2)) {
+        return getTime.call(a3) === getTime.call(b2);
+      }
+      var aIsBuffer = isBuffer(a3);
+      var bIsBuffer = isBuffer(b2);
+      if (aIsBuffer !== bIsBuffer) {
+        return false;
+      }
+      if (aIsBuffer || bIsBuffer) {
+        if (a3.length !== b2.length) {
+          return false;
+        }
+        for (i3 = 0; i3 < a3.length; i3++) {
+          if (a3[i3] !== b2[i3]) {
+            return false;
+          }
+        }
+        return true;
+      }
+      if (typeof a3 !== typeof b2) {
+        return false;
+      }
+      try {
+        var ka = objectKeys(a3);
+        var kb = objectKeys(b2);
+      } catch (e2) {
+        return false;
+      }
+      if (ka.length !== kb.length) {
+        return false;
+      }
+      ka.sort();
+      kb.sort();
+      for (i3 = ka.length - 1; i3 >= 0; i3--) {
+        if (ka[i3] != kb[i3]) {
+          return false;
+        }
+      }
+      for (i3 = ka.length - 1; i3 >= 0; i3--) {
+        key = ka[i3];
+        if (!deepEqual(a3[key], b2[key], opts)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    module.exports = deepEqual;
+  }
+});
+
+// ../simple-mind-map/node_modules/extend/index.js
+var require_extend = __commonJS({
+  "../simple-mind-map/node_modules/extend/index.js"(exports, module) {
+    "use strict";
+    var hasOwn = Object.prototype.hasOwnProperty;
+    var toStr = Object.prototype.toString;
+    var defineProperty = Object.defineProperty;
+    var gOPD = Object.getOwnPropertyDescriptor;
+    var isArray2 = function isArray3(arr) {
+      if (typeof Array.isArray === "function") {
+        return Array.isArray(arr);
+      }
+      return toStr.call(arr) === "[object Array]";
+    };
+    var isPlainObject = function isPlainObject2(obj) {
+      if (!obj || toStr.call(obj) !== "[object Object]") {
+        return false;
+      }
+      var hasOwnConstructor = hasOwn.call(obj, "constructor");
+      var hasIsPrototypeOf = obj.constructor && obj.constructor.prototype && hasOwn.call(obj.constructor.prototype, "isPrototypeOf");
+      if (obj.constructor && !hasOwnConstructor && !hasIsPrototypeOf) {
+        return false;
+      }
+      var key;
+      for (key in obj) {
+      }
+      return typeof key === "undefined" || hasOwn.call(obj, key);
+    };
+    var setProperty = function setProperty2(target, options) {
+      if (defineProperty && options.name === "__proto__") {
+        defineProperty(target, options.name, {
+          enumerable: true,
+          configurable: true,
+          value: options.newValue,
+          writable: true
+        });
+      } else {
+        target[options.name] = options.newValue;
+      }
+    };
+    var getProperty = function getProperty2(obj, name) {
+      if (name === "__proto__") {
+        if (!hasOwn.call(obj, name)) {
+          return void 0;
+        } else if (gOPD) {
+          return gOPD(obj, name).value;
+        }
+      }
+      return obj[name];
+    };
+    module.exports = function extend2() {
+      var options, name, src, copy, copyIsArray, clone;
+      var target = arguments[0];
+      var i3 = 1;
+      var length2 = arguments.length;
+      var deep = false;
+      if (typeof target === "boolean") {
+        deep = target;
+        target = arguments[1] || {};
+        i3 = 2;
+      }
+      if (target == null || typeof target !== "object" && typeof target !== "function") {
+        target = {};
+      }
+      for (; i3 < length2; ++i3) {
+        options = arguments[i3];
+        if (options != null) {
+          for (name in options) {
+            src = getProperty(target, name);
+            copy = getProperty(options, name);
+            if (target !== copy) {
+              if (deep && copy && (isPlainObject(copy) || (copyIsArray = isArray2(copy)))) {
+                if (copyIsArray) {
+                  copyIsArray = false;
+                  clone = src && isArray2(src) ? src : [];
+                } else {
+                  clone = src && isPlainObject(src) ? src : {};
+                }
+                setProperty(target, { name, newValue: extend2(deep, clone, copy) });
+              } else if (typeof copy !== "undefined") {
+                setProperty(target, { name, newValue: copy });
+              }
+            }
+          }
+        }
+      }
+      return target;
+    };
+  }
+});
+
+// ../simple-mind-map/node_modules/quill-delta/lib/op.js
+var require_op = __commonJS({
+  "../simple-mind-map/node_modules/quill-delta/lib/op.js"(exports, module) {
+    var equal = require_deep_equal();
+    var extend2 = require_extend();
+    var lib = {
+      attributes: {
+        compose: function(a3, b2, keepNull) {
+          if (typeof a3 !== "object")
+            a3 = {};
+          if (typeof b2 !== "object")
+            b2 = {};
+          var attributes = extend2(true, {}, b2);
+          if (!keepNull) {
+            attributes = Object.keys(attributes).reduce(function(copy, key2) {
+              if (attributes[key2] != null) {
+                copy[key2] = attributes[key2];
+              }
+              return copy;
+            }, {});
+          }
+          for (var key in a3) {
+            if (a3[key] !== void 0 && b2[key] === void 0) {
+              attributes[key] = a3[key];
+            }
+          }
+          return Object.keys(attributes).length > 0 ? attributes : void 0;
+        },
+        diff: function(a3, b2) {
+          if (typeof a3 !== "object")
+            a3 = {};
+          if (typeof b2 !== "object")
+            b2 = {};
+          var attributes = Object.keys(a3).concat(Object.keys(b2)).reduce(function(attributes2, key) {
+            if (!equal(a3[key], b2[key])) {
+              attributes2[key] = b2[key] === void 0 ? null : b2[key];
+            }
+            return attributes2;
+          }, {});
+          return Object.keys(attributes).length > 0 ? attributes : void 0;
+        },
+        transform: function(a3, b2, priority) {
+          if (typeof a3 !== "object")
+            return b2;
+          if (typeof b2 !== "object")
+            return void 0;
+          if (!priority)
+            return b2;
+          var attributes = Object.keys(b2).reduce(function(attributes2, key) {
+            if (a3[key] === void 0)
+              attributes2[key] = b2[key];
+            return attributes2;
+          }, {});
+          return Object.keys(attributes).length > 0 ? attributes : void 0;
+        }
+      },
+      iterator: function(ops) {
+        return new Iterator(ops);
+      },
+      length: function(op) {
+        if (typeof op["delete"] === "number") {
+          return op["delete"];
+        } else if (typeof op.retain === "number") {
+          return op.retain;
+        } else {
+          return typeof op.insert === "string" ? op.insert.length : 1;
+        }
+      }
+    };
+    function Iterator(ops) {
+      this.ops = ops;
+      this.index = 0;
+      this.offset = 0;
+    }
+    Iterator.prototype.hasNext = function() {
+      return this.peekLength() < Infinity;
+    };
+    Iterator.prototype.next = function(length2) {
+      if (!length2)
+        length2 = Infinity;
+      var nextOp = this.ops[this.index];
+      if (nextOp) {
+        var offset = this.offset;
+        var opLength = lib.length(nextOp);
+        if (length2 >= opLength - offset) {
+          length2 = opLength - offset;
+          this.index += 1;
+          this.offset = 0;
+        } else {
+          this.offset += length2;
+        }
+        if (typeof nextOp["delete"] === "number") {
+          return { "delete": length2 };
+        } else {
+          var retOp = {};
+          if (nextOp.attributes) {
+            retOp.attributes = nextOp.attributes;
+          }
+          if (typeof nextOp.retain === "number") {
+            retOp.retain = length2;
+          } else if (typeof nextOp.insert === "string") {
+            retOp.insert = nextOp.insert.substr(offset, length2);
+          } else {
+            retOp.insert = nextOp.insert;
+          }
+          return retOp;
+        }
+      } else {
+        return { retain: Infinity };
+      }
+    };
+    Iterator.prototype.peek = function() {
+      return this.ops[this.index];
+    };
+    Iterator.prototype.peekLength = function() {
+      if (this.ops[this.index]) {
+        return lib.length(this.ops[this.index]) - this.offset;
+      } else {
+        return Infinity;
+      }
+    };
+    Iterator.prototype.peekType = function() {
+      if (this.ops[this.index]) {
+        if (typeof this.ops[this.index]["delete"] === "number") {
+          return "delete";
+        } else if (typeof this.ops[this.index].retain === "number") {
+          return "retain";
+        } else {
+          return "insert";
+        }
+      }
+      return "retain";
+    };
+    Iterator.prototype.rest = function() {
+      if (!this.hasNext()) {
+        return [];
+      } else if (this.offset === 0) {
+        return this.ops.slice(this.index);
+      } else {
+        var offset = this.offset;
+        var index3 = this.index;
+        var next2 = this.next();
+        var rest = this.ops.slice(this.index);
+        this.offset = offset;
+        this.index = index3;
+        return [next2].concat(rest);
+      }
+    };
+    module.exports = lib;
+  }
+});
+
+// ../simple-mind-map/node_modules/quill-delta/lib/delta.js
+var require_delta = __commonJS({
+  "../simple-mind-map/node_modules/quill-delta/lib/delta.js"(exports, module) {
+    var diff = require_diff();
+    var equal = require_deep_equal();
+    var extend2 = require_extend();
+    var op = require_op();
+    var NULL_CHARACTER = String.fromCharCode(0);
+    var Delta2 = function(ops) {
+      if (Array.isArray(ops)) {
+        this.ops = ops;
+      } else if (ops != null && Array.isArray(ops.ops)) {
+        this.ops = ops.ops;
+      } else {
+        this.ops = [];
+      }
+    };
+    Delta2.prototype.insert = function(text3, attributes) {
+      var newOp = {};
+      if (text3.length === 0)
+        return this;
+      newOp.insert = text3;
+      if (attributes != null && typeof attributes === "object" && Object.keys(attributes).length > 0) {
+        newOp.attributes = attributes;
+      }
+      return this.push(newOp);
+    };
+    Delta2.prototype["delete"] = function(length2) {
+      if (length2 <= 0)
+        return this;
+      return this.push({ "delete": length2 });
+    };
+    Delta2.prototype.retain = function(length2, attributes) {
+      if (length2 <= 0)
+        return this;
+      var newOp = { retain: length2 };
+      if (attributes != null && typeof attributes === "object" && Object.keys(attributes).length > 0) {
+        newOp.attributes = attributes;
+      }
+      return this.push(newOp);
+    };
+    Delta2.prototype.push = function(newOp) {
+      var index3 = this.ops.length;
+      var lastOp = this.ops[index3 - 1];
+      newOp = extend2(true, {}, newOp);
+      if (typeof lastOp === "object") {
+        if (typeof newOp["delete"] === "number" && typeof lastOp["delete"] === "number") {
+          this.ops[index3 - 1] = { "delete": lastOp["delete"] + newOp["delete"] };
+          return this;
+        }
+        if (typeof lastOp["delete"] === "number" && newOp.insert != null) {
+          index3 -= 1;
+          lastOp = this.ops[index3 - 1];
+          if (typeof lastOp !== "object") {
+            this.ops.unshift(newOp);
+            return this;
+          }
+        }
+        if (equal(newOp.attributes, lastOp.attributes)) {
+          if (typeof newOp.insert === "string" && typeof lastOp.insert === "string") {
+            this.ops[index3 - 1] = { insert: lastOp.insert + newOp.insert };
+            if (typeof newOp.attributes === "object")
+              this.ops[index3 - 1].attributes = newOp.attributes;
+            return this;
+          } else if (typeof newOp.retain === "number" && typeof lastOp.retain === "number") {
+            this.ops[index3 - 1] = { retain: lastOp.retain + newOp.retain };
+            if (typeof newOp.attributes === "object")
+              this.ops[index3 - 1].attributes = newOp.attributes;
+            return this;
+          }
+        }
+      }
+      if (index3 === this.ops.length) {
+        this.ops.push(newOp);
+      } else {
+        this.ops.splice(index3, 0, newOp);
+      }
+      return this;
+    };
+    Delta2.prototype.chop = function() {
+      var lastOp = this.ops[this.ops.length - 1];
+      if (lastOp && lastOp.retain && !lastOp.attributes) {
+        this.ops.pop();
+      }
+      return this;
+    };
+    Delta2.prototype.filter = function(predicate) {
+      return this.ops.filter(predicate);
+    };
+    Delta2.prototype.forEach = function(predicate) {
+      this.ops.forEach(predicate);
+    };
+    Delta2.prototype.map = function(predicate) {
+      return this.ops.map(predicate);
+    };
+    Delta2.prototype.partition = function(predicate) {
+      var passed = [], failed = [];
+      this.forEach(function(op2) {
+        var target = predicate(op2) ? passed : failed;
+        target.push(op2);
+      });
+      return [passed, failed];
+    };
+    Delta2.prototype.reduce = function(predicate, initial) {
+      return this.ops.reduce(predicate, initial);
+    };
+    Delta2.prototype.changeLength = function() {
+      return this.reduce(function(length2, elem) {
+        if (elem.insert) {
+          return length2 + op.length(elem);
+        } else if (elem.delete) {
+          return length2 - elem.delete;
+        }
+        return length2;
+      }, 0);
+    };
+    Delta2.prototype.length = function() {
+      return this.reduce(function(length2, elem) {
+        return length2 + op.length(elem);
+      }, 0);
+    };
+    Delta2.prototype.slice = function(start, end) {
+      start = start || 0;
+      if (typeof end !== "number")
+        end = Infinity;
+      var ops = [];
+      var iter = op.iterator(this.ops);
+      var index3 = 0;
+      while (index3 < end && iter.hasNext()) {
+        var nextOp;
+        if (index3 < start) {
+          nextOp = iter.next(start - index3);
+        } else {
+          nextOp = iter.next(end - index3);
+          ops.push(nextOp);
+        }
+        index3 += op.length(nextOp);
+      }
+      return new Delta2(ops);
+    };
+    Delta2.prototype.compose = function(other) {
+      var thisIter = op.iterator(this.ops);
+      var otherIter = op.iterator(other.ops);
+      var ops = [];
+      var firstOther = otherIter.peek();
+      if (firstOther != null && typeof firstOther.retain === "number" && firstOther.attributes == null) {
+        var firstLeft = firstOther.retain;
+        while (thisIter.peekType() === "insert" && thisIter.peekLength() <= firstLeft) {
+          firstLeft -= thisIter.peekLength();
+          ops.push(thisIter.next());
+        }
+        if (firstOther.retain - firstLeft > 0) {
+          otherIter.next(firstOther.retain - firstLeft);
+        }
+      }
+      var delta = new Delta2(ops);
+      while (thisIter.hasNext() || otherIter.hasNext()) {
+        if (otherIter.peekType() === "insert") {
+          delta.push(otherIter.next());
+        } else if (thisIter.peekType() === "delete") {
+          delta.push(thisIter.next());
+        } else {
+          var length2 = Math.min(thisIter.peekLength(), otherIter.peekLength());
+          var thisOp = thisIter.next(length2);
+          var otherOp = otherIter.next(length2);
+          if (typeof otherOp.retain === "number") {
+            var newOp = {};
+            if (typeof thisOp.retain === "number") {
+              newOp.retain = length2;
+            } else {
+              newOp.insert = thisOp.insert;
+            }
+            var attributes = op.attributes.compose(thisOp.attributes, otherOp.attributes, typeof thisOp.retain === "number");
+            if (attributes)
+              newOp.attributes = attributes;
+            delta.push(newOp);
+            if (!otherIter.hasNext() && equal(delta.ops[delta.ops.length - 1], newOp)) {
+              var rest = new Delta2(thisIter.rest());
+              return delta.concat(rest).chop();
+            }
+          } else if (typeof otherOp["delete"] === "number" && typeof thisOp.retain === "number") {
+            delta.push(otherOp);
+          }
+        }
+      }
+      return delta.chop();
+    };
+    Delta2.prototype.concat = function(other) {
+      var delta = new Delta2(this.ops.slice());
+      if (other.ops.length > 0) {
+        delta.push(other.ops[0]);
+        delta.ops = delta.ops.concat(other.ops.slice(1));
+      }
+      return delta;
+    };
+    Delta2.prototype.diff = function(other, index3) {
+      if (this.ops === other.ops) {
+        return new Delta2();
+      }
+      var strings = [this, other].map(function(delta2) {
+        return delta2.map(function(op2) {
+          if (op2.insert != null) {
+            return typeof op2.insert === "string" ? op2.insert : NULL_CHARACTER;
+          }
+          var prep = delta2 === other ? "on" : "with";
+          throw new Error("diff() called " + prep + " non-document");
+        }).join("");
+      });
+      var delta = new Delta2();
+      var diffResult = diff(strings[0], strings[1], index3);
+      var thisIter = op.iterator(this.ops);
+      var otherIter = op.iterator(other.ops);
+      diffResult.forEach(function(component) {
+        var length2 = component[1].length;
+        while (length2 > 0) {
+          var opLength = 0;
+          switch (component[0]) {
+            case diff.INSERT:
+              opLength = Math.min(otherIter.peekLength(), length2);
+              delta.push(otherIter.next(opLength));
+              break;
+            case diff.DELETE:
+              opLength = Math.min(length2, thisIter.peekLength());
+              thisIter.next(opLength);
+              delta["delete"](opLength);
+              break;
+            case diff.EQUAL:
+              opLength = Math.min(thisIter.peekLength(), otherIter.peekLength(), length2);
+              var thisOp = thisIter.next(opLength);
+              var otherOp = otherIter.next(opLength);
+              if (equal(thisOp.insert, otherOp.insert)) {
+                delta.retain(opLength, op.attributes.diff(thisOp.attributes, otherOp.attributes));
+              } else {
+                delta.push(otherOp)["delete"](opLength);
+              }
+              break;
+          }
+          length2 -= opLength;
+        }
+      });
+      return delta.chop();
+    };
+    Delta2.prototype.eachLine = function(predicate, newline) {
+      newline = newline || "\n";
+      var iter = op.iterator(this.ops);
+      var line = new Delta2();
+      var i3 = 0;
+      while (iter.hasNext()) {
+        if (iter.peekType() !== "insert")
+          return;
+        var thisOp = iter.peek();
+        var start = op.length(thisOp) - iter.peekLength();
+        var index3 = typeof thisOp.insert === "string" ? thisOp.insert.indexOf(newline, start) - start : -1;
+        if (index3 < 0) {
+          line.push(iter.next());
+        } else if (index3 > 0) {
+          line.push(iter.next(index3));
+        } else {
+          if (predicate(line, iter.next(1).attributes || {}, i3) === false) {
+            return;
+          }
+          i3 += 1;
+          line = new Delta2();
+        }
+      }
+      if (line.length() > 0) {
+        predicate(line, {}, i3);
+      }
+    };
+    Delta2.prototype.transform = function(other, priority) {
+      priority = !!priority;
+      if (typeof other === "number") {
+        return this.transformPosition(other, priority);
+      }
+      var thisIter = op.iterator(this.ops);
+      var otherIter = op.iterator(other.ops);
+      var delta = new Delta2();
+      while (thisIter.hasNext() || otherIter.hasNext()) {
+        if (thisIter.peekType() === "insert" && (priority || otherIter.peekType() !== "insert")) {
+          delta.retain(op.length(thisIter.next()));
+        } else if (otherIter.peekType() === "insert") {
+          delta.push(otherIter.next());
+        } else {
+          var length2 = Math.min(thisIter.peekLength(), otherIter.peekLength());
+          var thisOp = thisIter.next(length2);
+          var otherOp = otherIter.next(length2);
+          if (thisOp["delete"]) {
+            continue;
+          } else if (otherOp["delete"]) {
+            delta.push(otherOp);
+          } else {
+            delta.retain(length2, op.attributes.transform(thisOp.attributes, otherOp.attributes, priority));
+          }
+        }
+      }
+      return delta.chop();
+    };
+    Delta2.prototype.transformPosition = function(index3, priority) {
+      priority = !!priority;
+      var thisIter = op.iterator(this.ops);
+      var offset = 0;
+      while (thisIter.hasNext() && offset <= index3) {
+        var length2 = thisIter.peekLength();
+        var nextType = thisIter.peekType();
+        thisIter.next();
+        if (nextType === "delete") {
+          index3 -= Math.min(length2, index3 - offset);
+          continue;
+        } else if (nextType === "insert" && (offset < index3 || !priority)) {
+          index3 += length2;
+        }
+        offset += length2;
+      }
+      return index3;
+    };
+    module.exports = Delta2;
+  }
+});
+
 // ../simple-mind-map/src/constants/constant.js
 var constant_exports = {};
 __export(constant_exports, {
   CONSTANTS: () => CONSTANTS,
+  ERROR_TYPES: () => ERROR_TYPES,
+  a4Size: () => a4Size,
   commonCaches: () => commonCaches,
+  cssContent: () => cssContent,
   initRootNodePositionMap: () => initRootNodePositionMap,
   layoutList: () => layoutList,
   layoutValueList: () => layoutValueList,
@@ -36951,11 +39216,44 @@ var nodeDataNoStylePropList = [
   "uid",
   "activeStyle",
   "associativeLineTargets",
-  "associativeLineTargetControlOffsets"
+  "associativeLineTargetControlOffsets",
+  "associativeLinePoint",
+  "associativeLineText"
 ];
 var commonCaches = {
-  measureCustomNodeContentSizeEl: null
+  measureCustomNodeContentSizeEl: null,
+  measureRichtextNodeTextSizeEl: null
 };
+var ERROR_TYPES = {
+  READ_CLIPBOARD_ERROR: "read_clipboard_error",
+  PARSE_PASTE_DATA_ERROR: "parse_paste_data_error",
+  CUSTOM_HANDLE_CLIPBOARD_TEXT_ERROR: "custom_handle_clipboard_text_error",
+  LOAD_CLIPBOARD_IMAGE_ERROR: "load_clipboard_image_error",
+  BEFORE_TEXT_EDIT_ERROR: "before_text_edit_error",
+  EXPORT_ERROR: "export_error"
+};
+var a4Size = {
+  width: 592.28,
+  height: 841.89
+};
+var cssContent = `
+  /* \u9F20\u6807hover\u548C\u6FC0\u6D3B\u65F6\u6E32\u67D3\u7684\u77E9\u5F62 */
+  .smm-hover-node{
+    display: none;
+    opacity: 0.6;
+    stroke-width: 1;
+  }
+
+  .smm-node:hover .smm-hover-node{
+    display: block;
+  }
+
+  .smm-node.active .smm-hover-node{
+    display: block;
+    opacity: 1;
+    stroke-width: 2;
+  }
+`;
 
 // ../simple-mind-map/src/core/view/View.js
 var View = class {
@@ -36987,6 +39285,8 @@ var View = class {
       this.fit();
     });
     this.mindMap.svg.on("dblclick", () => {
+      if (!this.mindMap.opt.enableDblclickReset)
+        return;
       this.reset();
     });
     this.mindMap.event.on("mousedown", () => {
@@ -37016,14 +39316,18 @@ var View = class {
         mousewheelAction,
         mouseScaleCenterUseMousePosition,
         mousewheelMoveStep,
-        mousewheelZoomActionReverse
+        mousewheelZoomActionReverse,
+        disableMouseWheelZoom
       } = this.mindMap.opt;
       if (customHandleMousewheel && typeof customHandleMousewheel === "function") {
         return customHandleMousewheel(e2);
       }
       if (mousewheelAction === CONSTANTS.MOUSE_WHEEL_ACTION.ZOOM) {
-        let cx2 = mouseScaleCenterUseMousePosition ? e2.clientX : void 0;
-        let cy2 = mouseScaleCenterUseMousePosition ? e2.clientY : void 0;
+        if (disableMouseWheelZoom)
+          return;
+        const { x: clientX, y: clientY } = this.mindMap.toPos(e2.clientX, e2.clientY);
+        let cx2 = mouseScaleCenterUseMousePosition ? clientX : void 0;
+        let cy2 = mouseScaleCenterUseMousePosition ? clientY : void 0;
         switch (dir) {
           case CONSTANTS.DIR.UP:
           case CONSTANTS.DIR.LEFT:
@@ -37084,27 +39388,37 @@ var View = class {
   }
   //  平移x,y方向
   translateXY(x3, y4) {
+    if (x3 === 0 && y4 === 0)
+      return;
     this.x += x3;
     this.y += y4;
     this.transform();
   }
   //  平移x方向
   translateX(step) {
+    if (step === 0)
+      return;
     this.x += step;
     this.transform();
   }
   //  平移x方式到
   translateXTo(x3) {
+    if (x3 === 0)
+      return;
     this.x = x3;
     this.transform();
   }
   //  平移y方向
   translateY(step) {
+    if (step === 0)
+      return;
     this.y += step;
     this.transform();
   }
   //  平移y方向到
   translateYTo(y4) {
+    if (y4 === 0)
+      return;
     this.y = y4;
     this.transform();
   }
@@ -37386,7 +39700,13 @@ var import_deepmerge = __toESM(require_cjs());
 
 // ../simple-mind-map/src/core/render/node/Style.js
 var rootProp = ["paddingX", "paddingY"];
-var backgroundStyleProps = ["backgroundColor", "backgroundImage", "backgroundRepeat", "backgroundPosition", "backgroundSize"];
+var backgroundStyleProps = [
+  "backgroundColor",
+  "backgroundImage",
+  "backgroundRepeat",
+  "backgroundPosition",
+  "backgroundSize"
+];
 var Style = class {
   //   设置背景样式
   static setBackgroundStyle(el2, themeConfig) {
@@ -37397,9 +39717,15 @@ var Style = class {
         Style.cacheStyle[prop] = style[prop];
       });
     }
-    let { backgroundColor, backgroundImage, backgroundRepeat, backgroundPosition, backgroundSize } = themeConfig;
+    let {
+      backgroundColor,
+      backgroundImage,
+      backgroundRepeat,
+      backgroundPosition,
+      backgroundSize
+    } = themeConfig;
     el2.style.backgroundColor = backgroundColor;
-    if (backgroundImage) {
+    if (backgroundImage && backgroundImage !== "none") {
       el2.style.backgroundImage = `url(${backgroundImage})`;
       el2.style.backgroundRepeat = backgroundRepeat;
       el2.style.backgroundPosition = backgroundPosition;
@@ -37422,7 +39748,7 @@ var Style = class {
     this.ctx = ctx;
   }
   //  合并样式
-  merge(prop, root2, isActive) {
+  merge(prop, root2) {
     let themeConfig = this.ctx.mindMap.themeConfig;
     let defaultConfig = themeConfig.node;
     if (root2 || rootProp.includes(prop)) {
@@ -37434,18 +39760,11 @@ var Style = class {
     } else if (this.ctx.layerIndex === 1) {
       defaultConfig = themeConfig.second;
     }
-    if (isActive !== void 0 ? isActive : this.ctx.nodeData.data.isActive) {
-      if (this.ctx.nodeData.data.activeStyle && this.ctx.nodeData.data.activeStyle[prop] !== void 0) {
-        return this.ctx.nodeData.data.activeStyle[prop];
-      } else if (defaultConfig.active && defaultConfig.active[prop]) {
-        return defaultConfig.active[prop];
-      }
-    }
     return this.getSelfStyle(prop) !== void 0 ? this.getSelfStyle(prop) : defaultConfig[prop];
   }
   //  获取某个样式值
-  getStyle(prop, root2, isActive) {
-    return this.merge(prop, root2, isActive);
+  getStyle(prop, root2) {
+    return this.merge(prop, root2);
   }
   //  获取自身自定义样式
   getSelfStyle(prop) {
@@ -37540,13 +39859,19 @@ var Style = class {
   }
   //  展开收起按钮
   iconBtn(node3, node22, fillNode) {
-    let { color, fill } = this.ctx.mindMap.opt.expandBtnStyle || {
+    let { color, fill, fontSize, fontColor } = this.ctx.mindMap.opt.expandBtnStyle || {
       color: "#808080",
-      fill: "#fff"
+      fill: "#fff",
+      fontSize: 12,
+      strokeColor: "#333333",
+      fontColor: "#333333"
     };
     node3.fill({ color });
     node22.fill({ color });
     fillNode.fill({ color: fill });
+    if (this.ctx.mindMap.opt.isShowExpandNum) {
+      node3.attr({ "font-size": fontSize, "font-color": fontColor });
+    }
   }
   // 是否设置了自定义的样式
   hasCustomStyle() {
@@ -37557,6 +39882,13 @@ var Style = class {
       }
     });
     return res;
+  }
+  // hover和激活节点
+  hoverNode(node3) {
+    const { hoverRectColor } = this.ctx.mindMap.opt;
+    node3.radius(5).fill("none").stroke({
+      color: hoverRectColor
+    });
   }
 };
 Style.cacheStyle = null;
@@ -43203,10 +45535,9 @@ var Shape2 = class {
   //  创建形状节点
   createShape() {
     const shape = this.node.getShape();
-    let { width: width2, height: height2 } = this.node;
     let node3 = null;
     if (shape === CONSTANTS.SHAPE.RECTANGLE) {
-      node3 = new Rect().size(width2, height2);
+      node3 = this.createRect();
     } else if (shape === CONSTANTS.SHAPE.DIAMOND) {
       node3 = this.createDiamond();
     } else if (shape === CONSTANTS.SHAPE.PARALLELOGRAM) {
@@ -43226,9 +45557,37 @@ var Shape2 = class {
     }
     return node3;
   }
+  // 获取节点减去节点边框宽度、hover节点边框宽度后的尺寸
+  getNodeSize() {
+    const borderWidth = this.node.getBorderWidth();
+    let { width: width2, height: height2 } = this.node;
+    width2 -= borderWidth;
+    height2 -= borderWidth;
+    return {
+      width: width2,
+      height: height2
+    };
+  }
+  // 创建矩形
+  createRect() {
+    let { width: width2, height: height2 } = this.getNodeSize();
+    let borderRadius = this.node.style.merge("borderRadius");
+    return new Path().plot(`
+      M${borderRadius},0
+      L${width2 - borderRadius},0
+      C${width2 - borderRadius},0 ${width2},${0} ${width2},${borderRadius}
+      L${width2},${height2 - borderRadius}
+      C${width2},${height2 - borderRadius} ${width2},${height2} ${width2 - borderRadius},${height2}
+      L${borderRadius},${height2}
+      C${borderRadius},${height2} ${0},${height2} ${0},${height2 - borderRadius}
+      L${0},${borderRadius}
+      C${0},${borderRadius} ${0},${0} ${borderRadius},${0}
+      Z
+    `);
+  }
   //  创建菱形
   createDiamond() {
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     let halfWidth = width2 / 2;
     let halfHeight = height2 / 2;
     let topX = halfWidth;
@@ -43250,7 +45609,7 @@ var Shape2 = class {
   createParallelogram() {
     let { paddingX } = this.node.getPaddingVale();
     paddingX = paddingX || this.node.shapePadding.paddingX;
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     return new Polygon().plot([
       [paddingX, 0],
       [width2, 0],
@@ -43260,7 +45619,7 @@ var Shape2 = class {
   }
   //  创建圆角矩形
   createRoundedRectangle() {
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     let halfHeight = height2 / 2;
     return new Path().plot(`
       M${halfHeight},0
@@ -43273,7 +45632,7 @@ var Shape2 = class {
   //  创建八角矩形
   createOctagonalRectangle() {
     let w2 = 5;
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     return new Polygon().plot([
       [0, w2],
       [w2, 0],
@@ -43289,7 +45648,7 @@ var Shape2 = class {
   createOuterTriangularRectangle() {
     let { paddingX } = this.node.getPaddingVale();
     paddingX = paddingX || this.node.shapePadding.paddingX;
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     return new Polygon().plot([
       [paddingX, 0],
       [width2 - paddingX, 0],
@@ -43303,7 +45662,7 @@ var Shape2 = class {
   createInnerTriangularRectangle() {
     let { paddingX } = this.node.getPaddingVale();
     paddingX = paddingX || this.node.shapePadding.paddingX;
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     return new Polygon().plot([
       [0, 0],
       [width2, 0],
@@ -43315,7 +45674,7 @@ var Shape2 = class {
   }
   //  创建椭圆
   createEllipse() {
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     let halfWidth = width2 / 2;
     let halfHeight = height2 / 2;
     return new Path().plot(`
@@ -43327,7 +45686,7 @@ var Shape2 = class {
   }
   //  创建圆
   createCircle() {
-    let { width: width2, height: height2 } = this.node;
+    let { width: width2, height: height2 } = this.getNodeSize();
     let halfWidth = width2 / 2;
     let halfHeight = height2 / 2;
     return new Path().plot(`
@@ -43748,6 +46107,7 @@ var loadImage = (imgFile) => {
   });
 };
 var removeHTMLEntities = (str) => {
+  ;
   [["&nbsp;", "&#160;"]].forEach((item) => {
     str = str.replaceAll(item[0], item[1]);
   });
@@ -43790,7 +46150,12 @@ var replaceHtmlText = (html2, searchText, replaceText) => {
       if (node3.nodeType === 1) {
         walk2(node3);
       } else if (node3.nodeType === 3) {
-        root2.replaceChild(document.createTextNode(node3.nodeValue.replaceAll(searchText, replaceText)), node3);
+        root2.replaceChild(
+          document.createTextNode(
+            node3.nodeValue.replaceAll(searchText, replaceText)
+          ),
+          node3
+        );
       }
     });
   };
@@ -43799,7 +46164,9 @@ var replaceHtmlText = (html2, searchText, replaceText) => {
 };
 var isWhite = (color) => {
   color = String(color).replaceAll(/\s+/g, "");
-  return ["#fff", "#ffffff", "#FFF", "#FFFFFF", "rgb(255,255,255)"].includes(color) || /rgba\(255,255,255,[^)]+\)/.test(color);
+  return ["#fff", "#ffffff", "#FFF", "#FFFFFF", "rgb(255,255,255)"].includes(
+    color
+  ) || /rgba\(255,255,255,[^)]+\)/.test(color);
 };
 var isTransparent = (color) => {
   color = String(color).replaceAll(/\s+/g, "");
@@ -43807,13 +46174,47 @@ var isTransparent = (color) => {
 };
 var getVisibleColorFromTheme = (themeConfig) => {
   let { lineColor, root: root2, second, node: node3 } = themeConfig;
-  let list2 = [lineColor, root2.fillColor, root2.color, second.fillColor, second.color, node3.fillColor, node3.color, root2.borderColor, second.borderColor, node3.borderColor];
+  let list2 = [
+    lineColor,
+    root2.fillColor,
+    root2.color,
+    second.fillColor,
+    second.color,
+    node3.fillColor,
+    node3.color,
+    root2.borderColor,
+    second.borderColor,
+    node3.borderColor
+  ];
   for (let i3 = 0; i3 < list2.length; i3++) {
     let color = list2[i3];
     if (!isTransparent(color) && !isWhite(color)) {
       return color;
     }
   }
+};
+var getObjectChangedProps = (oldObject, newObject) => {
+  const res = {};
+  Object.keys(newObject).forEach((prop) => {
+    const oldVal = oldObject[prop];
+    const newVal = newObject[prop];
+    if (getType(oldVal) !== getType(newVal)) {
+      res[prop] = newVal;
+      return;
+    }
+    if (getType(oldVal) === "Object") {
+      if (JSON.stringify(oldVal) !== JSON.stringify(newVal)) {
+        res[prop] = newVal;
+        return;
+      }
+    } else {
+      if (oldVal !== newVal) {
+        res[prop] = newVal;
+        return;
+      }
+    }
+  });
+  return res;
 };
 
 // ../simple-mind-map/src/core/render/node/nodeGeneralization.js
@@ -43937,12 +46338,22 @@ function createExpandNodeContent() {
   if (this._openExpandNode) {
     return;
   }
-  let { open: open3, close: close2 } = this.mindMap.opt.expandBtnIcon || {};
-  this._openExpandNode = SVG(open3 || btns_default.open).size(
-    this.expandBtnSize,
-    this.expandBtnSize
-  );
-  this._openExpandNode.x(0).y(-this.expandBtnSize / 2);
+  let { close: close2, open: open3 } = this.mindMap.opt.expandBtnIcon || {};
+  if (this.mindMap.opt.isShowExpandNum) {
+    this._openExpandNode = SVG().text().size(this.expandBtnSize, this.expandBtnSize);
+    this._openExpandNode.attr({
+      "text-anchor": "middle",
+      "dominant-baseline": "middle",
+      x: this.expandBtnSize / 2,
+      y: 2
+    });
+  } else {
+    this._openExpandNode = SVG(open3 || btns_default.open).size(
+      this.expandBtnSize,
+      this.expandBtnSize
+    );
+    this._openExpandNode.x(0).y(-this.expandBtnSize / 2);
+  }
   this._closeExpandNode = SVG(close2 || btns_default.close).size(
     this.expandBtnSize,
     this.expandBtnSize
@@ -43954,6 +46365,12 @@ function createExpandNodeContent() {
     this._openExpandNode,
     this._closeExpandNode,
     this._fillExpandNode
+  );
+}
+function sumNode(data2 = []) {
+  return data2.reduce(
+    (total, cur) => total + this.sumNode(cur.children || []),
+    data2.length
   );
 }
 function updateExpandBtnNode() {
@@ -43972,8 +46389,22 @@ function updateExpandBtnNode() {
     node3 = this._closeExpandNode;
     this._lastExpandBtnType = true;
   }
-  if (this._expandBtn)
+  if (this._expandBtn) {
+    let { isShowExpandNum, expandBtnStyle, expandBtnNumHandler } = this.mindMap.opt;
+    if (isShowExpandNum) {
+      if (!expand) {
+        this._fillExpandNode.stroke({
+          color: expandBtnStyle.strokeColor
+        });
+        let count = this.sumNode(this.nodeData.children);
+        count = expandBtnNumHandler(count);
+        node3.text(count);
+      } else {
+        this._fillExpandNode.stroke("none");
+      }
+    }
     this._expandBtn.add(this._fillExpandNode).add(node3);
+  }
 }
 function updateExpandBtnPos() {
   if (!this._expandBtn) {
@@ -44049,7 +46480,8 @@ var nodeExpandBtn_default = {
   renderExpandBtn,
   removeExpandBtn,
   showExpandBtn,
-  hideExpandBtn
+  hideExpandBtn,
+  sumNode
 };
 
 // ../simple-mind-map/src/core/render/node/nodeCommandWraps.js
@@ -44077,11 +46509,11 @@ function setTag(tag) {
 function setShape(shape) {
   this.mindMap.execCommand("SET_NODE_SHAPE", this, shape);
 }
-function setStyle(prop, value, isActive) {
-  this.mindMap.execCommand("SET_NODE_STYLE", this, prop, value, isActive);
+function setStyle(prop, value) {
+  this.mindMap.execCommand("SET_NODE_STYLE", this, prop, value);
 }
-function setStyles(style, isActive) {
-  this.mindMap.execCommand("SET_NODE_STYLES", this, style, isActive);
+function setStyles(style) {
+  this.mindMap.execCommand("SET_NODE_STYLES", this, style);
 }
 var nodeCommandWraps_default = {
   setData,
@@ -44432,7 +46864,10 @@ function createIconNode() {
   }
   let iconSize = this.mindMap.themeConfig.iconSize;
   return _data.icon.map((item) => {
-    let src = icons_default.getNodeIconListIcon(item, this.mindMap.opt.iconList || []);
+    let src = icons_default.getNodeIconListIcon(
+      item,
+      this.mindMap.opt.iconList || []
+    );
     let node3 = null;
     if (/^<svg/.test(src)) {
       node3 = SVG(src);
@@ -44451,6 +46886,7 @@ function createIconNode() {
   });
 }
 function createRichTextNode() {
+  const { textAutoWrapWidth } = this.mindMap.opt;
   let g2 = new G();
   let recoverText = false;
   if (this.nodeData.data.resetRichText) {
@@ -44475,25 +46911,33 @@ function createRichTextNode() {
     this.nodeData.data.text = text3;
   }
   let html2 = `<div>${this.nodeData.data.text}</div>`;
-  let div = document.createElement("div");
+  if (!commonCaches.measureRichtextNodeTextSizeEl) {
+    commonCaches.measureRichtextNodeTextSizeEl = document.createElement("div");
+    commonCaches.measureRichtextNodeTextSizeEl.style.position = "fixed";
+    commonCaches.measureRichtextNodeTextSizeEl.style.left = "-999999px";
+    this.mindMap.el.appendChild(commonCaches.measureRichtextNodeTextSizeEl);
+  }
+  let div = commonCaches.measureRichtextNodeTextSizeEl;
   div.innerHTML = html2;
-  div.style.cssText = `position: fixed; left: -999999px;`;
   let el2 = div.children[0];
   el2.classList.add("smm-richtext-node-wrap");
   el2.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-  el2.style.maxWidth = this.mindMap.opt.textAutoWrapWidth + "px";
-  this.mindMap.el.appendChild(div);
+  el2.style.maxWidth = textAutoWrapWidth + "px";
   let { width: width2, height: height2 } = el2.getBoundingClientRect();
+  if (height2 <= 0) {
+    div.innerHTML = "<p>abc123\u6211\u548C\u4F60</p>";
+    let elTmp = div.children[0];
+    elTmp.classList.add("smm-richtext-node-wrap");
+    height2 = elTmp.getBoundingClientRect().height;
+  }
   width2 = Math.ceil(width2) + 1;
   height2 = Math.ceil(height2);
   g2.attr("data-width", width2);
   g2.attr("data-height", height2);
-  html2 = div.innerHTML;
-  this.mindMap.el.removeChild(div);
   let foreignObject = new ForeignObject();
   foreignObject.width(width2);
   foreignObject.height(height2);
-  foreignObject.add(SVG(html2));
+  foreignObject.add(div.children[0]);
   g2.add(foreignObject);
   return {
     node: g2,
@@ -44506,12 +46950,8 @@ function createTextNode() {
     return this.createRichTextNode();
   }
   let g2 = new G();
-  let fontSize = this.getStyle("fontSize", false, this.nodeData.data.isActive);
-  let lineHeight = this.getStyle(
-    "lineHeight",
-    false,
-    this.nodeData.data.isActive
-  );
+  let fontSize = this.getStyle("fontSize", false);
+  let lineHeight = this.getStyle("lineHeight", false);
   let textStyle = this.style.getTextFontStyle();
   let textArr = this.nodeData.data.text.split(/\n/gim);
   let maxWidth = this.mindMap.opt.textAutoWrapWidth;
@@ -44692,6 +47132,57 @@ var nodeCreateContents_default = {
   isUseCustomNodeContent
 };
 
+// ../simple-mind-map/src/core/render/node/nodeExpandBtnPlaceholderRect.js
+function renderExpandBtnPlaceholderRect() {
+  if (!this.nodeData.children || this.nodeData.children.length <= 0 || this.isRoot) {
+    return;
+  }
+  if (!this.mindMap.opt.alwaysShowExpandBtn) {
+    let { width: width2, height: height2 } = this;
+    if (!this._unVisibleRectRegionNode) {
+      this._unVisibleRectRegionNode = new Rect();
+      this._unVisibleRectRegionNode.fill({
+        color: "transparent"
+      });
+    }
+    this.group.add(this._unVisibleRectRegionNode);
+    this.renderer.layout.renderExpandBtnRect(
+      this._unVisibleRectRegionNode,
+      this.expandBtnSize,
+      width2,
+      height2,
+      this
+    );
+  }
+}
+function clearExpandBtnPlaceholderRect() {
+  if (!this._unVisibleRectRegionNode) {
+    return;
+  }
+  this._unVisibleRectRegionNode.remove();
+  this._unVisibleRectRegionNode = null;
+}
+function updateExpandBtnPlaceholderRect() {
+  if (this.needRerenderExpandBtnPlaceholderRect) {
+    this.needRerenderExpandBtnPlaceholderRect = false;
+    this.renderExpandBtnPlaceholderRect();
+  }
+  if (this.nodeData.children && this.nodeData.children.length > 0) {
+    if (!this._unVisibleRectRegionNode) {
+      this.renderExpandBtnPlaceholderRect();
+    }
+  } else {
+    if (this._unVisibleRectRegionNode) {
+      this.clearExpandBtnPlaceholderRect();
+    }
+  }
+}
+var nodeExpandBtnPlaceholderRect_default = {
+  renderExpandBtnPlaceholderRect,
+  clearExpandBtnPlaceholderRect,
+  updateExpandBtnPlaceholderRect
+};
+
 // ../simple-mind-map/src/core/render/node/Node.js
 var Node2 = class {
   //  构造函数
@@ -44722,6 +47213,7 @@ var Node2 = class {
     this.children = opt.children || [];
     this.group = null;
     this.shapeNode = null;
+    this.hoverNode = null;
     this._customNodeContent = null;
     this._imgData = null;
     this._iconData = null;
@@ -44754,11 +47246,15 @@ var Node2 = class {
     this.expandBtnSize = this.mindMap.opt.expandBtnSize;
     this.isMultipleChoice = false;
     this.needLayout = false;
+    this.isHide = false;
     Object.keys(nodeGeneralization_default).forEach((item) => {
       this[item] = nodeGeneralization_default[item].bind(this);
     });
     Object.keys(nodeExpandBtn_default).forEach((item) => {
       this[item] = nodeExpandBtn_default[item].bind(this);
+    });
+    Object.keys(nodeExpandBtnPlaceholderRect_default).forEach((item) => {
+      this[item] = nodeExpandBtnPlaceholderRect_default[item].bind(this);
     });
     Object.keys(nodeCommandWraps_default).forEach((item) => {
       this[item] = nodeCommandWraps_default[item].bind(this);
@@ -44875,31 +47371,42 @@ var Node2 = class {
     let { paddingX: shapePaddingX, paddingY: shapePaddingY } = this.shapeInstance.getShapePadding(_width, _height, paddingX, paddingY);
     this.shapePadding.paddingX = shapePaddingX;
     this.shapePadding.paddingY = shapePaddingY;
+    const borderWidth = this.getBorderWidth();
     return {
-      width: _width + paddingX * 2 + shapePaddingX * 2,
-      height: _height + paddingY * 2 + margin + shapePaddingY * 2
+      width: _width + paddingX * 2 + shapePaddingX * 2 + borderWidth,
+      height: _height + paddingY * 2 + margin + shapePaddingY * 2 + borderWidth
     };
   }
   //  定位节点内容
   layout() {
     this.group.clear();
+    const { hoverRectPadding } = this.mindMap.opt;
     let { width: width2, height: height2, textContentItemMargin } = this;
     let { paddingY } = this.getPaddingVale();
-    paddingY += this.shapePadding.paddingY;
+    const halfBorderWidth = this.getBorderWidth() / 2;
+    paddingY += this.shapePadding.paddingY + halfBorderWidth;
     this.shapeNode = this.shapeInstance.createShape();
     this.shapeNode.addClass("smm-node-shape");
+    this.shapeNode.translate(halfBorderWidth, halfBorderWidth);
+    this.style.shape(this.shapeNode);
     this.group.add(this.shapeNode);
-    this.updateNodeShape();
     this.renderExpandBtnPlaceholderRect();
     if (this.isGeneralization && this.generalizationBelongNode) {
       this.group.addClass("generalization_" + this.generalizationBelongNode.uid);
     }
+    const addHoverNode = () => {
+      this.hoverNode = new Rect().size(width2 + hoverRectPadding * 2, height2 + hoverRectPadding * 2).x(-hoverRectPadding).y(-hoverRectPadding);
+      this.hoverNode.addClass("smm-hover-node");
+      this.style.hoverNode(this.hoverNode, width2, height2);
+      this.group.add(this.hoverNode);
+    };
     if (this.isUseCustomNodeContent()) {
       let foreignObject = new ForeignObject();
       foreignObject.width(width2);
       foreignObject.height(height2);
-      foreignObject.add(SVG(this._customNodeContent));
+      foreignObject.add(this._customNodeContent);
       this.group.add(foreignObject);
+      addHoverNode();
       return;
     }
     let imgHeight = 0;
@@ -44953,20 +47460,7 @@ var Node2 = class {
       imgHeight + paddingY + (imgHeight > 0 && this._rectInfo.textContentHeight > 0 ? this.blockContentMargin : 0)
     );
     this.group.add(textContentNested);
-  }
-  // 渲染展开收起按钮的隐藏占位元素
-  renderExpandBtnPlaceholderRect() {
-    if (!this.mindMap.opt.alwaysShowExpandBtn) {
-      let { width: width2, height: height2 } = this;
-      if (!this._unVisibleRectRegionNode) {
-        this._unVisibleRectRegionNode = new Rect();
-        this._unVisibleRectRegionNode.fill({
-          color: "transparent"
-        });
-      }
-      this.group.add(this._unVisibleRectRegionNode);
-      this.renderer.layout.renderExpandBtnRect(this._unVisibleRectRegionNode, this.expandBtnSize, width2, height2, this);
-    }
+    addHoverNode();
   }
   // 给节点绑定事件
   bindGroupEvent() {
@@ -44980,13 +47474,19 @@ var Node2 = class {
       this.active(e2);
     });
     this.group.on("mousedown", (e2) => {
-      if (this.isRoot && e2.which === 3 && !this.mindMap.opt.readonly) {
-        e2.stopPropagation();
+      const { readonly, enableCtrlKeyNodeSelection, useLeftKeySelectionRightKeyDrag } = this.mindMap.opt;
+      if (!readonly) {
+        if (this.isRoot) {
+          if (e2.which === 3 && !useLeftKeySelectionRightKeyDrag) {
+            e2.stopPropagation();
+          }
+        } else {
+          if (e2.which !== 2) {
+            e2.stopPropagation();
+          }
+        }
       }
-      if (!this.isRoot && !this.mindMap.opt.readonly) {
-        e2.stopPropagation();
-      }
-      if (e2.ctrlKey && this.mindMap.opt.enableCtrlKeyNodeSelection) {
+      if (e2.ctrlKey && enableCtrlKeyNodeSelection) {
         this.isMultipleChoice = true;
         let isActive = this.nodeData.data.isActive;
         if (!isActive)
@@ -45002,13 +47502,13 @@ var Node2 = class {
         this.mindMap.emit(
           "node_active",
           isActive ? null : this,
-          this.mindMap.renderer.activeNodeList
+          [...this.mindMap.renderer.activeNodeList]
         );
       }
       this.mindMap.emit("node_mousedown", this, e2);
     });
     this.group.on("mouseup", (e2) => {
-      if (!this.isRoot && !this.mindMap.opt.readonly) {
+      if (!this.isRoot && e2.which !== 2 && !this.mindMap.opt.readonly) {
         e2.stopPropagation();
       }
       this.mindMap.emit("node_mouseup", this, e2);
@@ -45031,11 +47531,15 @@ var Node2 = class {
       this.mindMap.emit("node_dblclick", this, e2);
     });
     this.group.on("contextmenu", (e2) => {
-      if (this.mindMap.opt.readonly || e2.ctrlKey) {
+      const { readonly, useLeftKeySelectionRightKeyDrag } = this.mindMap.opt;
+      if (readonly || e2.ctrlKey) {
         return;
       }
       e2.stopPropagation();
       e2.preventDefault();
+      if (!useLeftKeySelectionRightKeyDrag && this.mindMap.select.hasSelectRange()) {
+        return;
+      }
       if (this.nodeData.data.isActive) {
         this.renderer.clearActive();
       }
@@ -45056,16 +47560,15 @@ var Node2 = class {
     this.renderer.clearActive();
     this.mindMap.execCommand("SET_NODE_ACTIVE", this, true);
     this.renderer.addActiveNode(this);
-    this.mindMap.emit("node_active", this, this.renderer.activeNodeList);
+    this.mindMap.emit("node_active", this, [...this.renderer.activeNodeList]);
   }
   //  更新节点
-  update(isLayout = false) {
+  update() {
     if (!this.group) {
       return;
     }
-    let {
-      alwaysShowExpandBtn
-    } = this.mindMap.opt;
+    this.updateNodeActive();
+    let { alwaysShowExpandBtn } = this.mindMap.opt;
     if (alwaysShowExpandBtn) {
       if (this._expandBtn && this.nodeData.children.length <= 0) {
         this.removeExpandBtn();
@@ -45086,6 +47589,17 @@ var Node2 = class {
       return;
     this.group.translate(this.left - t3.translateX, this.top - t3.translateY);
   }
+  // 获取节点相当于画布的位置
+  getNodePosInClient(_left, _top) {
+    let drawTransform = this.mindMap.draw.transform();
+    let { scaleX, scaleY, translateX, translateY } = drawTransform;
+    let left = _left * scaleX + translateX;
+    let top = _top * scaleY + translateY;
+    return {
+      left,
+      top
+    };
+  }
   // 重新渲染节点，即重新创建节点内容、计算节点大小、计算节点内容布局、更新展开收起按钮，概要及位置
   reRender() {
     let sizeChange = this.getSize();
@@ -45093,22 +47607,18 @@ var Node2 = class {
     this.update();
     return sizeChange;
   }
-  // 更新节点形状样式
-  updateNodeShape() {
-    if (!this.shapeNode)
+  // 更新节点激活状态
+  updateNodeActive() {
+    if (!this.group)
       return;
-    const shape = this.getShape();
-    this.style[shape === CONSTANTS.SHAPE.RECTANGLE ? "rect" : "shape"](
-      this.shapeNode
-    );
+    const isActive = this.nodeData.data.isActive;
+    this.group[isActive ? "addClass" : "removeClass"]("active");
   }
   //  递归渲染
   render(callback = () => {
   }) {
     this.renderLine();
-    let isLayout = false;
     if (!this.group) {
-      isLayout = true;
       this.group = new G();
       this.group.addClass("smm-node");
       this.group.css({
@@ -45117,33 +47627,26 @@ var Node2 = class {
       this.bindGroupEvent();
       this.draw.add(this.group);
       this.layout();
-      this.update(isLayout);
+      this.update();
     } else {
       this.draw.add(this.group);
       if (this.needLayout) {
         this.needLayout = false;
         this.layout();
       }
-      if (this.needRerenderExpandBtnPlaceholderRect) {
-        this.needRerenderExpandBtnPlaceholderRect = false;
-        this.renderExpandBtnPlaceholderRect();
-      }
+      this.updateExpandBtnPlaceholderRect();
       this.update();
     }
     if (this.children && this.children.length && this.nodeData.data.expand !== false) {
       let index3 = 0;
-      asyncRun(
-        this.children.map((item) => {
-          return () => {
-            item.render(() => {
-              index3++;
-              if (index3 >= this.children.length) {
-                callback();
-              }
-            });
-          };
-        })
-      );
+      this.children.forEach((item) => {
+        item.render(() => {
+          index3++;
+          if (index3 >= this.children.length) {
+            callback();
+          }
+        });
+      });
     } else {
       callback();
     }
@@ -45163,13 +47666,9 @@ var Node2 = class {
     this.removeGeneralization();
     this.removeLine();
     if (this.children && this.children.length) {
-      asyncRun(
-        this.children.map((item) => {
-          return () => {
-            item.remove();
-          };
-        })
-      );
+      this.children.forEach((item) => {
+        item.remove();
+      });
     }
   }
   // 销毁节点，不但会从画布删除，而且原节点直接置空，后续无法再插回画布
@@ -45193,13 +47692,9 @@ var Node2 = class {
       });
     }
     if (this.children && this.children.length) {
-      asyncRun(
-        this.children.map((item) => {
-          return () => {
-            item.hide();
-          };
-        })
-      );
+      this.children.forEach((item) => {
+        item.hide();
+      });
     }
   }
   //  显示节点
@@ -45217,13 +47712,9 @@ var Node2 = class {
       });
     }
     if (this.children && this.children.length) {
-      asyncRun(
-        this.children.map((item) => {
-          return () => {
-            item.show();
-          };
-        })
-      );
+      this.children.forEach((item) => {
+        item.show();
+      });
     }
   }
   //  连线
@@ -45332,8 +47823,8 @@ var Node2 = class {
     };
   }
   //  获取某个样式
-  getStyle(prop, root2, isActive) {
-    let v3 = this.style.merge(prop, root2, isActive);
+  getStyle(prop, root2) {
+    let v3 = this.style.merge(prop, root2);
     return v3 === void 0 ? "" : v3;
   }
   //  获取自定义样式
@@ -45351,6 +47842,10 @@ var Node2 = class {
   getSelfInhertStyle(prop) {
     return this.getSelfStyle(prop) || // 自身
     this.getParentSelfStyle(prop);
+  }
+  // 获取节点非节点状态的边框大小
+  getBorderWidth() {
+    return this.style.merge("borderWidth", false) || 0;
   }
   //  获取数据
   getData(key) {
@@ -45428,7 +47923,10 @@ var Base2 = class {
   }
   // 检查当前来源是否需要重新计算节点大小
   checkIsNeedResizeSources() {
-    return [CONSTANTS.CHANGE_THEME, CONSTANTS.TRANSFORM_TO_NORMAL_NODE].includes(this.renderer.renderSource);
+    return [
+      CONSTANTS.CHANGE_THEME,
+      CONSTANTS.TRANSFORM_TO_NORMAL_NODE
+    ].includes(this.renderer.renderSource);
   }
   // 层级类型改变
   checkIsLayerTypeChange(oldIndex, newIndex) {
@@ -45450,7 +47948,10 @@ var Base2 = class {
     let newNode = null;
     if (data2 && data2._node && !this.renderer.reRender) {
       newNode = data2._node;
-      let isLayerTypeChange = this.checkIsLayerTypeChange(newNode.layerIndex, layerIndex);
+      let isLayerTypeChange = this.checkIsLayerTypeChange(
+        newNode.layerIndex,
+        layerIndex
+      );
       newNode.reset();
       newNode.layerIndex = layerIndex;
       this.cacheNode(data2._node.uid, newNode);
@@ -45462,7 +47963,10 @@ var Base2 = class {
     } else if (this.lru.has(data2.data.uid) && !this.renderer.reRender) {
       newNode = this.lru.get(data2.data.uid);
       let lastData = JSON.stringify(newNode.nodeData.data);
-      let isLayerTypeChange = this.checkIsLayerTypeChange(newNode.layerIndex, layerIndex);
+      let isLayerTypeChange = this.checkIsLayerTypeChange(
+        newNode.layerIndex,
+        layerIndex
+      );
       newNode.reset();
       newNode.nodeData = newNode.handleData(data2 || {});
       newNode.layerIndex = layerIndex;
@@ -45520,8 +48024,16 @@ var Base2 = class {
     if (!initRootNodePosition || !Array.isArray(initRootNodePosition) || initRootNodePosition.length < 2) {
       initRootNodePosition = [CENTER, CENTER];
     }
-    node3.left = this.formatPosition(initRootNodePosition[0], this.mindMap.width, node3.width);
-    node3.top = this.formatPosition(initRootNodePosition[1], this.mindMap.height, node3.height);
+    node3.left = this.formatPosition(
+      initRootNodePosition[0],
+      this.mindMap.width,
+      node3.width
+    );
+    node3.top = this.formatPosition(
+      initRootNodePosition[1],
+      this.mindMap.height,
+      node3.height
+    );
   }
   //  更新子节点属性
   updateChildren(children, prop, offset) {
@@ -45576,11 +48088,17 @@ var Base2 = class {
   }
   //   获取节点的marginX
   getMarginX(layerIndex) {
-    return layerIndex === 1 ? this.mindMap.themeConfig.second.marginX : this.mindMap.themeConfig.node.marginX;
+    const { themeConfig, opt } = this.mindMap;
+    const { second, node: node3 } = themeConfig;
+    const hoverRectPadding = opt.hoverRectPadding * 2;
+    return layerIndex === 1 ? second.marginX + hoverRectPadding : node3.marginX + hoverRectPadding;
   }
   //  获取节点的marginY
   getMarginY(layerIndex) {
-    return layerIndex === 1 ? this.mindMap.themeConfig.second.marginY : this.mindMap.themeConfig.node.marginY;
+    const { themeConfig, opt } = this.mindMap;
+    const { second, node: node3 } = themeConfig;
+    const hoverRectPadding = opt.hoverRectPadding * 2;
+    return layerIndex === 1 ? second.marginY + hoverRectPadding : node3.marginY + hoverRectPadding;
   }
   //  获取节点包括概要在内的宽度
   getNodeWidthWithGeneralization(node3) {
@@ -47396,27 +49914,30 @@ var fishboneUtils_default = {
     },
     computedLeftTopValue({ layerIndex, node: node3, ctx }) {
       if (layerIndex >= 1 && node3.children) {
+        let marginY = ctx.getMarginY(layerIndex + 1);
         let startLeft = node3.left + node3.width * ctx.childIndent;
-        let totalTop = node3.top + node3.height + (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0);
+        let totalTop = node3.top + node3.height + (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0) + marginY;
         node3.children.forEach((item) => {
           item.left = startLeft;
           item.top += totalTop;
-          totalTop += item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
+          totalTop += item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0) + marginY;
         });
       }
     },
-    adjustLeftTopValueBefore({ node: node3, parent, ctx }) {
+    adjustLeftTopValueBefore({ node: node3, parent, ctx, layerIndex }) {
       let len = node3.children.length;
+      let marginY = ctx.getMarginY(layerIndex + 1);
       if (parent && !parent.isRoot && len > 0) {
         let totalHeight = node3.children.reduce((h3, item) => {
-          return h3 + item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
+          return h3 + item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0) + marginY;
         }, 0);
         ctx.updateBrothersTop(node3, totalHeight);
       }
     },
     adjustLeftTopValueAfter({ parent, node: node3, ctx }) {
       if (parent && parent.isRoot) {
-        let totalHeight = node3.expandBtnSize;
+        let marginY = ctx.getMarginY(node3.layerIndex + 1);
+        let totalHeight = node3.expandBtnSize + marginY;
         node3.children.forEach((item) => {
           let nodeTotalHeight = ctx.getNodeAreaHeight(item);
           let _top = item.top;
@@ -47464,42 +49985,46 @@ var fishboneUtils_default = {
       }
     },
     computedLeftTopValue({ layerIndex, node: node3, ctx }) {
+      let marginY = ctx.getMarginY(layerIndex + 1);
       if (layerIndex === 1 && node3.children) {
         let startLeft = node3.left + node3.width * ctx.childIndent;
-        let totalTop = node3.top + node3.height + (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0);
+        let totalTop = node3.top + node3.height + (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0) + marginY;
         node3.children.forEach((item) => {
           item.left = startLeft;
           item.top = totalTop + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
-          totalTop += item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
+          totalTop += item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0) + marginY;
         });
       }
       if (layerIndex > 1 && node3.children) {
         let startLeft = node3.left + node3.width * ctx.childIndent;
-        let totalTop = node3.top - (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0);
+        let totalTop = node3.top - (ctx.getNodeActChildrenLength(node3) > 0 ? node3.expandBtnSize : 0) - marginY;
         node3.children.forEach((item) => {
           item.left = startLeft;
           item.top = totalTop - item.height;
-          totalTop -= item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
+          totalTop -= item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0) + marginY;
         });
       }
     },
     adjustLeftTopValueBefore({ node: node3, ctx, layerIndex }) {
+      let marginY = ctx.getMarginY(layerIndex + 1);
       let len = node3.children.length;
       if (layerIndex > 2 && len > 0) {
         let totalHeight = node3.children.reduce((h3, item) => {
-          return h3 + item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0);
+          return h3 + item.height + (ctx.getNodeActChildrenLength(item) > 0 ? item.expandBtnSize : 0) + marginY;
         }, 0);
         ctx.updateBrothersTop(node3, -totalHeight);
       }
     },
     adjustLeftTopValueAfter({ parent, node: node3, ctx }) {
       if (parent && parent.isRoot) {
+        let marginY = ctx.getMarginY(node3.layerIndex + 1);
         let totalHeight = 0;
         let totalHeight2 = node3.expandBtnSize;
         node3.children.forEach((item) => {
           let hasChildren = ctx.getNodeActChildrenLength(item) > 0;
           let nodeTotalHeight = ctx.getNodeAreaHeight(item);
-          let offset = hasChildren > 0 ? nodeTotalHeight - item.height - (hasChildren ? item.expandBtnSize : 0) : 0;
+          let offset = hasChildren ? nodeTotalHeight - item.height - (hasChildren ? item.expandBtnSize : 0) : 0;
+          offset -= hasChildren ? marginY : 0;
           let _top = totalHeight + offset;
           let _left = item.left;
           item.top += _top;
@@ -47558,10 +50083,11 @@ var Fishbone = class extends Base_default {
             newNode.dir = index3 % 2 === 0 ? CONSTANTS.LAYOUT_GROW_DIR.TOP : CONSTANTS.LAYOUT_GROW_DIR.BOTTOM;
           }
           if (parent._node.isRoot) {
+            let marginY = this.getMarginY(layerIndex);
             if (this.checkIsTop(newNode)) {
-              newNode.top = parent._node.top - newNode.height;
+              newNode.top = parent._node.top - newNode.height - marginY;
             } else {
-              newNode.top = parent._node.top + parent._node.height;
+              newNode.top = parent._node.top + parent._node.height + marginY;
             }
           }
         }
@@ -47581,15 +50107,16 @@ var Fishbone = class extends Base_default {
       null,
       (node3, parent, isRoot, layerIndex) => {
         if (node3.isRoot) {
-          let topTotalLeft = node3.left + node3.width + node3.height;
-          let bottomTotalLeft = node3.left + node3.width + node3.height;
+          let marginX = this.getMarginX(layerIndex + 1);
+          let topTotalLeft = node3.left + node3.width + node3.height + marginX;
+          let bottomTotalLeft = node3.left + node3.width + node3.height + marginX;
           node3.children.forEach((item) => {
             if (this.checkIsTop(item)) {
               item.left = topTotalLeft;
-              topTotalLeft += item.width;
+              topTotalLeft += item.width + marginX;
             } else {
               item.left = bottomTotalLeft + 20;
-              bottomTotalLeft += item.width;
+              bottomTotalLeft += item.width + marginX;
             }
           });
         }
@@ -47652,7 +50179,8 @@ var Fishbone = class extends Base_default {
   getNodeAreaHeight(node3) {
     let totalHeight = 0;
     let loop = (node4) => {
-      totalHeight += node4.height + (this.getNodeActChildrenLength(node4) > 0 ? node4.expandBtnSize : 0);
+      let marginY = this.getMarginY(node4.layerIndex);
+      totalHeight += node4.height + (this.getNodeActChildrenLength(node4) > 0 ? node4.expandBtnSize : 0) + marginY;
       if (node4.children.length) {
         node4.children.forEach((item) => {
           loop(item);
@@ -47729,8 +50257,9 @@ var Fishbone = class extends Base_default {
         if (item.left > maxx) {
           maxx = item.left;
         }
+        let marginY = this.getMarginY(item.layerIndex);
         let nodeLineX = item.left;
-        let offset2 = node3.height / 2;
+        let offset2 = node3.height / 2 + marginY;
         let offsetX = offset2 / Math.tan(degToRad(this.mindMap.opt.fishboneDeg));
         let line2 = this.draw.path();
         if (this.checkIsTop(item)) {
@@ -47747,7 +50276,7 @@ var Fishbone = class extends Base_default {
         style && style(line2, node3);
       });
       let nodeHalfTop = node3.top + node3.height / 2;
-      let offset = node3.height / 2;
+      let offset = node3.height / 2 + this.getMarginY(node3.layerIndex + 1);
       let line = this.draw.path();
       line.plot(
         `M ${node3.left + node3.width},${nodeHalfTop} L ${maxx - offset / Math.tan(degToRad(this.mindMap.opt.fishboneDeg))},${nodeHalfTop}`
@@ -47871,12 +50400,9 @@ var TextEdit = class {
     this.mindMap = renderer.mindMap;
     this.currentNode = null;
     this.textEditNode = null;
-    this.hiddenInputEl = null;
-    this.enableFocus = true;
     this.showTextEdit = false;
     this.cacheEditingText = "";
     this.bindEvent();
-    this.createHiddenInput();
   }
   //  事件
   bindEvent() {
@@ -47900,9 +50426,6 @@ var TextEdit = class {
     this.mindMap.on("before_node_active", () => {
       this.hideEditTextBox();
     });
-    this.mindMap.on("node_active", () => {
-      this.focusHiddenInput();
-    });
     this.mindMap.keyCommand.addShortcut("F2", () => {
       if (this.renderer.activeNodeList.length <= 0) {
         return;
@@ -47910,50 +50433,22 @@ var TextEdit = class {
       this.show(this.renderer.activeNodeList[0]);
     });
     this.mindMap.on("scale", this.onScale);
-  }
-  // 创建一个隐藏的文本输入框
-  createHiddenInput() {
-    if (this.hiddenInputEl)
-      return;
-    this.hiddenInputEl = document.createElement("input");
-    this.hiddenInputEl.type = "text";
-    this.hiddenInputEl.style.cssText = `
-      position: fixed;
-      left: -99999px;
-      top: -99999px;
-    `;
-    this.hiddenInputEl.addEventListener("paste", async (event) => {
-      event.preventDefault();
-      const text3 = (event.clipboardData || window.clipboardData).getData("text");
-      const files = event.clipboardData.files;
-      let img = null;
-      if (files.length > 0) {
-        for (let i3 = 0; i3 < files.length; i3++) {
-          if (/^image\//.test(files[i3].type)) {
-            img = files[i3];
-            break;
-          }
+    if (this.mindMap.opt.enableAutoEnterTextEditWhenKeydown) {
+      window.addEventListener("keydown", (e2) => {
+        const activeNodeList = this.mindMap.renderer.activeNodeList;
+        if (activeNodeList.length <= 0 || activeNodeList.length > 1)
+          return;
+        const node3 = activeNodeList[0];
+        if (node3 && this.checkIsAutoEnterTextEditKey(e2)) {
+          this.show(node3, e2, false, true);
         }
-      }
-      this.mindMap.emit("paste", {
-        text: text3,
-        img
       });
-    });
-    document.body.appendChild(this.hiddenInputEl);
+    }
   }
-  // 让隐藏的文本输入框聚焦
-  focusHiddenInput() {
-    if (this.hiddenInputEl && this.enableFocus)
-      this.hiddenInputEl.focus();
-  }
-  // 关闭默认聚焦
-  stopFocusOnNodeActive() {
-    this.enableFocus = false;
-  }
-  // 开启默认聚焦
-  openFocusOnNodeActive() {
-    this.enableFocus = true;
+  // 判断是否是自动进入文本编模式的按钮
+  checkIsAutoEnterTextEditKey(e2) {
+    const keyCode = e2.keyCode;
+    return (keyCode === 229 || keyCode >= 65 && keyCode <= 90 || keyCode >= 48 && keyCode <= 57) && !this.mindMap.keyCommand.hasCombinationKey(e2);
   }
   //  注册临时快捷键
   registerTmpShortcut() {
@@ -47966,7 +50461,8 @@ var TextEdit = class {
   }
   //  显示文本编辑框
   // isInserting：是否是刚创建的节点
-  async show(node3, e2, isInserting = false) {
+  // isFromKeyDown：是否是在按键事件进入的编辑
+  async show(node3, e2, isInserting = false, isFromKeyDown = false) {
     if (node3.isUseCustomNodeContent()) {
       return;
     }
@@ -47977,6 +50473,7 @@ var TextEdit = class {
         isShow = await beforeTextEdit(node3, isInserting);
       } catch (error) {
         isShow = false;
+        this.mindMap.opt.errorHandler(ERROR_TYPES.BEFORE_TEXT_EDIT_ERROR, error);
       }
       if (!isShow)
         return;
@@ -47986,10 +50483,10 @@ var TextEdit = class {
     this.mindMap.view.translateXY(offsetLeft, offsetTop);
     let rect = node3._textData.node.node.getBoundingClientRect();
     if (this.mindMap.richText) {
-      this.mindMap.richText.showEditText(node3, rect, isInserting);
+      this.mindMap.richText.showEditText(node3, rect, isInserting, isFromKeyDown);
       return;
     }
-    this.showEditTextBox(node3, rect);
+    this.showEditTextBox(node3, rect, isInserting, isFromKeyDown);
   }
   // 处理画布缩放
   onScale() {
@@ -48005,7 +50502,10 @@ var TextEdit = class {
     this.show(this.currentNode);
   }
   //  显示文本编辑框
-  showEditTextBox(node3, rect) {
+  showEditTextBox(node3, rect, isInserting, isFromKeyDown) {
+    if (this.showTextEdit)
+      return;
+    const { nodeTextEditZIndex, textAutoWrapWidth, selectTextOnEnterEditText } = this.mindMap.opt;
     this.mindMap.emit("before_show_text_edit");
     this.registerTmpShortcut();
     if (!this.textEditNode) {
@@ -48021,6 +50521,11 @@ var TextEdit = class {
       this.textEditNode.addEventListener("mousedown", (e2) => {
         e2.stopPropagation();
       });
+      this.textEditNode.addEventListener("keydown", (e2) => {
+        if (this.checkIsAutoEnterTextEditKey(e2)) {
+          e2.stopPropagation();
+        }
+      });
       const targetNode = this.mindMap.opt.customInnerElsAppendTo || document.body;
       targetNode.appendChild(this.textEditNode);
     }
@@ -48032,22 +50537,33 @@ var TextEdit = class {
     );
     let isMultiLine = node3._textData.node.attr("data-ismultiLine") === "true";
     node3.style.domText(this.textEditNode, scale, isMultiLine);
-    this.textEditNode.style.zIndex = this.mindMap.opt.nodeTextEditZIndex;
+    this.textEditNode.style.zIndex = nodeTextEditZIndex;
     this.textEditNode.innerHTML = textLines.join("<br>");
     this.textEditNode.style.minWidth = rect.width + 10 + "px";
     this.textEditNode.style.minHeight = rect.height + 6 + "px";
     this.textEditNode.style.left = rect.left + "px";
     this.textEditNode.style.top = rect.top + "px";
     this.textEditNode.style.display = "block";
-    this.textEditNode.style.maxWidth = this.mindMap.opt.textAutoWrapWidth * scale + "px";
+    this.textEditNode.style.maxWidth = textAutoWrapWidth * scale + "px";
     if (isMultiLine && lineHeight !== 1) {
       this.textEditNode.style.transform = `translateY(${-((lineHeight * fontSize - fontSize) / 2) * scale}px)`;
     }
     this.showTextEdit = true;
-    if (!this.cacheEditingText) {
+    if (isInserting || selectTextOnEnterEditText && !isFromKeyDown) {
       this.selectNodeText();
+    } else {
+      this.focus();
     }
     this.cacheEditingText = "";
+  }
+  // 聚焦
+  focus() {
+    let selection = window.getSelection();
+    let range = document.createRange();
+    range.selectNodeContents(this.textEditNode);
+    range.collapse();
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
   //  选中文本
   selectNodeText() {
@@ -48172,12 +50688,7 @@ var default_default = {
     borderWidth: 0,
     borderDasharray: "none",
     borderRadius: 5,
-    textDecoration: "none",
-    active: {
-      borderColor: "rgb(57, 80, 96)",
-      borderWidth: 3,
-      borderDasharray: "none"
-    }
+    textDecoration: "none"
   },
   // 二级节点样式
   second: {
@@ -48195,12 +50706,7 @@ var default_default = {
     borderWidth: 1,
     borderDasharray: "none",
     borderRadius: 5,
-    textDecoration: "none",
-    active: {
-      borderColor: "rgb(57, 80, 96)",
-      borderWidth: 3,
-      borderDasharray: "none"
-    }
+    textDecoration: "none"
   },
   // 三级及以下节点样式
   node: {
@@ -48218,12 +50724,7 @@ var default_default = {
     borderWidth: 0,
     borderRadius: 5,
     borderDasharray: "none",
-    textDecoration: "none",
-    active: {
-      borderColor: "rgb(57, 80, 96)",
-      borderWidth: 3,
-      borderDasharray: "none"
-    }
+    textDecoration: "none"
   },
   // 概要节点样式
   generalization: {
@@ -48241,12 +50742,7 @@ var default_default = {
     borderWidth: 1,
     borderDasharray: "none",
     borderRadius: 5,
-    textDecoration: "none",
-    active: {
-      borderColor: "rgb(57, 80, 96)",
-      borderWidth: 3,
-      borderDasharray: "none"
-    }
+    textDecoration: "none"
   }
 };
 var supportActiveStyle = [
@@ -48275,7 +50771,8 @@ var nodeSizeIndependenceList = [
   "backgroundImage",
   "backgroundRepeat",
   "backgroundPosition",
-  "backgroundSize"
+  "backgroundSize",
+  "rootLineKeepSameInCurve"
 ];
 var checkIsNodeSizeIndependenceConfig = (config) => {
   let keys = Object.keys(config);
@@ -48352,9 +50849,6 @@ var Render = class {
       if (isTrueClick && this.activeNodeList.length > 0) {
         this.mindMap.execCommand("CLEAR_ACTIVE_NODE");
       }
-    });
-    this.mindMap.on("paste", (data2) => {
-      this.onPaste(data2);
     });
   }
   //  注册命令
@@ -48465,7 +50959,7 @@ var Render = class {
     this.copy = this.copy.bind(this);
     this.mindMap.keyCommand.addShortcut("Control+c", this.copy);
     this.mindMap.keyCommand.addShortcut("Control+v", () => {
-      this.textEdit.focusHiddenInput();
+      this.onPaste();
     });
     this.cut = this.cut.bind(this);
     this.mindMap.keyCommand.addShortcut("Control+x", this.cut);
@@ -48516,7 +51010,7 @@ var Render = class {
         }
       });
     });
-    this.mindMap.emit("node_active", null, this.activeNodeList);
+    this.mindMap.emit("node_active", null, [...this.activeNodeList]);
   }
   //  清除当前激活的节点
   clearActive() {
@@ -48571,7 +51065,7 @@ var Render = class {
           this.addActiveNode(node3);
           node3.showExpandBtn();
           setTimeout(() => {
-            node3.updateNodeShape();
+            node3.updateNodeActive();
           }, 0);
         }
       },
@@ -48580,6 +51074,7 @@ var Render = class {
       0,
       0
     );
+    this.mindMap.emit("node_active", null, [...this.activeNodeList]);
   }
   //  回退
   back(step) {
@@ -48606,7 +51101,7 @@ var Render = class {
     return Array.isArray(appointNodes) ? appointNodes : [appointNodes];
   }
   //  插入同级节点，多个节点只会操作第一个节点
-  insertNode(openEdit = true, appointNodes = [], appointData = null) {
+  insertNode(openEdit = true, appointNodes = [], appointData = null, appointChildren = []) {
     appointNodes = this.formatAppointNodes(appointNodes);
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
@@ -48639,13 +51134,13 @@ var Render = class {
           resetRichText: isRichText,
           ...appointData || {}
         },
-        children: []
+        children: [...appointChildren]
       });
       this.mindMap.render();
     }
   }
   //  插入子节点
-  insertChildNode(openEdit = true, appointNodes = [], appointData = null) {
+  insertChildNode(openEdit = true, appointNodes = [], appointData = null, appointChildren = []) {
     appointNodes = this.formatAppointNodes(appointNodes);
     if (this.activeNodeList.length <= 0 && appointNodes.length <= 0) {
       return;
@@ -48674,7 +51169,7 @@ var Render = class {
           resetRichText: isRichText,
           ...appointData || {}
         },
-        children: []
+        children: [...appointChildren]
       });
       node3.nodeData.data.expand = true;
       if (node3.isRoot) {
@@ -48734,12 +51229,25 @@ var Render = class {
   // 复制节点
   copy() {
     this.beingCopyData = this.copyNode();
+    this.setCoptyDataToClipboard(this.beingCopyData);
   }
   // 剪切节点
   cut() {
     this.mindMap.execCommand("CUT_NODE", (copyData) => {
       this.beingCopyData = copyData;
+      this.setCoptyDataToClipboard(copyData);
     });
+  }
+  // 将粘贴或剪切的数据设置到用户剪切板中
+  setCoptyDataToClipboard(data2) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(
+        JSON.stringify({
+          simpleMindMap: true,
+          data: data2
+        })
+      );
+    }
   }
   // 粘贴节点
   paste() {
@@ -48748,7 +51256,28 @@ var Render = class {
     }
   }
   // 粘贴事件
-  async onPaste({ text: text3, img }) {
+  async onPaste() {
+    const { errorHandler } = this.mindMap.opt;
+    let text3 = null;
+    let img = null;
+    if (navigator.clipboard) {
+      try {
+        text3 = await navigator.clipboard.readText();
+        const items = await navigator.clipboard.read();
+        if (items && items.length > 0) {
+          for (const clipboardItem of items) {
+            for (const type of clipboardItem.types) {
+              if (/^image\//.test(type)) {
+                img = await clipboardItem.getType(type);
+                break;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        errorHandler(ERROR_TYPES.READ_CLIPBOARD_ERROR, error);
+      }
+    }
     const imgSize = img ? img.size : 0;
     if (this.beingPasteText !== text3 || this.beingPasteImgSize !== imgSize) {
       this.currentBeingPasteType = CONSTANTS.PASTE_TYPE.CLIP_BOARD;
@@ -48761,9 +51290,48 @@ var Render = class {
     }
     if (this.currentBeingPasteType === CONSTANTS.PASTE_TYPE.CLIP_BOARD) {
       if (text3) {
-        this.mindMap.execCommand("INSERT_CHILD_NODE", false, [], {
-          text: text3
-        });
+        let smmData = null;
+        let useDefault = true;
+        if (this.mindMap.opt.customHandleClipboardText) {
+          try {
+            const res = await this.mindMap.opt.customHandleClipboardText(text3);
+            if (!isUndef(res)) {
+              useDefault = false;
+              if (typeof res === "object" && res.simpleMindMap) {
+                smmData = res.data;
+              } else {
+                text3 = String(res);
+              }
+            }
+          } catch (error) {
+            errorHandler(ERROR_TYPES.CUSTOM_HANDLE_CLIPBOARD_TEXT_ERROR, error);
+          }
+        }
+        if (useDefault) {
+          try {
+            const parsedData = JSON.parse(text3);
+            if (parsedData && parsedData.simpleMindMap) {
+              smmData = parsedData.data;
+            }
+          } catch (error) {
+            errorHandler(ERROR_TYPES.PARSE_PASTE_DATA_ERROR, error);
+          }
+        }
+        if (smmData) {
+          this.mindMap.execCommand(
+            "INSERT_CHILD_NODE",
+            false,
+            [],
+            {
+              ...smmData.data
+            },
+            [...smmData.children]
+          );
+        } else {
+          this.mindMap.execCommand("INSERT_CHILD_NODE", false, [], {
+            text: text3
+          });
+        }
       }
       if (img) {
         try {
@@ -48779,7 +51347,7 @@ var Render = class {
             });
           }
         } catch (error) {
-          console.log(error);
+          errorHandler(ERROR_TYPES.LOAD_CLIPBOARD_IMAGE_ERROR, error);
         }
       }
     } else {
@@ -48888,7 +51456,7 @@ var Render = class {
         }
       }
     }
-    this.mindMap.emit("node_active", null, this.activeNodeList);
+    this.mindMap.emit("node_active", null, [...this.activeNodeList]);
     this.mindMap.render();
   }
   //  移除某个指定节点
@@ -48917,7 +51485,7 @@ var Render = class {
     let copyData = copyNodeTree({}, node3, true);
     this.removeActiveNode(node3);
     this.removeOneNode(node3);
-    this.mindMap.emit("node_active", null, this.activeNodeList);
+    this.mindMap.emit("node_active", null, [...this.activeNodeList]);
     this.mindMap.render();
     if (callback && typeof callback === "function") {
       callback(copyData);
@@ -48930,7 +51498,7 @@ var Render = class {
     }
     this.removeActiveNode(node3);
     this.removeOneNode(node3);
-    this.mindMap.emit("node_active", null, this.activeNodeList);
+    this.mindMap.emit("node_active", null, [...this.activeNodeList]);
     toNode.nodeData.children.push(node3.nodeData);
     this.mindMap.render();
     if (toNode.isRoot) {
@@ -48948,20 +51516,10 @@ var Render = class {
     this.mindMap.render();
   }
   //  设置节点样式
-  setNodeStyle(node3, prop, value, isActive) {
-    let data2 = {};
-    if (isActive) {
-      data2 = {
-        activeStyle: {
-          ...node3.nodeData.data.activeStyle || {},
-          [prop]: value
-        }
-      };
-    } else {
-      data2 = {
-        [prop]: value
-      };
-    }
+  setNodeStyle(node3, prop, value) {
+    let data2 = {
+      [prop]: value
+    };
     if (this.mindMap.richText) {
       let config = this.mindMap.richText.normalStyleToRichTextStyle({
         [prop]: value
@@ -48979,18 +51537,8 @@ var Render = class {
     }
   }
   //  设置节点多个样式
-  setNodeStyles(node3, style, isActive) {
-    let data2 = {};
-    if (isActive) {
-      data2 = {
-        activeStyle: {
-          ...node3.nodeData.data.activeStyle || {},
-          ...style
-        }
-      };
-    } else {
-      data2 = style;
-    }
+  setNodeStyles(node3, style) {
+    let data2 = { ...style };
     if (this.mindMap.richText) {
       let config = this.mindMap.richText.normalStyleToRichTextStyle(style);
       if (Object.keys(config).length > 0) {
@@ -49022,7 +51570,7 @@ var Render = class {
     } else {
       node3.hideExpandBtn();
     }
-    node3.updateNodeShape();
+    node3.updateNodeActive();
   }
   //  设置节点是否展开
   setNodeExpand(node3, expand) {
@@ -49121,7 +51669,8 @@ var Render = class {
     });
   }
   //  设置节点图片
-  setNodeImage(node3, { url, title, width: width2, height: height2, custom = false }) {
+  setNodeImage(node3, data2) {
+    const { url, title, width: width2, height: height2, custom = false } = data2 || { url: "", title: "", width: 0, height: 0, custom: false };
     this.setNodeDataRender(node3, {
       image: url,
       imageTitle: title || "",
@@ -49351,12 +51900,7 @@ var freshGreen_default = (0, import_deepmerge2.default)(default_default, {
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(57, 80, 96)",
-      borderWidth: 3,
-      borderDasharray: "none"
-    }
+    color: "#333"
   }
 });
 
@@ -49373,10 +51917,7 @@ var blueSky_default = (0, import_deepmerge3.default)(default_default, {
   generalizationLineColor: "#333",
   // 根节点样式
   root: {
-    fillColor: "rgb(115, 161, 191)",
-    active: {
-      borderColor: "rgb(57, 80, 96)"
-    }
+    fillColor: "rgb(115, 161, 191)"
   },
   // 二级节点样式
   second: {
@@ -49384,27 +51925,18 @@ var blueSky_default = (0, import_deepmerge3.default)(default_default, {
     color: "#333",
     borderColor: "rgb(115, 161, 191)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(57, 80, 96)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(57, 80, 96)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(57, 80, 96)"
-    }
+    color: "#333"
   }
 });
 
@@ -49421,10 +51953,7 @@ var brainImpairedPink_default = (0, import_deepmerge4.default)(default_default, 
   generalizationLineColor: "#333",
   // 根节点样式
   root: {
-    fillColor: "rgb(191, 115, 148)",
-    active: {
-      borderColor: "rgb(96, 57, 74)"
-    }
+    fillColor: "rgb(191, 115, 148)"
   },
   // 二级节点样式
   second: {
@@ -49432,27 +51961,18 @@ var brainImpairedPink_default = (0, import_deepmerge4.default)(default_default, 
     color: "#333",
     borderColor: "rgb(191, 115, 148)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(96, 57, 74)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 57, 74)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 57, 74)"
-    }
+    color: "#333"
   }
 });
 
@@ -49469,10 +51989,7 @@ var romanticPurple_default = (0, import_deepmerge5.default)(default_default, {
   generalizationLineColor: "#333",
   // 根节点样式
   root: {
-    fillColor: "rgb(123, 115, 191)",
-    active: {
-      borderColor: "rgb(61, 57, 96)"
-    }
+    fillColor: "rgb(123, 115, 191)"
   },
   // 二级节点样式
   second: {
@@ -49480,27 +51997,18 @@ var romanticPurple_default = (0, import_deepmerge5.default)(default_default, {
     color: "#333",
     borderColor: "rgb(123, 115, 191)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(61, 57, 96)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(61, 57, 96)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(61, 57, 96)"
-    }
+    color: "#333"
   }
 });
 
@@ -49517,10 +52025,7 @@ var freshRed_default = (0, import_deepmerge6.default)(default_default, {
   generalizationLineColor: "#333",
   // 根节点样式
   root: {
-    fillColor: "rgb(191, 115, 115)",
-    active: {
-      borderColor: "rgb(96, 57, 57)"
-    }
+    fillColor: "rgb(191, 115, 115)"
   },
   // 二级节点样式
   second: {
@@ -49528,27 +52033,18 @@ var freshRed_default = (0, import_deepmerge6.default)(default_default, {
     color: "#333",
     borderColor: "rgb(191, 115, 115)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(96, 57, 57)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 57, 57)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 57, 57)"
-    }
+    color: "#333"
   }
 });
 
@@ -49565,10 +52061,7 @@ var earthYellow_default = (0, import_deepmerge7.default)(default_default, {
   generalizationLineColor: "#333",
   // 根节点样式
   root: {
-    fillColor: "rgb(191, 147, 115)",
-    active: {
-      borderColor: "rgb(96, 73, 57)"
-    }
+    fillColor: "rgb(191, 147, 115)"
   },
   // 二级节点样式
   second: {
@@ -49576,27 +52069,18 @@ var earthYellow_default = (0, import_deepmerge7.default)(default_default, {
     color: "#333",
     borderColor: "rgb(191, 147, 115)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(96, 73, 57)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 73, 57)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#333",
-    color: "#333",
-    active: {
-      borderColor: "rgb(96, 73, 57)"
-    }
+    color: "#333"
   }
 });
 
@@ -49617,16 +52101,13 @@ var classic_default = (0, import_deepmerge8.default)(default_default, {
   backgroundImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQzg5QTQ0NDhENzgxMUUzOENGREE4QTg0RDgzRTZDNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQzg5QTQ0NThENzgxMUUzOENGREE4QTg0RDgzRTZDNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkMwOEQ1NDRGOEQ3NzExRTM4Q0ZEQThBODREODNFNkM3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkMwOEQ1NDUwOEQ3NzExRTM4Q0ZEQThBODREODNFNkM3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+e9P33AAAACVJREFUeNpisXJ0YUACTAyoAMr/+eM7EGGRZ4FQ7BycEAZAgAEAHbEGtkoQm/wAAAAASUVORK5CYII=",
   // 背景重复
   backgroundRepeat: "repeat",
+  backgroundSize: "auto",
   // 根节点样式
   root: {
     fillColor: "rgb(233, 223, 152)",
     color: "#333",
     fontSize: 24,
-    borderRadius: 21,
-    active: {
-      fillColor: "rgb(254, 219, 0)",
-      borderColor: "transparent"
-    }
+    borderRadius: 21
   },
   // 二级节点样式
   second: {
@@ -49634,31 +52115,19 @@ var classic_default = (0, import_deepmerge8.default)(default_default, {
     borderColor: "transparent",
     color: "#333",
     fontSize: 16,
-    borderRadius: 10,
-    active: {
-      fillColor: "rgb(254, 219, 0)",
-      borderColor: "transparent"
-    }
+    borderRadius: 10
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
     color: "#fff",
-    fontWeight: "bold",
-    active: {
-      fillColor: "rgb(254, 219, 0)",
-      borderColor: "transparent"
-    }
+    fontWeight: "bold"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "transparent",
-    color: "#333",
-    active: {
-      fillColor: "rgb(254, 219, 0)",
-      borderColor: "transparent"
-    }
+    color: "#333"
   }
 });
 
@@ -49680,10 +52149,7 @@ var classic2_default = (0, import_deepmerge9.default)(default_default, {
     fillColor: "rgb(18, 187, 55)",
     color: "#fff",
     fontSize: 24,
-    borderRadius: 10,
-    active: {
-      borderColor: "rgb(51, 51, 51)"
-    }
+    borderRadius: 10
   },
   // 二级节点样式
   second: {
@@ -49691,28 +52157,19 @@ var classic2_default = (0, import_deepmerge9.default)(default_default, {
     borderColor: "transparent",
     color: "#1a1a1a",
     fontSize: 18,
-    borderRadius: 10,
-    active: {
-      borderColor: "rgb(51, 51, 51)"
-    }
+    borderRadius: 10
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "#1a1a1a",
-    active: {
-      borderColor: "rgb(51, 51, 51)"
-    }
+    color: "#1a1a1a"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "rgb(51, 51, 51)",
     borderWidth: 2,
-    color: "#1a1a1a",
-    active: {
-      borderColor: "rgb(18, 187, 55)"
-    }
+    color: "#1a1a1a"
   }
 });
 
@@ -49736,10 +52193,7 @@ var classic3_default = (0, import_deepmerge10.default)(default_default, {
     fontSize: 24,
     borderRadius: 10,
     borderColor: "rgb(249, 199, 84)",
-    borderWidth: 1,
-    active: {
-      borderColor: "rgb(94, 202, 110)"
-    }
+    borderWidth: 1
   },
   // 二级节点样式
   second: {
@@ -49748,28 +52202,19 @@ var classic3_default = (0, import_deepmerge10.default)(default_default, {
     borderWidth: 1,
     color: "#1a1a1a",
     fontSize: 18,
-    borderRadius: 10,
-    active: {
-      borderColor: "rgb(94, 202, 110)"
-    }
+    borderRadius: 10
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "#1a1a1a",
-    active: {
-      borderColor: "rgb(94, 202, 110)"
-    }
+    color: "#1a1a1a"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "#1a1a1a",
     color: "#1a1a1a",
-    borderWidth: 2,
-    active: {
-      borderColor: "rgb(94, 202, 110)"
-    }
+    borderWidth: 2
   }
 });
 
@@ -49793,10 +52238,7 @@ var classic4_default = (0, import_deepmerge11.default)(default_default, {
     fontSize: 24,
     borderRadius: 10,
     borderColor: "rgb(189, 197, 201)",
-    borderWidth: 2,
-    active: {
-      borderColor: "rgb(169, 218, 218)"
-    }
+    borderWidth: 2
   },
   // 二级节点样式
   second: {
@@ -49805,10 +52247,7 @@ var classic4_default = (0, import_deepmerge11.default)(default_default, {
     borderWidth: 2,
     color: "#fff",
     fontSize: 18,
-    borderRadius: 10,
-    active: {
-      borderColor: "rgb(56, 123, 233)"
-    }
+    borderRadius: 10
   },
   // 三级及以下节点样式
   node: {
@@ -49816,20 +52255,14 @@ var classic4_default = (0, import_deepmerge11.default)(default_default, {
     color: "rgb(30, 53, 86)",
     borderColor: "rgb(30, 53, 86)",
     borderWidth: 1,
-    marginY: 20,
-    active: {
-      borderColor: "rgb(169, 218, 218)"
-    }
+    marginY: 20
   },
   // 概要节点样式
   generalization: {
     fillColor: "rgb(56, 123, 233)",
     borderColor: "rgb(56, 123, 233)",
     color: "#fff",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(169, 218, 218)"
-    }
+    borderWidth: 0
   }
 });
 
@@ -49851,10 +52284,7 @@ var dark_default = (0, import_deepmerge12.default)(default_default, {
     fillColor: "rgb(28, 178, 43)",
     color: "#fff",
     fontSize: 24,
-    borderRadius: 10,
-    active: {
-      borderColor: "rgb(17, 68, 23)"
-    }
+    borderRadius: 10
   },
   // 二级节点样式
   second: {
@@ -49862,27 +52292,18 @@ var dark_default = (0, import_deepmerge12.default)(default_default, {
     color: "rgb(147,148,149)",
     fontSize: 18,
     borderRadius: 10,
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(17, 68, 23)"
-    }
+    borderWidth: 0
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(147, 148, 149)",
-    active: {
-      borderColor: "rgb(17, 68, 23)"
-    }
+    color: "rgb(147, 148, 149)"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "transparent",
-    color: "#333",
-    active: {
-      borderColor: "rgb(17, 68, 23)"
-    }
+    color: "#333"
   }
 });
 
@@ -49900,10 +52321,7 @@ var classicGreen_default = (0, import_deepmerge13.default)(default_default, {
   // 根节点样式
   root: {
     fillColor: "rgb(253, 244, 217)",
-    color: "#222",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#222"
   },
   // 二级节点样式
   second: {
@@ -49911,28 +52329,19 @@ var classicGreen_default = (0, import_deepmerge13.default)(default_default, {
     color: "#222",
     borderColor: "rgb(242, 200, 104)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "rgb(123, 199, 120)",
     borderColor: "transparent",
     borderWidth: 2,
-    color: "#fff",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#fff"
   }
 });
 
@@ -49952,10 +52361,7 @@ var classicBlue_default = (0, import_deepmerge14.default)(default_default, {
   // 根节点样式
   root: {
     fillColor: "rgb(255, 255, 255)",
-    color: "#222",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#222"
   },
   // 二级节点样式
   second: {
@@ -49963,27 +52369,18 @@ var classicBlue_default = (0, import_deepmerge14.default)(default_default, {
     color: "#222",
     borderColor: "rgb(255, 255, 255)",
     borderWidth: 1,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#333",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#333"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "rgb(51, 51, 51)",
-    color: "#333",
-    active: {
-      borderColor: "rgb(94, 199, 248)"
-    }
+    color: "#333"
   }
 });
 
@@ -50003,10 +52400,7 @@ var minions_default = (0, import_deepmerge15.default)(default_default, {
   root: {
     fillColor: "rgb(55, 165, 255)",
     borderColor: "rgb(51, 51, 51)",
-    borderWidth: 3,
-    active: {
-      borderColor: "rgb(255, 160, 36)"
-    }
+    borderWidth: 3
   },
   // 二级节点样式
   second: {
@@ -50014,27 +52408,18 @@ var minions_default = (0, import_deepmerge15.default)(default_default, {
     color: "#222",
     borderColor: "rgb(51, 51, 51)",
     borderWidth: 3,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(55, 165, 255)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(55, 165, 255)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     borderColor: "#222",
     borderWidth: 3,
-    color: "#222",
-    active: {
-      borderColor: "rgb(55, 165, 255)"
-    }
+    color: "#222"
   }
 });
 
@@ -50054,11 +52439,7 @@ var pinkGrape_default = (0, import_deepmerge16.default)(default_default, {
   root: {
     fillColor: "rgb(139, 109, 225)",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(243, 104, 138)",
-      borderWidth: 2
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50066,29 +52447,18 @@ var pinkGrape_default = (0, import_deepmerge16.default)(default_default, {
     color: "#fff",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(139, 109, 225)",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(139, 109, 225)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "transparent",
-    color: "#222",
-    active: {
-      borderColor: "rgb(139, 109, 225)",
-      borderWidth: 2
-    }
+    color: "#222"
   }
 });
 
@@ -50108,11 +52478,7 @@ var mint_default = (0, import_deepmerge17.default)(default_default, {
   root: {
     fillColor: "rgb(0, 192, 184)",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(255, 160, 36)",
-      borderWidth: 3
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50120,27 +52486,18 @@ var mint_default = (0, import_deepmerge17.default)(default_default, {
     color: "#222",
     borderColor: "rgb(184, 235, 233)",
     borderWidth: 2,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(0, 192, 184)"
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(0, 192, 184)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     fillColor: "rgb(90, 206, 241)",
     borderColor: "transparent",
-    color: "#fff",
-    active: {
-      borderColor: "rgb(0, 192, 184)"
-    }
+    color: "#fff"
   }
 });
 
@@ -50161,11 +52518,7 @@ var gold_default = (0, import_deepmerge18.default)(default_default, {
     fillColor: "rgb(51, 56, 62)",
     color: "rgb(247, 208, 160)",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(247, 208, 160)",
-      borderWidth: 3
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50173,28 +52526,18 @@ var gold_default = (0, import_deepmerge18.default)(default_default, {
     color: "rgb(81, 58, 42)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(51, 56, 62)",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(0, 192, 184)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     fillColor: "rgb(127, 93, 64)",
     borderColor: "transparent",
-    color: "rgb(255, 214, 175)",
-    active: {
-      borderColor: "rgb(51, 56, 62)"
-    }
+    color: "rgb(255, 214, 175)"
   }
 });
 
@@ -50215,11 +52558,7 @@ var vitalityOrange_default = (0, import_deepmerge19.default)(default_default, {
     fillColor: "rgb(255, 112, 52)",
     color: "#fff",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(51, 51, 51)",
-      borderWidth: 3
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50227,28 +52566,18 @@ var vitalityOrange_default = (0, import_deepmerge19.default)(default_default, {
     color: "rgb(51, 51, 51)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(255, 112, 52)",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(255, 112, 52)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     fillColor: "rgb(255, 222, 69)",
     borderColor: "transparent",
-    color: "rgb(51, 51, 51)",
-    active: {
-      borderColor: "rgb(255, 112, 52)"
-    }
+    color: "rgb(51, 51, 51)"
   }
 });
 
@@ -50269,11 +52598,7 @@ var greenLeaf_default = (0, import_deepmerge20.default)(default_default, {
     fillColor: "rgb(25, 193, 73)",
     color: "#fff",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "#222",
-      borderWidth: 3
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50281,29 +52606,19 @@ var greenLeaf_default = (0, import_deepmerge20.default)(default_default, {
     color: "rgb(69, 149, 96)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(25, 193, 73)",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "#222",
-    active: {
-      borderColor: "rgb(25, 193, 73)"
-    }
+    color: "#222"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "rgb(251, 158, 0)",
     borderWidth: 2,
-    color: "rgb(51, 51, 51)",
-    active: {
-      borderColor: "rgb(25, 193, 73)"
-    }
+    color: "rgb(51, 51, 51)"
   }
 });
 
@@ -50324,11 +52639,7 @@ var dark2_default = (0, import_deepmerge21.default)(default_default, {
     fillColor: "rgb(36, 179, 96)",
     color: "#fff",
     borderColor: "",
-    borderWidth: 0,
-    active: {
-      borderColor: "rgb(254, 199, 13)",
-      borderWidth: 3
-    }
+    borderWidth: 0
   },
   // 二级节点样式
   second: {
@@ -50336,29 +52647,19 @@ var dark2_default = (0, import_deepmerge21.default)(default_default, {
     color: "rgb(0, 0, 0)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "rgb(36, 179, 96)",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "rgb(204, 204, 204)",
-    active: {
-      borderColor: "rgb(254, 199, 13)"
-    }
+    color: "rgb(204, 204, 204)"
   },
   // 概要节点样式
   generalization: {
     fillColor: "transparent",
     borderColor: "rgb(255, 119, 34)",
     borderWidth: 2,
-    color: "rgb(204, 204, 204)",
-    active: {
-      borderColor: "rgb(254, 199, 13)"
-    }
+    color: "rgb(204, 204, 204)"
   }
 });
 
@@ -50379,11 +52680,7 @@ var skyGreen_default = (0, import_deepmerge22.default)(default_default, {
     fillColor: "#fff",
     borderColor: "",
     borderWidth: 0,
-    color: "rgb(65, 89, 158)",
-    active: {
-      borderColor: "rgb(251, 227, 188)",
-      borderWidth: 3
-    }
+    color: "rgb(65, 89, 158)"
   },
   // 二级节点样式
   second: {
@@ -50391,28 +52688,18 @@ var skyGreen_default = (0, import_deepmerge22.default)(default_default, {
     color: "rgb(65, 89, 158)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 14,
-    active: {
-      borderColor: "#fff",
-      borderWidth: 2
-    }
+    fontSize: 14
   },
   // 三级及以下节点样式
   node: {
     fontSize: 12,
-    color: "rgb(65, 89, 158)",
-    active: {
-      borderColor: "rgb(251, 227, 188)"
-    }
+    color: "rgb(65, 89, 158)"
   },
   // 概要节点样式
   generalization: {
     fillColor: "#fff",
     borderColor: "transparent",
-    color: "rgb(65, 89, 158)",
-    active: {
-      borderColor: "rgb(251, 227, 188)"
-    }
+    color: "rgb(65, 89, 158)"
   }
 });
 
@@ -50432,10 +52719,7 @@ var simpleBlack_default = (0, import_deepmerge23.default)(default_default, {
     color: "rgb(34, 34, 34)",
     borderColor: "rgb(34, 34, 34)",
     borderWidth: 3,
-    fontSize: 24,
-    active: {
-      borderColor: "#a13600"
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50443,18 +52727,12 @@ var simpleBlack_default = (0, import_deepmerge23.default)(default_default, {
     color: "rgb(34, 34, 34)",
     borderColor: "rgb(34, 34, 34)",
     borderWidth: 3,
-    fontSize: 18,
-    active: {
-      borderColor: "#a13600"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(34, 34, 34)",
-    active: {
-      borderColor: "#a13600"
-    }
+    color: "rgb(34, 34, 34)"
   },
   // 概要节点样式
   generalization: {
@@ -50462,10 +52740,7 @@ var simpleBlack_default = (0, import_deepmerge23.default)(default_default, {
     fillColor: "transparent",
     borderColor: "rgb(34, 34, 34)",
     borderWidth: 2,
-    color: "rgb(34, 34, 34)",
-    active: {
-      borderColor: "#a13600"
-    }
+    color: "rgb(34, 34, 34)"
   }
 });
 
@@ -50485,11 +52760,7 @@ var courseGreen_default = (0, import_deepmerge24.default)(default_default, {
     color: "#fff",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "rgb(173, 91, 12)",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50497,18 +52768,12 @@ var courseGreen_default = (0, import_deepmerge24.default)(default_default, {
     color: "rgb(50, 113, 96)",
     borderColor: "rgb(113, 195, 169)",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(173, 91, 12)"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(10, 59, 43)",
-    active: {
-      borderColor: "rgb(173, 91, 12)"
-    }
+    color: "rgb(10, 59, 43)"
   },
   // 概要节点样式
   generalization: {
@@ -50516,10 +52781,7 @@ var courseGreen_default = (0, import_deepmerge24.default)(default_default, {
     fillColor: "rgb(246, 238, 211)",
     borderColor: "",
     borderWidth: 0,
-    color: "rgb(173, 91, 12)",
-    active: {
-      borderColor: "rgb(113, 195, 169)"
-    }
+    color: "rgb(173, 91, 12)"
   }
 });
 
@@ -50539,11 +52801,7 @@ var coffee_default = (0, import_deepmerge25.default)(default_default, {
     color: "#fff",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "rgb(173, 123, 91)",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50551,18 +52809,12 @@ var coffee_default = (0, import_deepmerge25.default)(default_default, {
     color: "rgb(125, 86, 42)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(173, 123, 91)"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(96, 71, 47)",
-    active: {
-      borderColor: "rgb(173, 123, 91)"
-    }
+    color: "rgb(96, 71, 47)"
   },
   // 概要节点样式
   generalization: {
@@ -50570,10 +52822,7 @@ var coffee_default = (0, import_deepmerge25.default)(default_default, {
     fillColor: "rgb(255, 249, 239)",
     borderColor: "rgb(173, 123, 91)",
     borderWidth: 2,
-    color: "rgb(122, 83, 44)",
-    active: {
-      borderColor: "rgb(202, 117, 79)"
-    }
+    color: "rgb(122, 83, 44)"
   }
 });
 
@@ -50595,11 +52844,7 @@ var redSpirit_default = (0, import_deepmerge26.default)(default_default, {
     color: "rgb(255, 233, 157)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "rgb(255, 233, 157)",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50607,18 +52852,12 @@ var redSpirit_default = (0, import_deepmerge26.default)(default_default, {
     color: "rgb(211, 58, 21)",
     borderColor: "rgb(222, 101, 85)",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(255, 233, 157)"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(144, 71, 43)",
-    active: {
-      borderColor: "rgb(255, 233, 157)"
-    }
+    color: "rgb(144, 71, 43)"
   },
   // 概要节点样式
   generalization: {
@@ -50626,10 +52865,7 @@ var redSpirit_default = (0, import_deepmerge26.default)(default_default, {
     fillColor: "rgb(255, 247, 211)",
     borderColor: "rgb(255, 202, 162)",
     borderWidth: 2,
-    color: "rgb(187, 101, 69)",
-    active: {
-      borderColor: "rgb(222, 101, 85)"
-    }
+    color: "rgb(187, 101, 69)"
   }
 });
 
@@ -50651,11 +52887,7 @@ var blackHumour_default = (0, import_deepmerge27.default)(default_default, {
     color: "#fff",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "rgb(254, 199, 13)",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50663,19 +52895,12 @@ var blackHumour_default = (0, import_deepmerge27.default)(default_default, {
     color: "rgb(0, 0, 0)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(36, 179, 96)",
-      borderWidth: 3
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(204, 204, 204)",
-    active: {
-      borderColor: "rgb(254, 199, 13)"
-    }
+    color: "rgb(204, 204, 204)"
   },
   // 概要节点样式
   generalization: {
@@ -50683,10 +52908,7 @@ var blackHumour_default = (0, import_deepmerge27.default)(default_default, {
     fillColor: "rgb(27, 31, 34)",
     borderColor: "rgb(255, 119, 34)",
     borderWidth: 2,
-    color: "rgb(204, 204, 204)",
-    active: {
-      borderColor: "rgb(36, 179, 96)"
-    }
+    color: "rgb(204, 204, 204)"
   }
 });
 
@@ -50708,11 +52930,7 @@ var lateNightOffice_default = (0, import_deepmerge28.default)(default_default, {
     color: "rgb(255, 255, 255)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "rgb(255, 119, 34)",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50720,19 +52938,12 @@ var lateNightOffice_default = (0, import_deepmerge28.default)(default_default, {
     color: "rgb(209, 210, 210)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(255, 119, 34)",
-      borderWidth: 3
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(204, 204, 204)",
-    active: {
-      borderColor: "rgb(255, 119, 34)"
-    }
+    color: "rgb(204, 204, 204)"
   },
   // 概要节点样式
   generalization: {
@@ -50740,10 +52951,7 @@ var lateNightOffice_default = (0, import_deepmerge28.default)(default_default, {
     fillColor: "rgb(255, 119, 34)",
     borderColor: "",
     borderWidth: 2,
-    color: "#fff",
-    active: {
-      borderColor: "rgb(23, 153, 243)"
-    }
+    color: "#fff"
   }
 });
 
@@ -50765,11 +52973,7 @@ var blackGold_default = (0, import_deepmerge29.default)(default_default, {
     color: "rgb(111, 61, 6)",
     borderColor: "",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "#fff",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50777,18 +52981,12 @@ var blackGold_default = (0, import_deepmerge29.default)(default_default, {
     color: "rgb(225, 201, 158)",
     borderColor: "rgb(245, 224, 191)",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "rgb(255, 208, 124)"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "rgb(231, 203, 155)",
-    active: {
-      borderColor: "rgb(255, 208, 124)"
-    }
+    color: "rgb(231, 203, 155)"
   },
   // 概要节点样式
   generalization: {
@@ -50796,10 +52994,7 @@ var blackGold_default = (0, import_deepmerge29.default)(default_default, {
     fillColor: "rgb(56, 45, 34)",
     borderColor: "rgb(104, 84, 61)",
     borderWidth: 2,
-    color: "rgb(242, 216, 176)",
-    active: {
-      borderColor: "rgb(255, 208, 124)"
-    }
+    color: "rgb(242, 216, 176)"
   }
 });
 
@@ -50821,11 +53016,7 @@ var avocado_default = (0, import_deepmerge30.default)(default_default, {
     color: "#fff",
     borderColor: "#94c143",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "#749336",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50833,18 +53024,12 @@ var avocado_default = (0, import_deepmerge30.default)(default_default, {
     color: "#749336",
     borderColor: "#aec668",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "#749336"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "#749336",
-    active: {
-      borderColor: "#749336"
-    }
+    color: "#749336"
   },
   // 概要节点样式
   generalization: {
@@ -50852,10 +53037,7 @@ var avocado_default = (0, import_deepmerge30.default)(default_default, {
     fillColor: "#cee498",
     borderColor: "#aec668",
     borderWidth: 2,
-    color: "#749336",
-    active: {
-      borderColor: "#749336"
-    }
+    color: "#749336"
   }
 });
 
@@ -50877,11 +53059,7 @@ var autumn_default = (0, import_deepmerge31.default)(default_default, {
     color: "#fff",
     borderColor: "#e68112",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "#b0bc47",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50889,18 +53067,12 @@ var autumn_default = (0, import_deepmerge31.default)(default_default, {
     color: "#8c5416",
     borderColor: "#b0bc47",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "#e68112"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "#8c5416",
-    active: {
-      borderColor: "#b0bc47"
-    }
+    color: "#8c5416"
   },
   // 概要节点样式
   generalization: {
@@ -50908,10 +53080,7 @@ var autumn_default = (0, import_deepmerge31.default)(default_default, {
     fillColor: "#ffd683",
     borderColor: "#b0bc47",
     borderWidth: 2,
-    color: "#8c5416",
-    active: {
-      borderColor: "#e68112"
-    }
+    color: "#8c5416"
   }
 });
 
@@ -50933,11 +53102,7 @@ var orangeJuice_default = (0, import_deepmerge32.default)(default_default, {
     color: "#110501",
     borderColor: "#ff6811",
     borderWidth: 0,
-    fontSize: 24,
-    active: {
-      borderColor: "#a9a4a9",
-      borderWidth: 3
-    }
+    fontSize: 24
   },
   // 二级节点样式
   second: {
@@ -50945,18 +53110,12 @@ var orangeJuice_default = (0, import_deepmerge32.default)(default_default, {
     color: "#a9a4a9",
     borderColor: "#ff6811",
     borderWidth: 2,
-    fontSize: 18,
-    active: {
-      borderColor: "#110501"
-    }
+    fontSize: 18
   },
   // 三级及以下节点样式
   node: {
     fontSize: 14,
-    color: "#a9a4a9",
-    active: {
-      borderColor: "#ff6811"
-    }
+    color: "#a9a4a9"
   },
   // 概要节点样式
   generalization: {
@@ -50964,10 +53123,7 @@ var orangeJuice_default = (0, import_deepmerge32.default)(default_default, {
     fillColor: "",
     borderColor: "#ff6811",
     borderWidth: 2,
-    color: "#a9a4a9",
-    active: {
-      borderColor: "#110501"
-    }
+    color: "#a9a4a9"
   }
 });
 
@@ -51155,6 +53311,10 @@ var KeyCommand = class {
       arr.push(e2.keyCode);
     }
     return arr;
+  }
+  // 判断是否按下了组合键
+  hasCombinationKey(e2) {
+    return e2.ctrlKey || e2.metaKey || e2.altKey || e2.shiftKey;
   }
   //  获取快捷键对应的键值数组
   getKeyCodeArr(key) {
@@ -51397,8 +53557,6 @@ var defaultOpt = {
   mouseScaleCenterUseMousePosition: true,
   // 最多显示几个标签
   maxTag: 5,
-  // 导出图片时的内边距
-  exportPadding: 20,
   // 展开收缩按钮尺寸
   expandBtnSize: 20,
   // 节点里图片和文字的间距
@@ -51450,7 +53608,9 @@ var defaultOpt = {
   // 展开收起按钮的颜色
   expandBtnStyle: {
     color: "#808080",
-    fill: "#fff"
+    fill: "#fff",
+    fontSize: 13,
+    strokeColor: "#333333"
   },
   // 自定义展开收起按钮的图标
   expandBtnIcon: {
@@ -51458,11 +53618,17 @@ var defaultOpt = {
     // svg字符串
     close: ""
   },
+  // 处理收起节点数量
+  expandBtnNumHandler: (num) => {
+    return num;
+  },
+  // 是否显示带数量的收起按钮
+  isShowExpandNum: true,
   // 是否只有当鼠标在画布内才响应快捷键事件
   enableShortcutOnlyWhenMouseInSvg: true,
   // 初始根节点的位置
   initRootNodePosition: null,
-  // 导出png、svg、pdf时的图形内边距
+  // 导出png、svg、pdf时的图形内边距，注意是单侧内边距
   exportPaddingX: 10,
   exportPaddingY: 10,
   // 节点文本编辑框的z-index
@@ -51507,7 +53673,57 @@ var defaultOpt = {
   // 指定内部一些元素（节点文本编辑元素、节点备注显示元素、关联线文本编辑元素、节点图片调整按钮元素）添加到的位置，默认添加到document.body下
   customInnerElsAppendTo: null,
   // 拖拽元素时，指示元素新位置的块的最大高度
-  nodeDragPlaceholderMaxSize: 20
+  nodeDragPlaceholderMaxSize: 20,
+  // 是否在存在一个激活节点时，当按下中文、英文、数字按键时自动进入文本编辑模式
+  // 开启该特性后，需要给你的输入框绑定keydown事件，并禁止冒泡
+  enableAutoEnterTextEditWhenKeydown: false,
+  // 设置富文本节点编辑框和节点大小一致，形成伪原地编辑的效果
+  // 需要注意的是，只有当节点内只有文本、且形状是矩形才会有比较好的效果
+  richTextEditFakeInPlace: false,
+  // 自定义对剪贴板文本的处理。当按ctrl+v粘贴时会读取用户剪贴板中的文本和图片，默认只会判断文本是否是普通文本和simple-mind-map格式的节点数据，如果你想处理其他思维导图的数据，比如processon、zhixi等，那么可以传递一个函数，接受当前剪贴板中的文本为参数，返回处理后的数据，可以返回两种类型：
+  /*
+      1.返回一个纯文本，那么会直接以该文本创建一个子节点
+  
+      2.返回一个节点对象，格式如下：
+        {
+          // 代表是simple-mind-map格式的数据
+          simpleMindMap: true,
+          // 节点数据，同simple-mind-map节点数据格式
+          data: {
+            data: {
+              text: ''
+            },
+            children: []
+          }
+        }
+    */
+  // 如果你的处理逻辑存在异步逻辑，也可以返回一个promise
+  customHandleClipboardText: null,
+  // 禁止鼠标滚轮缩放，你仍旧可以使用api进行缩放
+  disableMouseWheelZoom: false,
+  // 错误处理函数
+  errorHandler: (code, error) => {
+    console.error(code, error);
+  },
+  // 设置导出图片和svg时，针对富文本节点内容，也就是嵌入到svg中的html节点的默认样式覆盖
+  // 如果不覆盖，会发生偏移问题
+  resetCss: `
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  `,
+  // 开启鼠标双击复位思维导图位置及缩放
+  enableDblclickReset: false,
+  // 导出图片时canvas的缩放倍数，该配置会和window.devicePixelRatio值取最大值
+  minExportImgCanvasScale: 2,
+  // 节点鼠标hover和激活时显示的矩形边框的颜色
+  hoverRectColor: "rgb(94, 200, 248)",
+  // 节点鼠标hover和激活时显示的矩形边框距节点内容的距离
+  hoverRectPadding: 2,
+  // 双击节点进入节点文本编辑时是否默认选中文本，默认只在创建新节点时会选中
+  selectTextOnEnterEditText: false
 };
 
 // ../simple-mind-map/index.js
@@ -51516,9 +53732,15 @@ var MindMap2 = class {
   constructor(opt = {}) {
     this.opt = this.handleOpt((0, import_deepmerge33.default)(defaultOpt, opt));
     this.el = this.opt.el;
+    if (!this.el)
+      throw new Error("\u7F3A\u5C11\u5BB9\u5668\u5143\u7D20el");
     this.elRect = this.el.getBoundingClientRect();
     this.width = this.elRect.width;
     this.height = this.elRect.height;
+    if (this.width <= 0 || this.height <= 0)
+      throw new Error("\u5BB9\u5668\u5143\u7D20el\u7684\u5BBD\u9AD8\u4E0D\u80FD\u4E3A0");
+    this.cssEl = null;
+    this.addCss();
     this.svg = SVG().addTo(this.el).size(this.width, this.height);
     this.draw = this.svg.group();
     this.initTheme();
@@ -51556,6 +53778,17 @@ var MindMap2 = class {
     }
     opt.theme = opt.theme && themes_default[opt.theme] ? opt.theme : "default";
     return opt;
+  }
+  // 添加必要的css样式到页面
+  addCss() {
+    this.cssEl = document.createElement("style");
+    this.cssEl.type = "text/css";
+    this.cssEl.innerHTML = cssContent;
+    document.head.appendChild(this.cssEl);
+  }
+  // 移除css
+  removeCss() {
+    document.head.removeChild(this.cssEl);
   }
   //  渲染，部分渲染
   render(callback, source = "") {
@@ -51627,8 +53860,9 @@ var MindMap2 = class {
   }
   //  设置主题配置
   setThemeConfig(config) {
+    const changedConfig = getObjectChangedProps(this.themeConfig, config);
     this.opt.themeConfig = config;
-    let res = checkIsNodeSizeIndependenceConfig(config);
+    let res = checkIsNodeSizeIndependenceConfig(changedConfig);
     this.render(null, res ? "" : CONSTANTS.CHANGE_THEME);
   }
   //  获取自定义主题配置
@@ -51719,8 +53953,12 @@ var MindMap2 = class {
   }
   //  导出
   async export(...args) {
-    let result = await this.doExport.export(...args);
-    return result;
+    try {
+      let result = await this.doExport.export(...args);
+      return result;
+    } catch (error) {
+      this.opt.errorHandler(ERROR_TYPES.EXPORT_ERROR, error);
+    }
   }
   //  转换位置
   toPos(x3, y4) {
@@ -51750,12 +53988,13 @@ var MindMap2 = class {
     const elRect = this.el.getBoundingClientRect();
     draw.scale(1 / origTransform.scaleX, 1 / origTransform.scaleY);
     const rect = draw.rbox();
-    rect.width += paddingX;
-    rect.height += paddingY;
-    draw.translate(paddingX / 2, paddingY / 2);
+    rect.width += paddingX * 2;
+    rect.height += paddingY * 2;
+    draw.translate(paddingX, paddingY);
     svg2.size(rect.width, rect.height);
     draw.translate(-rect.x + elRect.left, -rect.y + elRect.top);
     let clone = svg2.clone();
+    clone.add(SVG(`<style>${cssContent}</style>`));
     if ((rect.width > origWidth || rect.height > origHeight) && this.watermark && this.watermark.hasWatermark()) {
       this.width = rect.width;
       this.height = rect.height;
@@ -51818,13 +54057,19 @@ var MindMap2 = class {
   }
   // 销毁
   destroy() {
+    ;
     [...MindMap2.pluginList].forEach((plugin) => {
+      if (this[plugin.instanceName].beforePluginDestroy) {
+        this[plugin.instanceName].beforePluginDestroy();
+      }
       this[plugin.instanceName] = null;
     });
     this.event.unbind();
     this.svg.remove();
     Style_default.removeBackgroundStyle(this.el);
+    this.el.innerHTML = "";
     this.el = null;
+    this.removeCss();
   }
 };
 MindMap2.pluginList = [];
@@ -52274,11 +54519,13 @@ var parseXmindFile = (file) => {
       async (zip) => {
         try {
           let content3 = "";
-          if (zip.files["content.json"]) {
-            let json = await zip.files["content.json"].async("string");
+          let jsonFile = zip.files["content.json"];
+          let xmlFile = zip.files["content.xml"] || zip.files["/content.xml"];
+          if (jsonFile) {
+            let json = await jsonFile.async("string");
             content3 = await transformXmind(json, zip.files);
-          } else if (zip.files["content.xml"]) {
-            let xml = await zip.files["content.xml"].async("string");
+          } else if (xmlFile) {
+            let xml = await xmlFile.async("string");
             let json = import_xml_js.default.xml2json(xml);
             content3 = transformOldXmind(json);
           }
@@ -52318,12 +54565,12 @@ var transformXmind = async (content3, files) => {
       newNode.data.tag = node3.labels;
     }
     if (node3.image && /\.(jpg|jpeg|png|gif|webp)$/.test(node3.image.src)) {
+      let resolve2 = null;
+      let promise = new Promise((_resolve) => {
+        resolve2 = _resolve;
+      });
+      waitLoadImageList.push(promise);
       try {
-        let resolve2 = null;
-        let promise = new Promise((_resolve) => {
-          resolve2 = _resolve;
-        });
-        waitLoadImageList.push(promise);
         let imageType = /\.([^.]+)$/.exec(node3.image.src)[1];
         let imageBase64 = `data:image/${imageType};base64,` + await files["resources/" + node3.image.src.split("/")[1]].async(
           "base64"
@@ -52344,7 +54591,7 @@ var transformXmind = async (content3, files) => {
         resolve2();
       } catch (error) {
         console.log(error);
-        resolve();
+        resolve2();
       }
     }
     newNode.children = [];
@@ -52421,7 +54668,7 @@ var transformOldXmind = (content3) => {
     if (_children && _children.elements && _children.elements.length > 0) {
       _children.elements.forEach((item) => {
         if (item.name === "topics") {
-          item.elements.forEach((item2) => {
+          (item.elements || []).forEach((item2) => {
             let newChild = {};
             newNode.children.push(newChild);
             walk2(item2, newChild);
@@ -61494,28 +63741,69 @@ var ExportPDF = class {
     this.mindMap = opt.mindMap;
   }
   //  导出为pdf
-  pdf(name, img) {
+  pdf(name, img, useMultiPageExport = false) {
+    if (useMultiPageExport) {
+      this.multiPageExport(name, img);
+    } else {
+      this.onePageExport(name, img);
+    }
+  }
+  // 单页导出
+  onePageExport(name, img) {
     let pdf = new jspdf_es_min_default("", "pt", "a4");
-    let a4Width = 595;
-    let a4Height = 841;
-    let a4Ratio = a4Width / a4Height;
+    let a4Ratio = a4Size.width / a4Size.height;
     let image = new Image();
     image.onload = () => {
       let imageWidth = image.width;
       let imageHeight = image.height;
       let imageRatio = imageWidth / imageHeight;
       let w2, h3;
-      if (imageWidth <= a4Width && imageHeight <= a4Height) {
+      if (imageWidth <= a4Size.width && imageHeight <= a4Size.height) {
         w2 = imageWidth;
         h3 = imageHeight;
       } else if (a4Ratio > imageRatio) {
-        w2 = imageRatio * a4Height;
-        h3 = a4Height;
+        w2 = imageRatio * a4Size.height;
+        h3 = a4Size.height;
       } else {
-        w2 = a4Width;
-        h3 = a4Width / imageRatio;
+        w2 = a4Size.width;
+        h3 = a4Size.width / imageRatio;
       }
-      pdf.addImage(img, "PNG", (a4Width - w2) / 2, (a4Height - h3) / 2, w2, h3);
+      pdf.addImage(img, "PNG", (a4Size.width - w2) / 2, (a4Size.height - h3) / 2, w2, h3);
+      pdf.save(name);
+    };
+    image.src = img;
+  }
+  // 多页导出
+  multiPageExport(name, img) {
+    let image = new Image();
+    image.onload = () => {
+      let imageWidth = image.width;
+      let imageHeight = image.height;
+      let pageHeight = imageWidth / a4Size.width * a4Size.height;
+      let leftHeight = imageHeight;
+      let position3 = 0;
+      let imgWidth = a4Size.width;
+      let imgHeight = a4Size.width / imageWidth * imageHeight;
+      let pdf = new jspdf_es_min_default("", "pt", "a4");
+      if (leftHeight < pageHeight) {
+        pdf.addImage(
+          img,
+          "PNG",
+          (a4Size.width - imgWidth) / 2,
+          (a4Size.height - imgHeight) / 2,
+          imgWidth,
+          imgHeight
+        );
+      } else {
+        while (leftHeight > 0) {
+          pdf.addImage(img, "PNG", 0, position3, imgWidth, imgHeight);
+          leftHeight -= pageHeight;
+          position3 -= a4Size.height;
+          if (leftHeight > 0) {
+            pdf.addPage();
+          }
+        }
+      }
       pdf.save(name);
     };
     image.src = img;
@@ -61844,7 +64132,6 @@ var Export = class {
   //  构造函数
   constructor(opt) {
     this.mindMap = opt.mindMap;
-    this.exportPadding = this.mindMap.opt.exportPadding;
   }
   //  导出
   async export(type, isDownload = true, name = "\u601D\u7EF4\u5BFC\u56FE", ...args) {
@@ -61868,6 +64155,9 @@ var Export = class {
     let imageList = svg2.find("image");
     let task = imageList.map(async (item) => {
       let imgUlr = item.attr("href") || item.attr("xlink:href");
+      if (/^data:/.test(imgUlr)) {
+        return;
+      }
       let imgData = await imgToDataUrl(imgUlr);
       item.attr("href", imgData);
     });
@@ -61881,30 +64171,40 @@ var Export = class {
     };
   }
   //   svg转png
-  svgToPng(svgSrc, transparent) {
+  svgToPng(svgSrc, transparent, checkRotate = () => {
+    return false;
+  }) {
     return new Promise((resolve2, reject) => {
       const img = new Image();
       img.setAttribute("crossOrigin", "anonymous");
       img.onload = async () => {
         try {
-          let canvas = document.createElement("canvas");
-          canvas.width = img.width + this.exportPadding * 2;
-          canvas.height = img.height + this.exportPadding * 2;
-          let ctx = canvas.getContext("2d");
-          if (!transparent) {
-            await this.drawBackgroundToCanvas(ctx, canvas.width, canvas.height);
+          const canvas = document.createElement("canvas");
+          const dpr = Math.max(window.devicePixelRatio, this.mindMap.opt.minExportImgCanvasScale);
+          const imgWidth = img.width;
+          const imgHeight = img.height;
+          const needRotate = checkRotate(imgWidth, imgHeight);
+          if (needRotate) {
+            canvas.width = imgHeight * dpr;
+            canvas.height = imgWidth * dpr;
+            canvas.style.width = imgHeight + "px";
+            canvas.style.height = imgWidth + "px";
+          } else {
+            canvas.width = imgWidth * dpr;
+            canvas.height = imgHeight * dpr;
+            canvas.style.width = imgWidth + "px";
+            canvas.style.height = imgHeight + "px";
           }
-          ctx.drawImage(
-            img,
-            0,
-            0,
-            img.width,
-            img.height,
-            this.exportPadding,
-            this.exportPadding,
-            img.width,
-            img.height
-          );
+          const ctx = canvas.getContext("2d");
+          ctx.scale(dpr, dpr);
+          if (needRotate) {
+            ctx.rotate(0.5 * Math.PI);
+            ctx.translate(0, -imgHeight);
+          }
+          if (!transparent) {
+            await this.drawBackgroundToCanvas(ctx, imgWidth, imgHeight);
+          }
+          ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
           resolve2(canvas.toDataURL());
         } catch (error) {
           reject(error);
@@ -61933,18 +64233,25 @@ var Export = class {
       ctx.restore();
       if (backgroundImage && backgroundImage !== "none") {
         ctx.save();
-        simulateCSSBackgroundInCanvas_default(ctx, width2, height2, backgroundImage, {
-          backgroundRepeat,
-          backgroundPosition,
-          backgroundSize
-        }, (err) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve2();
+        simulateCSSBackgroundInCanvas_default(
+          ctx,
+          width2,
+          height2,
+          backgroundImage,
+          {
+            backgroundRepeat,
+            backgroundPosition,
+            backgroundSize
+          },
+          (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve2();
+            }
+            ctx.restore();
           }
-          ctx.restore();
-        });
+        );
       } else {
         resolve2();
       }
@@ -61974,28 +64281,38 @@ var Export = class {
    * 方法1.把svg的图片都转化成data:url格式，再转换
    * 方法2.把svg的图片提取出来再挨个绘制到canvas里，最后一起转换
    */
-  async png(name, transparent = false) {
+  async png(name, transparent = false, checkRotate) {
     let { node: node3, str } = await this.getSvgData();
     str = removeHTMLEntities(str);
     if (this.mindMap.richText) {
-      let res2 = await this.mindMap.richText.handleExportPng(node3.node);
-      let imgDataUrl = await this.svgToPng(res2, transparent);
-      return imgDataUrl;
+      let foreignObjectList = node3.find("foreignObject");
+      if (foreignObjectList.length > 0) {
+        foreignObjectList[0].add(SVG(`<style>${this.mindMap.opt.resetCss}</style>`));
+      }
+      str = node3.svg();
     }
     let blob = new Blob([str], {
       type: "image/svg+xml"
     });
     let svgUrl = await readBlob(blob);
-    let res = await this.svgToPng(svgUrl, transparent);
+    let res = await this.svgToPng(
+      svgUrl,
+      transparent,
+      checkRotate
+    );
     return res;
   }
   //  导出为pdf
-  async pdf(name) {
+  async pdf(name, useMultiPageExport) {
     if (!this.mindMap.doExportPDF) {
       throw new Error("\u8BF7\u6CE8\u518CExportPDF\u63D2\u4EF6");
     }
-    let img = await this.png();
-    this.mindMap.doExportPDF.pdf(name, img);
+    let img = await this.png("", false, (width2, height2) => {
+      if (width2 <= a4Size.width && height2 && a4Size.height)
+        return false;
+      return width2 / height2 > 1;
+    });
+    this.mindMap.doExportPDF.pdf(name, img, useMultiPageExport);
   }
   // 导出为xmind
   async xmind(name) {
@@ -62009,14 +64326,12 @@ var Export = class {
   }
   //  导出为svg
   // plusCssText：附加的css样式，如果svg中存在dom节点，想要设置一些针对节点的样式可以通过这个参数传入
-  async svg(name, plusCssText) {
+  async svg(name) {
     let { node: node3 } = await this.getSvgData();
     if (this.mindMap.richText) {
-      if (plusCssText) {
-        let foreignObjectList = node3.find("foreignObject");
-        if (foreignObjectList.length > 0) {
-          foreignObjectList[0].add(SVG(`<style>${plusCssText}</style>`));
-        }
+      let foreignObjectList = node3.find("foreignObject");
+      if (foreignObjectList.length > 0) {
+        foreignObjectList[0].add(SVG(`<style>${this.mindMap.opt.resetCss}</style>`));
       }
     }
     node3.first().before(SVG(`<title>${name}</title>`));
@@ -62224,7 +64539,7 @@ var Drag = class extends Base_default {
   }
   //  检测重叠节点
   checkOverlapNode() {
-    if (!this.drawTransform) {
+    if (!this.drawTransform || !this.placeholder) {
       return;
     }
     const { nodeDragPlaceholderMaxSize } = this.mindMap.opt;
@@ -62353,6 +64668,8 @@ var Select = class {
     this.mouseDownY = 0;
     this.mouseMoveX = 0;
     this.mouseMoveY = 0;
+    this.isSelecting = false;
+    this.cacheActiveList = [];
     this.bindEvent();
   }
   //  绑定事件
@@ -62368,6 +64685,7 @@ var Select = class {
       }
       e2.preventDefault();
       this.isMousedown = true;
+      this.cacheActiveList = [...this.mindMap.renderer.activeNodeList];
       let { x: x3, y: y4 } = this.mindMap.toPos(e2.clientX, e2.clientY);
       this.mouseDownX = x3;
       this.mouseDownY = y4;
@@ -62396,20 +64714,44 @@ var Select = class {
       if (!this.isMousedown) {
         return;
       }
-      this.mindMap.emit(
-        "node_active",
-        null,
-        this.mindMap.renderer.activeNodeList
-      );
+      this.checkTriggerNodeActiveEvent();
       clearTimeout(this.autoMoveTimer);
       this.isMousedown = false;
+      this.cacheActiveList = [];
       if (this.rect)
         this.rect.remove();
       this.rect = null;
+      setTimeout(() => {
+        this.isSelecting = false;
+      }, 0);
     });
+  }
+  // 如果激活节点改变了，那么触发事件
+  checkTriggerNodeActiveEvent() {
+    let isNumChange = this.cacheActiveList.length !== this.mindMap.renderer.activeNodeList.length;
+    let isNodeChange = false;
+    if (!isNumChange) {
+      for (let i3 = 0; i3 < this.cacheActiveList.length; i3++) {
+        let cur = this.cacheActiveList[i3];
+        if (!this.mindMap.renderer.activeNodeList.find((item) => {
+          return item.nodeData.data.uid === cur.nodeData.data.uid;
+        })) {
+          isNodeChange = true;
+          break;
+        }
+      }
+    }
+    if (isNumChange || isNodeChange) {
+      this.mindMap.emit(
+        "node_active",
+        null,
+        [...this.mindMap.renderer.activeNodeList]
+      );
+    }
   }
   //  鼠标移动事件
   onMove(x3, y4) {
+    this.isSelecting = true;
     this.rect.plot([
       [this.mouseDownX, this.mouseDownY],
       [this.mouseMoveX, this.mouseDownY],
@@ -62486,6 +64828,10 @@ var Select = class {
       }
     });
   }
+  // 是否存在选区
+  hasSelectRange() {
+    return this.isSelecting;
+  }
 };
 Select.instanceName = "select";
 var Select_default = Select;
@@ -62537,27 +64883,110 @@ var cubicBezierPath = (x1, y1, x22, y22) => {
     points[1]
   );
 };
-var getNodePoint = (node3, dir = "right") => {
+var calcPoint = (node3, e2) => {
+  const { left, top, translateLeft, translateTop, width: width2, height: height2 } = node3;
+  const clientX = e2.clientX;
+  const clientY = e2.clientY;
+  const centerX = translateLeft + width2 / 2;
+  const centerY = translateTop + height2 / 2;
+  const translateCenterX = left + width2 / 2;
+  const translateCenterY = top + height2 / 2;
+  const theta = Math.atan(height2 / width2);
+  const deltaX = clientX - centerX;
+  const deltaY = centerY - clientY;
+  const direction = Math.atan2(deltaY, deltaX);
+  let x3 = left + width2;
+  let y4 = top + height2;
+  if (direction < theta && direction >= -theta) {
+    const range2 = direction * (width2 / 2);
+    if (direction < theta && direction >= 0) {
+      y4 = translateCenterY - range2;
+    } else if (direction >= -theta && direction < 0) {
+      y4 = translateCenterY - range2;
+    }
+    return {
+      x: x3,
+      y: y4,
+      dir: "right",
+      range: range2
+    };
+  } else if (direction >= theta && direction < Math.PI - theta) {
+    y4 = top;
+    let range2 = 0;
+    if (direction < Math.PI / 2 - theta && direction >= theta) {
+      const side = height2 / 2 / direction;
+      range2 = -side;
+      x3 = translateCenterX + side;
+    } else if (direction >= Math.PI / 2 - theta && direction < Math.PI - theta) {
+      const tanValue2 = (centerX - clientX) / (centerY - clientY);
+      const side = height2 / 2 * tanValue2;
+      range2 = side;
+      x3 = translateCenterX - side;
+    }
+    return {
+      x: x3,
+      y: y4,
+      dir: "top",
+      range: range2
+    };
+  } else if (direction < -theta && direction >= theta - Math.PI) {
+    let range2 = 0;
+    if (direction >= theta - Math.PI / 2 && direction < -theta) {
+      const side = height2 / 2 / direction;
+      range2 = side;
+      x3 = translateCenterX - side;
+    } else if (direction < theta - Math.PI / 2 && direction >= theta - Math.PI) {
+      const tanValue2 = (centerX - clientX) / (centerY - clientY);
+      const side = height2 / 2 * tanValue2;
+      range2 = -side;
+      x3 = translateCenterX + side;
+    }
+    return {
+      x: x3,
+      y: y4,
+      dir: "bottom",
+      range: range2
+    };
+  }
+  x3 = left;
+  const tanValue = (centerY - clientY) / (centerX - clientX);
+  const range = tanValue * (width2 / 2);
+  if (direction >= -Math.PI && direction < theta - Math.PI) {
+    y4 = translateCenterY - range;
+  } else if (direction < Math.PI && direction >= Math.PI - theta) {
+    y4 = translateCenterY - range;
+  }
+  return {
+    x: x3,
+    y: y4,
+    dir: "left",
+    range
+  };
+};
+var getNodePoint = (node3, dir = "right", range = 0, e2 = null) => {
   let { left, top, width: width2, height: height2 } = node3;
+  if (e2) {
+    return calcPoint(node3, e2);
+  }
   switch (dir) {
     case "left":
       return {
         x: left,
-        y: top + height2 / 2
+        y: top + height2 / 2 - range
       };
     case "right":
       return {
         x: left + width2,
-        y: top + height2 / 2
+        y: top + height2 / 2 - range
       };
     case "top":
       return {
-        x: left + width2 / 2,
+        x: left + width2 / 2 - range,
         y: top
       };
     case "bottom":
       return {
-        x: left + width2 / 2,
+        x: left + width2 / 2 - range,
         y: top + height2
       };
     default:
@@ -62587,8 +65016,8 @@ var computeNodePoints = (fromNode, toNode) => {
     fromDir = "top";
     toDir = "bottom";
   } else if (offsetY > 0 && -offsetY < offsetX && offsetY > offsetX) {
-    fromDir = "bottom";
-    toDir = "top";
+    fromDir = "right";
+    toDir = "right";
   }
   return [getNodePoint(fromNode, fromDir), getNodePoint(toNode, toDir)];
 };
@@ -62678,14 +65107,21 @@ function onControlPointMousemove(e2) {
     y: y4
   };
   this[this.mousedownControlPointKey].x(x3 - radius).y(y4 - radius);
-  let [path, clickPath, text3, node3, toNode] = this.activeLine;
-  let [startPoint, endPoint] = computeNodePoints(node3, toNode);
+  let [, , , node3, toNode] = this.activeLine;
+  let targetIndex = getAssociativeLineTargetIndex(node3, toNode);
+  let { associativeLinePoint, associativeLineTargetControlOffsets } = node3.nodeData.data;
+  associativeLinePoint = associativeLinePoint || [];
+  const nodePos = this.getNodePos(node3);
+  const toNodePos = this.getNodePos(toNode);
+  let [startPoint, endPoint] = this.updateAllLinesPos(
+    node3,
+    toNode,
+    associativeLinePoint[targetIndex]
+  );
   this.controlPointMousemoveState.startPoint = startPoint;
   this.controlPointMousemoveState.endPoint = endPoint;
-  let targetIndex = getAssociativeLineTargetIndex(node3, toNode);
   this.controlPointMousemoveState.targetIndex = targetIndex;
   let offsets = [];
-  let associativeLineTargetControlOffsets = node3.nodeData.data.associativeLineTargetControlOffsets;
   if (!associativeLineTargetControlOffsets) {
     offsets = getDefaultControlPointOffsets(startPoint, endPoint);
   } else {
@@ -62693,7 +65129,13 @@ function onControlPointMousemove(e2) {
   }
   let point1 = null;
   let point22 = null;
+  const { x: clientX, y: clientY } = this.mindMap.toPos(e2.clientX, e2.clientY);
+  const _e = {
+    clientX,
+    clientY
+  };
   if (this.mousedownControlPointKey === "controlPoint1") {
+    startPoint = getNodePoint(nodePos, "", 0, _e);
     point1 = {
       x: x3,
       y: y4
@@ -62702,8 +65144,12 @@ function onControlPointMousemove(e2) {
       x: endPoint.x + offsets[1].x,
       y: endPoint.y + offsets[1].y
     };
-    this.controlLine1.plot(startPoint.x, startPoint.y, point1.x, point1.y);
+    if (startPoint) {
+      this.controlPointMousemoveState.startPoint = startPoint;
+      this.controlLine1.plot(startPoint.x, startPoint.y, point1.x, point1.y);
+    }
   } else {
+    endPoint = getNodePoint(toNodePos, "", 0, _e);
     point1 = {
       x: startPoint.x + offsets[0].x,
       y: startPoint.y + offsets[0].y
@@ -62712,9 +65158,22 @@ function onControlPointMousemove(e2) {
       x: x3,
       y: y4
     };
-    this.controlLine2.plot(endPoint.x, endPoint.y, point22.x, point22.y);
+    if (endPoint) {
+      this.controlPointMousemoveState.endPoint = endPoint;
+      this.controlLine2.plot(endPoint.x, endPoint.y, point22.x, point22.y);
+    }
   }
-  let pathStr = joinCubicBezierPath(startPoint, endPoint, point1, point22);
+  this.updataAassociativeLine(
+    startPoint,
+    endPoint,
+    point1,
+    point22,
+    this.activeLine
+  );
+}
+function updataAassociativeLine(startPoint, endPoint, point1, point22, activeLine) {
+  const [path, clickPath, text3] = activeLine;
+  const pathStr = joinCubicBezierPath(startPoint, endPoint, point1, point22);
   path.plot(pathStr);
   clickPath.plot(pathStr);
   this.updateTextPos(path, text3);
@@ -62728,7 +65187,14 @@ function onControlPointMouseup(e2) {
   let { pos, startPoint, endPoint, targetIndex } = this.controlPointMousemoveState;
   let [, , , node3] = this.activeLine;
   let offsetList = [];
-  let associativeLineTargetControlOffsets = node3.nodeData.data.associativeLineTargetControlOffsets;
+  let { associativeLinePoint, associativeLineTargetControlOffsets } = node3.nodeData.data;
+  if (!associativeLinePoint) {
+    associativeLinePoint = [];
+  }
+  associativeLinePoint[targetIndex] = associativeLinePoint[targetIndex] || {
+    startPoint,
+    endPoint
+  };
   if (!associativeLineTargetControlOffsets) {
     offsetList[targetIndex] = getDefaultControlPointOffsets(
       startPoint,
@@ -62745,16 +65211,19 @@ function onControlPointMouseup(e2) {
       y: pos.y - startPoint.y
     };
     offset2 = offsetList[targetIndex][1];
+    associativeLinePoint[targetIndex].startPoint = startPoint;
   } else {
     offset1 = offsetList[targetIndex][0];
     offset2 = {
       x: pos.x - endPoint.x,
       y: pos.y - endPoint.y
     };
+    associativeLinePoint[targetIndex].endPoint = endPoint;
   }
   offsetList[targetIndex] = [offset1, offset2];
   this.mindMap.execCommand("SET_NODE_DATA", node3, {
-    associativeLineTargetControlOffsets: offsetList
+    associativeLineTargetControlOffsets: offsetList,
+    associativeLinePoint
   });
   setTimeout(() => {
     this.resetControlPoint();
@@ -62830,7 +65299,8 @@ var associativeLineControls_default = {
   renderControls,
   removeControls,
   hideControls,
-  showControls
+  showControls,
+  updataAassociativeLine
 };
 
 // ../simple-mind-map/src/plugins/associativeLine/associativeLineText.js
@@ -62897,10 +65367,12 @@ function onScale() {
 }
 function updateTextEditBoxPos(g2) {
   let rect = g2.node.getBoundingClientRect();
-  this.textEditNode.style.minWidth = rect.width + 10 + "px";
-  this.textEditNode.style.minHeight = rect.height + 6 + "px";
-  this.textEditNode.style.left = rect.left + "px";
-  this.textEditNode.style.top = rect.top + "px";
+  if (this.textEditNode) {
+    this.textEditNode.style.minWidth = `${rect.width + 10}px`;
+    this.textEditNode.style.minHeight = `${rect.height + 6}px`;
+    this.textEditNode.style.left = `${rect.left}px`;
+    this.textEditNode.style.top = `${rect.top}px`;
+  }
 }
 function hideEditTextBox() {
   if (!this.showTextEdit) {
@@ -62930,7 +65402,10 @@ function getText2(node3, toNode) {
 function renderText(str, path, text3) {
   if (!str)
     return;
-  let { associativeLineTextFontSize, associativeLineTextLineHeight } = this.mindMap.themeConfig;
+  let {
+    associativeLineTextFontSize,
+    associativeLineTextLineHeight
+  } = this.mindMap.themeConfig;
   text3.clear();
   let textArr = str.split(/\n/gim);
   textArr.forEach((item, index3) => {
@@ -63041,11 +65516,31 @@ var AssociativeLine = class {
   // 创建箭头
   createMarker() {
     return this.draw.marker(20, 20, (add) => {
-      add.ref(2, 5);
+      add.ref(12, 5);
       add.size(10, 10);
       add.attr("orient", "auto-start-reverse");
       this.markerPath = add.path("M0,0 L2,5 L0,10 L10,5 Z");
     });
+  }
+  // 判断关联线坐标是否变更，有变更则使用变化后的坐标，无则默认坐标
+  updateAllLinesPos(node3, toNode, associativeLinePoint) {
+    associativeLinePoint = associativeLinePoint || {};
+    let [startPoint, endPoint] = computeNodePoints(node3, toNode);
+    let nodeRange = 0;
+    let nodeDir = "";
+    let toNodeRange = 0;
+    let toNodeDir = "";
+    if (associativeLinePoint.startPoint) {
+      nodeRange = associativeLinePoint.startPoint.range || 0;
+      nodeDir = associativeLinePoint.startPoint.dir || "right";
+      startPoint = getNodePoint(node3, nodeDir, nodeRange);
+    }
+    if (associativeLinePoint.endPoint) {
+      toNodeRange = associativeLinePoint.endPoint.range || 0;
+      toNodeDir = associativeLinePoint.endPoint.dir || "right";
+      endPoint = getNodePoint(toNode, toNodeDir, toNodeRange);
+    }
+    return [startPoint, endPoint];
   }
   // 渲染所有连线
   renderAllLines() {
@@ -63077,11 +65572,16 @@ var AssociativeLine = class {
       0
     );
     nodeToIds.forEach((ids, node3) => {
-      ids.forEach((id) => {
+      ids.forEach((id, index3) => {
         let toNode = idToNode.get(id);
         if (!node3 || !toNode)
           return;
-        let [startPoint, endPoint] = computeNodePoints(node3, toNode);
+        const associativeLinePoint = (node3.nodeData.data.associativeLinePoint || [])[index3];
+        const [startPoint, endPoint] = this.updateAllLinesPos(
+          node3,
+          toNode,
+          associativeLinePoint
+        );
         this.drawLine(startPoint, endPoint, node3, toNode);
       });
     });
@@ -63112,19 +65612,43 @@ var AssociativeLine = class {
     let clickPath = this.draw.path();
     clickPath.stroke({ width: associativeLineActiveWidth, color: "transparent" }).fill({ color: "none" });
     clickPath.plot(pathStr);
-    let text3 = this.createText({ path, clickPath, node: node3, toNode, startPoint, endPoint, controlPoints });
+    let text3 = this.createText({
+      path,
+      clickPath,
+      node: node3,
+      toNode,
+      startPoint,
+      endPoint,
+      controlPoints
+    });
     clickPath.click((e2) => {
       e2.stopPropagation();
-      this.setActiveLine({ path, clickPath, text: text3, node: node3, toNode, startPoint, endPoint, controlPoints });
+      this.setActiveLine({
+        path,
+        clickPath,
+        text: text3,
+        node: node3,
+        toNode,
+        startPoint,
+        endPoint,
+        controlPoints
+      });
     });
     this.renderText(this.getText(node3, toNode), path, text3);
     this.lineList.push([path, clickPath, text3, node3, toNode]);
   }
   // 激活某根关联线
-  setActiveLine({ path, clickPath, text: text3, node: node3, toNode, startPoint, endPoint, controlPoints }) {
-    let {
-      associativeLineActiveColor
-    } = this.mindMap.themeConfig;
+  setActiveLine({
+    path,
+    clickPath,
+    text: text3,
+    node: node3,
+    toNode,
+    startPoint,
+    endPoint,
+    controlPoints
+  }) {
+    let { associativeLineActiveColor } = this.mindMap.themeConfig;
     if (this.mindMap.renderer.activeNodeList.length > 0) {
       this.clearActiveNodes();
     } else {
@@ -63199,6 +65723,21 @@ var AssociativeLine = class {
       y: (y4 - translateY) / scaleY
     };
   }
+  // 计算节点偏移位置
+  getNodePos(node3) {
+    const { scaleX, scaleY, translateX, translateY } = this.mindMap.draw.transform();
+    const { left, top, width: width2, height: height2 } = node3;
+    let translateLeft = left * scaleX + translateX;
+    let translateTop = top * scaleY + translateY;
+    return {
+      left,
+      top,
+      translateLeft,
+      translateTop,
+      width: width2,
+      height: height2
+    };
+  }
   // 检测当前移动到的目标节点
   checkOverlapNode(x3, y4) {
     this.overlapNode = null;
@@ -63246,6 +65785,10 @@ var AssociativeLine = class {
       });
     }
     let list2 = fromNode.nodeData.data.associativeLineTargets || [];
+    const sameLine = list2.some((item) => item === id);
+    if (sameLine) {
+      return;
+    }
     list2.push(id);
     let [startPoint, endPoint] = computeNodePoints(fromNode, toNode);
     let controlPoints = computeCubicBezierPathPoints(
@@ -63265,9 +65808,12 @@ var AssociativeLine = class {
         y: controlPoints[1].y - endPoint.y
       }
     ];
+    let associativeLinePoint = fromNode.nodeData.data.associativeLinePoint || [];
+    associativeLinePoint[list2.length - 1] = [{ startPoint, endPoint }];
     this.mindMap.execCommand("SET_NODE_DATA", fromNode, {
       associativeLineTargets: list2,
-      associativeLineTargetControlOffsets: offsetList
+      associativeLineTargetControlOffsets: offsetList,
+      associativeLinePoint
     });
   }
   // 删除连接线
@@ -63276,7 +65822,13 @@ var AssociativeLine = class {
       return;
     let [, , , node3, toNode] = this.activeLine;
     this.removeControls();
-    let { associativeLineTargets, associativeLineTargetControlOffsets, associativeLineText } = node3.nodeData.data;
+    let {
+      associativeLineTargets,
+      associativeLinePoint,
+      associativeLineTargetControlOffsets,
+      associativeLineText
+    } = node3.nodeData.data;
+    associativeLinePoint = associativeLinePoint || [];
     let targetIndex = getAssociativeLineTargetIndex(node3, toNode);
     let newAssociativeLineText = {};
     if (associativeLineText) {
@@ -63289,6 +65841,10 @@ var AssociativeLine = class {
     this.mindMap.execCommand("SET_NODE_DATA", node3, {
       // 目标
       associativeLineTargets: associativeLineTargets.filter((_3, index3) => {
+        return index3 !== targetIndex;
+      }),
+      // 连接线坐标
+      associativeLinePoint: associativeLinePoint.filter((_3, index3) => {
         return index3 !== targetIndex;
       }),
       // 偏移量
@@ -63350,7 +65906,7 @@ var AssociativeLine_default = AssociativeLine;
 
 // ../simple-mind-map/src/plugins/RichText.js
 var import_quill = __toESM(require_quill());
-var import_html2canvas = __toESM(require_html2canvas());
+var import_quill_delta = __toESM(require_delta());
 var extended = false;
 var fontFamilyList = [
   "\u5B8B\u4F53, SimSun, Songti SC",
@@ -63379,6 +65935,7 @@ var RichText = class {
     this.quill = null;
     this.range = null;
     this.lastRange = null;
+    this.pasteUseRange = null;
     this.node = null;
     this.isInserting = false;
     this.styleEl = null;
@@ -63467,10 +66024,17 @@ var RichText = class {
     import_quill.default.register(SizeStyle, true);
   }
   // 显示文本编辑控件
-  showEditText(node3, rect, isInserting) {
+  showEditText(node3, rect, isInserting, isFromKeyDown) {
     if (this.showTextEdit) {
       return;
     }
+    const {
+      richTextEditFakeInPlace,
+      customInnerElsAppendTo,
+      nodeTextEditZIndex,
+      textAutoWrapWidth,
+      selectTextOnEnterEditText
+    } = this.mindMap.opt;
     this.node = node3;
     this.isInserting = isInserting;
     if (!rect)
@@ -63482,35 +66046,58 @@ var RichText = class {
     let originHeight = g2.attr("data-height");
     let scaleX = rect.width / originWidth;
     let scaleY = rect.height / originHeight;
-    const paddingX = 6;
-    const paddingY = 4;
+    let paddingX = 6;
+    let paddingY = 4;
+    if (richTextEditFakeInPlace) {
+      let paddingValue = node3.getPaddingVale();
+      paddingX = paddingValue.paddingX;
+      paddingY = paddingValue.paddingY;
+    }
     if (!this.textEditNode) {
       this.textEditNode = document.createElement("div");
       this.textEditNode.classList.add("smm-richtext-node-edit-wrap");
-      this.textEditNode.style.cssText = `position:fixed;box-sizing: border-box;box-shadow: 0 0 20px rgba(0,0,0,.5);outline: none; word-break: break-all;padding: ${paddingY}px ${paddingX}px;`;
+      this.textEditNode.style.cssText = `
+        position:fixed; 
+        box-sizing: border-box; 
+        box-shadow: 0 0 20px rgba(0,0,0,.5);
+        outline: none; 
+        word-break: 
+        break-all;padding: ${paddingY}px ${paddingX}px;
+      `;
       this.textEditNode.addEventListener("click", (e2) => {
         e2.stopPropagation();
       });
       this.textEditNode.addEventListener("mousedown", (e2) => {
         e2.stopPropagation();
       });
-      const targetNode = this.mindMap.opt.customInnerElsAppendTo || document.body;
+      this.textEditNode.addEventListener("keydown", (e2) => {
+        if (this.mindMap.renderer.textEdit.checkIsAutoEnterTextEditKey(e2)) {
+          e2.stopPropagation();
+        }
+      });
+      const targetNode = customInnerElsAppendTo || document.body;
       targetNode.appendChild(this.textEditNode);
     }
     let bgColor = node3.style.merge("fillColor");
     let color = node3.style.merge("color");
     this.textEditNode.style.marginLeft = `-${paddingX * scaleX}px`;
     this.textEditNode.style.marginTop = `-${paddingY * scaleY}px`;
-    this.textEditNode.style.zIndex = this.mindMap.opt.nodeTextEditZIndex;
+    this.textEditNode.style.zIndex = nodeTextEditZIndex;
     this.textEditNode.style.backgroundColor = bgColor === "transparent" ? isWhite(color) ? getVisibleColorFromTheme(this.mindMap.themeConfig) : "#fff" : bgColor;
     this.textEditNode.style.minWidth = originWidth + paddingX * 2 + "px";
     this.textEditNode.style.minHeight = originHeight + "px";
     this.textEditNode.style.left = rect.left + "px";
     this.textEditNode.style.top = rect.top + "px";
     this.textEditNode.style.display = "block";
-    this.textEditNode.style.maxWidth = this.mindMap.opt.textAutoWrapWidth + paddingX * 2 + "px";
+    this.textEditNode.style.maxWidth = textAutoWrapWidth + paddingX * 2 + "px";
     this.textEditNode.style.transform = `scale(${scaleX}, ${scaleY})`;
     this.textEditNode.style.transformOrigin = "left top";
+    if (richTextEditFakeInPlace) {
+      this.textEditNode.style.borderRadius = (node3.style.merge("borderRadius") || 5) + "px";
+      if (node3.style.merge("shape") == "roundedRectangle") {
+        this.textEditNode.style.borderRadius = (node3.height || 50) + "px";
+      }
+    }
     if (!node3.nodeData.data.richText) {
       let text3 = node3.nodeData.data.text.split(/\n/gim).join("<br>");
       let html2 = `<p>${text3}</p>`;
@@ -63521,7 +66108,7 @@ var RichText = class {
     this.initQuillEditor();
     document.querySelector(".ql-editor").style.minHeight = originHeight + "px";
     this.showTextEdit = true;
-    this.focus(isInserting ? 0 : null);
+    this.focus(isInserting || selectTextOnEnterEditText && !isFromKeyDown ? 0 : null);
     if (!node3.nodeData.data.richText) {
       this.setTextStyleIfNotRichText(node3);
     }
@@ -63594,6 +66181,7 @@ var RichText = class {
       this.lastRange = this.range;
       this.range = null;
       if (range) {
+        this.pasteUseRange = range;
         let bounds = this.quill.getBounds(range.index, range.length);
         let rect = this.textEditNode.getBoundingClientRect();
         let rectInfo = {
@@ -63630,6 +66218,34 @@ var RichText = class {
         this.lostStyle = false;
       }
     });
+    this.quill.clipboard.addMatcher(Node.TEXT_NODE, (node3) => {
+      let style = this.getPasteTextStyle();
+      return new import_quill_delta.default().insert(node3.data, style);
+    });
+    this.quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node3, delta) => {
+      let ops = [];
+      let style = this.getPasteTextStyle();
+      delta.ops.forEach((op) => {
+        if (op.insert && typeof op.insert === "string" && op.insert !== "\n") {
+          ops.push({
+            attributes: { ...style },
+            insert: op.insert
+          });
+        }
+      });
+      delta.ops = ops;
+      return delta;
+    });
+  }
+  // 获取粘贴的文本的样式
+  getPasteTextStyle() {
+    if (this.pasteUseRange) {
+      return this.quill.getFormat(
+        this.pasteUseRange.index,
+        this.pasteUseRange.length
+      );
+    }
+    return {};
   }
   // 正则输入中文
   onCompositionStart() {
@@ -63789,11 +66405,9 @@ var RichText = class {
       }
     };
     walk2(node3);
-    let canvas = await (0, import_html2canvas.default)(el2, {
-      backgroundColor: null
-    });
+    const res = await domtoimage.toPng(el2);
     this.mindMap.el.removeChild(el2);
-    return canvas.toDataURL();
+    return res;
   }
   // 将所有节点转换成非富文本节点
   transformAllNodesToNormalNode() {
@@ -63834,6 +66448,10 @@ var RichText = class {
   // 插件被移除前做的事情
   beforePluginRemove() {
     this.transformAllNodesToNormalNode();
+    document.head.removeChild(this.styleEl);
+  }
+  // 插件被卸载前做的事情
+  beforePluginDestroy() {
     document.head.removeChild(this.styleEl);
   }
 };
@@ -64079,6 +66697,10 @@ var NodeImgAdjust = class {
   beforePluginRemove() {
     this.unBindEvent();
   }
+  // 插件被卸载前做的事情
+  beforePluginDestroy() {
+    this.unBindEvent();
+  }
 };
 NodeImgAdjust.instanceName = "nodeImgAdjust";
 var NodeImgAdjust_default = NodeImgAdjust;
@@ -64091,7 +66713,7 @@ var TouchEvent = class {
     this.touchesNum = 0;
     this.singleTouchstartEvent = null;
     this.clickNum = 0;
-    this.doubleTouchmoveDistance = 0;
+    this.touchStartScaleView = null;
     this.bindEvent();
   }
   // 绑定事件
@@ -64115,6 +66737,7 @@ var TouchEvent = class {
   // 手指按下事件
   onTouchstart(e2) {
     this.touchesNum = e2.touches.length;
+    this.touchStartScaleView = null;
     if (this.touchesNum === 1) {
       let touch = e2.touches[0];
       this.singleTouchstartEvent = touch;
@@ -64133,16 +66756,39 @@ var TouchEvent = class {
       let ox = touch1.clientX - touch2.clientX;
       let oy = touch1.clientY - touch2.clientY;
       let distance = Math.sqrt(Math.pow(ox, 2) + Math.pow(oy, 2));
-      let { x: touch1ClientX, y: touch1ClientY } = this.mindMap.toPos(touch1.clientX, touch1.clientY);
-      let { x: touch2ClientX, y: touch2ClientY } = this.mindMap.toPos(touch2.clientX, touch2.clientY);
+      let { x: touch1ClientX, y: touch1ClientY } = this.mindMap.toPos(
+        touch1.clientX,
+        touch1.clientY
+      );
+      let { x: touch2ClientX, y: touch2ClientY } = this.mindMap.toPos(
+        touch2.clientX,
+        touch2.clientY
+      );
       let cx2 = (touch1ClientX + touch2ClientX) / 2;
       let cy2 = (touch1ClientY + touch2ClientY) / 2;
-      if (distance > this.doubleTouchmoveDistance) {
-        this.mindMap.view.enlarge(cx2, cy2, true);
-      } else {
-        this.mindMap.view.narrow(cx2, cy2, true);
+      const view = this.mindMap.view;
+      if (!this.touchStartScaleView) {
+        this.touchStartScaleView = {
+          distance,
+          scale: view.scale,
+          x: view.x,
+          y: view.y,
+          cx: cx2,
+          cy: cy2
+        };
+        return;
       }
-      this.doubleTouchmoveDistance = distance;
+      const viewBefore = this.touchStartScaleView;
+      let scale = viewBefore.scale * (distance / viewBefore.distance);
+      if (Math.abs(distance - viewBefore.distance) <= 10) {
+        scale = viewBefore.scale;
+      }
+      const ratio = 1 - scale / viewBefore.scale;
+      view.scale = scale < 0.1 ? 0.1 : scale;
+      view.x = viewBefore.x + (cx2 - viewBefore.x) * ratio + (cx2 - viewBefore.cx) * scale;
+      view.y = viewBefore.y + (cy2 - viewBefore.y) * ratio + (cy2 - viewBefore.cy) * scale;
+      view.transform();
+      this.mindMap.emit("scale", scale);
     }
   }
   // 手指取消事件
@@ -64165,7 +66811,7 @@ var TouchEvent = class {
     }
     this.touchesNum = 0;
     this.singleTouchstartEvent = null;
-    this.doubleTouchmoveDistance = 0;
+    this.touchStartScaleView = null;
   }
   // 发送鼠标事件
   dispatchMouseEvent(eventName, target, e2) {
@@ -64189,6 +66835,10 @@ var TouchEvent = class {
   }
   // 插件被移除前做的事情
   beforePluginRemove() {
+    this.unBindEvent();
+  }
+  // 插件被卸载前做的事情
+  beforePluginDestroy() {
     this.unBindEvent();
   }
 };
@@ -64399,9 +67049,167 @@ var Painter = class {
   beforePluginRemove() {
     this.unBindEvent();
   }
+  // 插件被卸载前做的事情
+  beforePluginDestroy() {
+    this.unBindEvent();
+  }
 };
 Painter.instanceName = "painter";
 var Painter_default = Painter;
+
+// ../simple-mind-map/src/plugins/Scrollbar.js
+var Scrollbar = class {
+  //  构造函数
+  constructor(opt) {
+    this.mindMap = opt.mindMap;
+    this.scrollbarWrapSize = {
+      width: 0,
+      // 水平滚动条的容器宽度
+      height: 0
+      // 垂直滚动条的容器高度
+    };
+    this.reset();
+    this.bindEvent();
+  }
+  // 绑定事件
+  bindEvent() {
+    this.onMousemove = this.onMousemove.bind(this);
+    this.onMouseup = this.onMouseup.bind(this);
+    this.onNodeTreeRenderEnd = this.onNodeTreeRenderEnd.bind(this);
+    this.onViewDataChange = throttle(this.onViewDataChange, 16, this);
+    this.mindMap.on("mousemove", this.onMousemove);
+    this.mindMap.on("mouseup", this.onMouseup);
+    this.mindMap.on("node_tree_render_end", this.onNodeTreeRenderEnd);
+    this.mindMap.on("view_data_change", this.onViewDataChange);
+  }
+  // 解绑事件
+  unBindEvent() {
+    this.mindMap.off("mousemove", this.onMousemove);
+    this.mindMap.off("mouseup", this.onMouseup);
+    this.mindMap.off("node_tree_render_end", this.onNodeTreeRenderEnd);
+    this.mindMap.off("view_data_change", this.onViewDataChange);
+  }
+  // 每次渲染后需要更新滚动条
+  onNodeTreeRenderEnd() {
+    this.emitEvent();
+  }
+  // 思维导图视图数据改变需要更新滚动条
+  onViewDataChange() {
+    this.emitEvent();
+  }
+  // 发送滚动条改变事件
+  emitEvent() {
+    this.mindMap.emit("scrollbar_change");
+  }
+  // 复位数据
+  reset() {
+    this.currentScrollType = "";
+    this.isMousedown = false;
+    this.mousedownPos = {
+      x: 0,
+      y: 0
+    };
+    this.startViewPos = {
+      x: 0,
+      y: 0
+    };
+    this.chartHeight = 0;
+    this.chartWidth = 0;
+  }
+  // 设置滚动条容器的大小，指滚动条容器的大小，对于水平滚动条，即宽度，对于垂直滚动条，即高度
+  setScrollBarWrapSize(width2, height2) {
+    this.scrollbarWrapSize.width = width2;
+    this.scrollbarWrapSize.height = height2;
+  }
+  // 计算滚动条大小和位置
+  calculationScrollbar() {
+    const rect = this.mindMap.draw.rbox();
+    const elRect = this.mindMap.elRect;
+    rect.x -= elRect.left;
+    rect.x2 -= elRect.left;
+    rect.y -= elRect.top;
+    rect.y2 -= elRect.top;
+    const canvasHeight = this.mindMap.height;
+    const paddingY = canvasHeight / 2;
+    const chartHeight = rect.height + paddingY * 2;
+    this.chartHeight = chartHeight;
+    const chartTop = rect.y - paddingY;
+    const height2 = Math.min(canvasHeight / chartHeight * 100, 100);
+    let top = -chartTop / chartHeight * 100;
+    if (top < 0) {
+      top = 0;
+    }
+    if (top > 100 - height2) {
+      top = 100 - height2;
+    }
+    const canvasWidth = this.mindMap.width;
+    const paddingX = canvasWidth / 2;
+    const chartWidth = rect.width + paddingX * 2;
+    this.chartWidth = chartWidth;
+    const chartLeft = rect.x - paddingX;
+    const width2 = Math.min(canvasWidth / chartWidth * 100, 100);
+    let left = -chartLeft / chartWidth * 100;
+    if (left < 0) {
+      left = 0;
+    }
+    if (left > 100 - width2) {
+      left = 100 - width2;
+    }
+    const res = {
+      // 垂直滚动条
+      vertical: {
+        top,
+        height: height2
+      },
+      // 水平滚动条
+      horizontal: {
+        left,
+        width: width2
+      }
+    };
+    return res;
+  }
+  onMousedown(e2, type) {
+    e2.preventDefault();
+    this.currentScrollType = type;
+    this.isMousedown = true;
+    this.mousedownPos = {
+      x: e2.clientX,
+      y: e2.clientY
+    };
+    let transformData = this.mindMap.view.getTransformData();
+    this.startViewPos = {
+      x: transformData.state.x,
+      y: transformData.state.y
+    };
+  }
+  onMousemove(e2) {
+    if (!this.isMousedown) {
+      return;
+    }
+    if (this.currentScrollType === "vertical") {
+      const oy = e2.clientY - this.mousedownPos.y;
+      const oyPercentage = -oy / this.scrollbarWrapSize.height;
+      const oyPx = oyPercentage * this.chartHeight;
+      this.mindMap.view.translateYTo(oyPx + this.startViewPos.y);
+    } else {
+      const ox = e2.clientX - this.mousedownPos.x;
+      const oxPercentage = -ox / this.scrollbarWrapSize.width;
+      const oxPx = oxPercentage * this.chartWidth;
+      this.mindMap.view.translateXTo(oxPx + this.startViewPos.x);
+    }
+  }
+  onMouseup() {
+    this.isMousedown = false;
+    this.reset();
+  }
+  // 插件被卸载前做的事情
+  beforePluginDestroy() {
+    this.unBindEvent();
+  }
+};
+Scrollbar.instanceName = "scrollbar";
+var Scrollbar_default = Scrollbar;
 
 // ../simple-mind-map/node_modules/mdast-util-to-string/lib/index.js
 function toString7(value, options) {
@@ -69102,7 +71910,7 @@ var handleList = (node3) => {
   walk2(node3.children, list2);
   return list2;
 };
-var transformMarkdownTo = async (md) => {
+var transformMarkdownTo = (md) => {
   const tree = fromMarkdown(md);
   let root2 = {
     children: []
@@ -69174,7 +71982,7 @@ simple_mind_map_default.iconList = icons_default.nodeIconList;
 simple_mind_map_default.constants = constant_exports;
 simple_mind_map_default.themes = themes_default;
 simple_mind_map_default.defaultTheme = default_exports;
-simple_mind_map_default.usePlugin(MiniMap_default).usePlugin(Watermark_default).usePlugin(Drag_default).usePlugin(KeyboardNavigation_default).usePlugin(ExportXMind_default).usePlugin(ExportPDF_default).usePlugin(Export_default).usePlugin(Select_default).usePlugin(AssociativeLine_default).usePlugin(RichText_default).usePlugin(TouchEvent_default).usePlugin(NodeImgAdjust_default).usePlugin(Search_default).usePlugin(Painter_default);
+simple_mind_map_default.usePlugin(MiniMap_default).usePlugin(Watermark_default).usePlugin(Drag_default).usePlugin(KeyboardNavigation_default).usePlugin(ExportXMind_default).usePlugin(ExportPDF_default).usePlugin(Export_default).usePlugin(Select_default).usePlugin(AssociativeLine_default).usePlugin(RichText_default).usePlugin(TouchEvent_default).usePlugin(NodeImgAdjust_default).usePlugin(Search_default).usePlugin(Painter_default).usePlugin(Scrollbar_default);
 var full_default = simple_mind_map_default;
 export {
   full_default as default
